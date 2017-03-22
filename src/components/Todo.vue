@@ -4,9 +4,17 @@
   [v-cloak] {
     display: none;
   }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
 </style>
 <template>
-  <div>
+  <div v-cloak>
     <section class="todoapp">
       <header class="header">
         <h1>todos</h1>
@@ -16,35 +24,40 @@
                v-model="newTodo"
                @keyup.enter="addTodo">
       </header>
-      <section class="main" v-show="todos.length" v-cloak>
+      <section class="main" v-show="todos.length">
         <input class="toggle-all" type="checkbox" v-model="allDone">
         <ul class="todo-list">
-          <li v-for="todo in filteredTodos"
-              class="todo"
-              :key="todo.id"
-              :class="{ completed: todo.completed, editing: todo == editedTodo }">
-            <div class="view">
-              <input class="toggle" type="checkbox" v-model="todo.completed">
-              <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
-              <button class="destroy" @click="removeTodo(todo)"></button>
-            </div>
-            <input class="edit" type="text"
-                   v-model="todo.title"
-                   v-todo-focus="todo == editedTodo"
-                   @blur="doneEdit(todo)"
-                   @keyup.enter="doneEdit(todo)"
-                   @keyup.esc="cancelEdit(todo)">
-          </li>
+          <transition-group name="fade">
+            <li v-for="todo in filteredTodos"
+                class="todo"
+                :key="todo.id"
+                :class="{ completed: todo.completed, editing: todo == editedTodo }">
+              <div class="view">
+                <input class="toggle" type="checkbox" v-model="todo.completed">
+                <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
+                <button class="destroy" @click="removeTodo(todo)"></button>
+              </div>
+              <input class="edit" type="text"
+                     v-model="todo.title"
+                     v-todo-focus="todo == editedTodo"
+                     @blur="doneEdit(todo)"
+                     @keyup.enter="doneEdit(todo)"
+                     @keyup.esc="cancelEdit(todo)">
+            </li>
+          </transition-group>
         </ul>
       </section>
       <footer class="footer" v-show="todos.length" v-cloak>
-    <span class="todo-count">
-      <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left
-    </span>
+        <span class="todo-count">
+          <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left
+        </span>
         <ul class="filters">
-          <li><a href="#/all" :class="{ selected: visibility == 'all' }">All</a></li>
-          <li><a href="#/active" :class="{ selected: visibility == 'active' }">Active</a></li>
-          <li><a href="#/completed" :class="{ selected: visibility == 'completed' }">Completed</a></li>
+          <li><a href="javascript:;;" :class="{ selected: visibility == 'all' }" @click="visibility = 'all'">All</a>
+          </li>
+          <li><a href="javascript:;;" :class="{ selected: visibility == 'active' }" @click="visibility = 'active'">Active</a>
+          </li>
+          <li><a href="javascript:;;" :class="{ selected: visibility == 'completed' }"
+                 @click="visibility = 'completed'">Completed</a></li>
         </ul>
         <button class="clear-completed" @click="removeCompleted" v-show="todos.length > remaining">
           Clear completed
