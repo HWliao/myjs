@@ -5,12 +5,33 @@
     display: none;
   }
 
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
+  .bounce-enter-active {
+    animation: bounce-in .5s;
   }
-
-  .fade-enter, .fade-leave-active {
-    opacity: 0
+  .bounce-leave-active {
+    animation: bounce-out .5s;
+  }
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  @keyframes bounce-out {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    100% {
+      transform: scale(0);
+    }
   }
 </style>
 <template>
@@ -27,7 +48,7 @@
       <section class="main" v-show="todos.length">
         <input class="toggle-all" type="checkbox" v-model="allDone">
         <ul class="todo-list">
-          <transition-group name="fade">
+          <transition-group name="bounce" mode="out-in">
             <li v-for="todo in filteredTodos"
                 class="todo"
                 :key="todo.id"
