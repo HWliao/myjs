@@ -5,6 +5,7 @@
     <h2>项目菜单</h2>
     <ul>
       <li><a href="#/todo" target="_self">todo</a></li>
+      <li><a href="#/todo-render" target="_self">todo-render</a></li>
     </ul>
   </div>
 </template>
