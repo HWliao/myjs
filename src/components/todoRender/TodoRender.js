@@ -26,17 +26,17 @@ const todoStorage = {
 };
 
 // visibility filters
-// const filters = {
-//  all(todos) {
-//    return todos;
-//  },
-//  active(todos) {
-//    return todos.filter(todo => !todo.completed);
-//  },
-//  completed(todos) {
-//    return todos.filter(todo => todo.completed);
-//  },
-// };
+const filters = {
+  all(todos) {
+    return todos;
+  },
+  active(todos) {
+    return todos.filter(todo => !todo.completed);
+  },
+  completed(todos) {
+    return todos.filter(todo => todo.completed);
+  },
+};
 // generate footer p a
 function a2p2footer(h, href, innerHTML) {
   return h('a', {
@@ -118,7 +118,141 @@ function i2s2section(h) {
   };
   return h('input', data);
 }
+// section section ul li div input
+function i2div2li2ul2s2section(h, todo) {
+  const td = todo;
+  const data = {
+    class: {
+      toggle: true,
+    },
+    attrs: {
+      type: 'checkbox',
+    },
+    domProps: {
+      value: td.completed,
+    },
+    on: {
+      input(e) {
+        td.completed = e.target.value;
+      },
+    },
+  };
+  return h('input', data);
+}
+// section section ul li div label
+function label2div2li2ul2s2section(h, todo) {
+  const td = todo;
+  const vm = this;
+  const data = {
+    domProps: {
+      innnerHTML: td.title,
+    },
+    on: {
+      dbclick() {
+        vm.editTodo(td);
+      },
+    },
+  };
+  return h('label', data);
+}
+// section section ul li div button
+function buttom2div2li2ul2s2sectin(h, todo) {
+  const td = todo;
+  const vm = this;
+  const data = {
+    class: {
+      destroy: true,
+    },
+    on: {
+      click() {
+        vm.removeTodo(td);
+      },
+    },
+  };
+  return h('button', data);
+}
+// section section ul li div
+function div2li2ul2s2section(h, todo) {
+  const td = todo;
+  const data = {
+    class: {
+      view: true,
+    },
+  };
+  const childs = [];
+  childs.push(i2div2li2ul2s2section.call(this, h, td));
+  childs.push(label2div2li2ul2s2section.call(this, h, td));
+  childs.push(buttom2div2li2ul2s2sectin.call(this, h, td));
+  return h('div', data, childs);
+}
+// section section ul li input
+function i2li2ul2s2section(h, todo) {
+  const td = todo;
+  const vm = this;
+  const data = {
+    class: {
+      edit: true,
+    },
+    attrs: {
+      type: 'text',
+    },
+    domProps: {
+      value: td.title,
+    },
+    directives: [
+      {
+        name: 'todo-focus',
+        value: td === vm.editedTodo,
+      },
+    ],
+    on: {
+      input(e) {
+        td.title = e.target.value;
+      },
+      blur() {
+        vm.doneEdit(td);
+      },
+      keyup(e) {
+        if (e.keyCode === 13) {
+          // enter
+          vm.doneEdit(td);
+        } else if (e.keyCode === 27) {
+          // esc
+          vm.cancelEdit(td);
+        }
+      },
+    },
+  };
+  return h('input', data);
+}
+// section section ul li
+function li2ul2s2section(h, todo) {
+  const td = todo;
+  const vm = this;
+  const data = {
+    class: {
+      todo: true,
+      completed: td.completed,
+      editing: td === vm.editedTodo,
+    },
+    key: td.id,
+  };
+  const childs = [];
+  childs.push(div2li2ul2s2section.call(this, h, td));
+  childs.push(i2li2ul2s2section.call(this, h, td));
+  return h('li', data, childs);
+}
 // section section ul
+function ul2s2section(h) {
+  const data = {
+    class: {
+      'todo-list': true,
+    },
+  };
+  const childs = [];
+  this.todos.forEach(item => childs.push(li2ul2s2section.call(this, h, item)));
+  return h('ul', data, childs);
+}
 // section section
 function s2section(h) {
   const data = {
@@ -128,6 +262,7 @@ function s2section(h) {
   };
   const childs = [];
   childs.push(i2s2section.call(this, h));
+  childs.push(ul2s2section.call(this, h));
   return h('section', data, childs);
 }
 // section footer
@@ -194,10 +329,42 @@ const app = {
       });
       this.newTodo = '';
     },
+    removeTodo(todo) {
+      this.todos.splice(this.todos.indexOf(todo), 1);
+    },
+    editTodo(todo) {
+      const td = todo;
+      this.beforeEditCache = td.title;
+      this.editedTodo = td;
+    },
+    doneEdit(todo) {
+      if (!this.editedTodo) {
+        return;
+      }
+      const td = todo;
+      this.editedTodo = null;
+      td.title = todo.title.trim();
+      if (!td.title) {
+        this.removeTodo(td);
+      }
+    },
+    cancelEdit(todo) {
+      const td = todo;
+      this.editedTodo = null;
+      td.title = this.beforeEditCache;
+    },
+    removeCompleted() {
+      this.todos = filters.active(this.todos);
+    },
   },
   directives: {
     myLhw() {
       console.log(1);
+    },
+    todoFocus(el, value) {
+      if (value) {
+        el.focus();
+      }
     },
   },
 };
