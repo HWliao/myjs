@@ -229,11 +229,6 @@
     // before focusing on the input field.
     // http://vuejs.org/guide/custom-directive.html
     directives: {
-      todoFocus(el, value) {
-        if (value) {
-          el.focus();
-        }
-      },
     },
   };
   export default app;

@@ -30,16 +30,20 @@ const footer = {
     },
     writeBy: {
       type: Object,
-      default: {
-        content: 'Evan You',
-        href: 'http://evanyou.me',
+      default() {
+        return {
+          content: 'Evan You',
+          href: 'http://evanyou.me',
+        };
       },
     },
     partOf: {
       type: Object,
-      default: {
-        content: 'TodoMVC',
-        href: 'http://todomvc.com',
+      default() {
+        return {
+          content: 'TodoMVC',
+          href: 'http://todomvc.com',
+        };
       },
     },
   },
