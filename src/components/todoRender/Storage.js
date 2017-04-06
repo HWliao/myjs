@@ -15,7 +15,7 @@ class Storage {
   }
 
   static fetch() {
-    const todos = localStorage.getItem(STORAGE_KEY) || [];
+    const todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     const items = [];
     todos.forEach((todo, index) => items.push(new Item(index, todo.title, todo.complete)));
     uid = items.length;
