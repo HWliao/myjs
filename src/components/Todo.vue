@@ -8,9 +8,11 @@
   .bounce-enter-active {
     animation: bounce-in .5s;
   }
+
   .bounce-leave-active {
     animation: bounce-out .5s;
   }
+
   @keyframes bounce-in {
     0% {
       transform: scale(0);
@@ -22,6 +24,7 @@
       transform: scale(1);
     }
   }
+
   @keyframes bounce-out {
     0% {
       transform: scale(1);
@@ -229,6 +232,11 @@
     // before focusing on the input field.
     // http://vuejs.org/guide/custom-directive.html
     directives: {
+      todoFocus(el, value) {
+        if (value) {
+          el.focus();
+        }
+      },
     },
   };
   export default app;
