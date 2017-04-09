@@ -21,20 +21,28 @@ function input(h) {
     },
     on: {
       input(e) {
-        vm.$emit('input', e.target.value);
+        vm.value = e.target.value;
+      },
+      keyup(e) {
+        if (e && e.keyCode === 13) {
+          vm.$emit('addTodo', vm.value);
+          vm.value = '';
+        }
       },
     },
   });
 }
 const header = {
   name: 'h2section',
+  data() {
+    return {
+      value: '',
+    };
+  },
   props: {
     title: {
       type: String,
       default: 'todos',
-    },
-    value: {
-      type: String,
     },
     placeholder: {
       type: String,

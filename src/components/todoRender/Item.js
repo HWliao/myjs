@@ -1,8 +1,8 @@
 class Item {
-  constructor(id, title, complete) {
+  constructor(id, title, completed) {
     this.id = id;
     this.title = title;
-    this.complete = complete;
+    this.completed = completed;
   }
 }
 export default Item;

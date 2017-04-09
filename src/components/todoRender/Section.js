@@ -1,4 +1,17 @@
 import header from './H2Section';
+import s2section from './S2Section';
+
+function header1(h) {
+  const vm = this;
+  const data = {
+    on: {
+      addTodo(value) {
+        vm.$emit(value);
+      },
+    },
+  };
+  return h(header, data);
+}
 
 const section = {
   name: 'todoSection',
@@ -13,7 +26,8 @@ const section = {
       },
     };
     const childs = [];
-    childs.push(h(header));
+    childs.push(header1.call(this, h));
+    childs.push(h(s2section));
     return h('section', data, childs);
   },
 };
