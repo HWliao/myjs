@@ -6,10 +6,11 @@ function div(h) {
     on: {
       dblclick() {
         vm.isEdited = true;
+        vm.oldTitle = vm.todo.tile;
       },
     },
   };
-  return h('div', data, 'div');
+  return h('div', data, [vm.todo.title]);
 }
 function input1(h) {
   const vm = this;
@@ -21,17 +22,32 @@ function input1(h) {
       type: 'text',
     },
     domProps: {
-      value: vm.title,
+      value: vm.showValue,
     },
     on: {
-      input() {
-        console.log('input');
+      input(e) {
+        vm.currTitle = e.target.value;
       },
       blur() {
-        console.log('blur');
+        vm.isEdited = false;
+        vm.oldTitle = '';
+        if (vm.oldTitle.trim() !== vm.currTitle.trim()) {
+          vm.$emit('editDone', vm.todo, vm.currTitle);
+        }
       },
-      keyup() {
-        console.log('keyup');
+      keyup(e) {
+        if (e.keyCode === 13) {
+          vm.isEdited = false;
+          vm.oldTitle = '';
+          if (vm.oldTitle.trim() !== vm.currTitle.trim()) {
+            vm.$emit('editDone', vm.todo, vm.currTitle);
+          }
+        } else if (e.keyCode === 27) {
+          vm.isEdited = false;
+          vm.oldTitle = '';
+          vm.currTitle = vm.oldTitle;
+        }
+        console.log(e);
       },
     },
     directives: [{
@@ -47,24 +63,23 @@ const li = {
   data() {
     return {
       isEdited: false,
+      currTitle: '',
+      oldTitle: '',
     };
   },
   props: {
-    id: {
-      type: Number,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    completed: {
-      type: Boolean,
-      required: true,
-    },
     todo: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    showValue() {
+      if (this.isEdited) {
+        this.oldTitle = this.todo.title;
+      }
+      this.currTitle = this.todo.title;
+      return this.todo.title;
     },
   },
   directives: {
@@ -75,10 +90,10 @@ const li = {
     const data = {
       class: {
         todo: true,
-        completed: vm.completed,
+        completed: vm.todo.complete,
         editing: vm.isEdited,
       },
-      key: vm.id,
+      key: vm.todo.id,
     };
     const childs = [];
     childs.push(div.call(this, h));

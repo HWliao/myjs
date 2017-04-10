@@ -20,9 +20,6 @@ function input(h) {
       value: vm.value,
     },
     on: {
-      input(e) {
-        vm.value = e.target.value;
-      },
       keyup(e) {
         if (e && e.keyCode === 13) {
           vm.$emit('addTodo', vm.value);
