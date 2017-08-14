@@ -1,0 +1,13 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "compat"
+  ],
+  "env": {
+    "shared-node-browser": true
+  },
+  "rules": {
+    "no-unexpected-multiline": 2,
+    "compat/compat": 2
+  }
+}
