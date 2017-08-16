@@ -3,6 +3,7 @@ import path from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 3000;
@@ -40,10 +41,7 @@ const externals = {
 // 3个入口js
 const chunksort = ['vendor', 'editor', 'main', 'demo'];
 const entry = {
-  vendor: './js/vendor',
-  editor: './js/editor',
   main: './js/main',
-  demo: './js/demo',
 };
 // 输出
 const output = {
@@ -53,6 +51,8 @@ const output = {
   publicPath,
   pathinfo: !isProd,
   devtoolModuleFilenameTemplate: 'webpack:///[absolute-resource-path]',
+  library: 'ImEditor',
+  libraryTarget: 'umd',
 };
 // 模块
 // See: https://github.com/rstacruz/webpack-tricks/blob/master/recipes/css.md
@@ -96,7 +96,7 @@ const modulex = {
     {
       test: /\.js[x]?$/,
       include: [src],
-      exclude: [/node_modules/],
+      exclude: [/node_modules/, `${src}/lib`],
       loader: 'babel-loader',
     }, {
       // Enables HMR. Extra step is needed in './src/index.js'
@@ -137,36 +137,15 @@ const prodPlug = isProd ? [
   // CommonsChunk analyzes everything in your bundles, extracts common bits into files together.
   // See: https://webpack.js.org/plugins/commons-chunk-plugin/
   // See: https://webpack.js.org/guides/code-splitting-libraries/
-  new webpack.optimize.CommonsChunkPlugin({
-    names: ['vendor', 'manifest'],
-  }),
+  //  new webpack.optimize.CommonsChunkPlugin({
+  //    names: ['vendor', 'manifest'],
+  //  }),
 
   // Minify and optimize the index.html
   new HtmlWebpackPlugin({
     filename: 'demo.html',
     template: './html/demo.html',
-    excludeChunks: ['editor'],
-    inject: true,
-    chunksSortMode: 'dependency',
-    xhtml: true,
-    minify: {
-      removeComments: true,
-      collapseWhitespace: true,
-      removeRedundantAttributes: true,
-      useShortDoctype: true,
-      removeEmptyAttributes: true,
-      removeStyleLinkTypeAttributes: true,
-      keepClosingSlash: true,
-      minifyJS: true,
-      minifyCSS: true,
-      minifyURLs: true,
-    },
-  }),
-  new HtmlWebpackPlugin({
-    filename: 'editor.html',
-    template: './html/editor.html',
-    excludeChunks: ['demo', 'main'],
-    inject: true,
+    inject: 'head',
     chunksSortMode: 'dependency',
     xhtml: true,
     minify: {
@@ -219,22 +198,7 @@ const prodPlug = isProd ? [
   new HtmlWebpackPlugin({
     filename: 'demo.html',
     template: './html/demo.html',
-    excludeChunks: ['editor'],
-    inject: true,
-    chunksSortMode(a, b) {
-      let aIndex = chunksort.indexOf(a.names[0]);
-      let bIndex = chunksort.indexOf(b.names[0]);
-      aIndex = aIndex < 0 ? chunksort.length + 1 : aIndex;
-      bIndex = bIndex < 0 ? chunksort.length + 1 : bIndex;
-      return aIndex - bIndex;
-    },
-    xhtml: true,
-  }),
-  new HtmlWebpackPlugin({
-    filename: 'editor.html',
-    template: './html/editor.html',
-    excludeChunks: ['demo', 'main'],
-    inject: true,
+    inject: 'head',
     chunksSortMode(a, b) {
       let aIndex = chunksort.indexOf(a.names[0]);
       let bIndex = chunksort.indexOf(b.names[0]);
@@ -304,10 +268,13 @@ const plugins = [
   //    failOnError: false,
   //  }),
 
-  // new CopyWebpackPlugin([
-  // //{ from: 'favicon.png' },
-  // {from: 'assets', to: 'assets'}
-  // ]),
+  new CopyWebpackPlugin([
+    // { from: 'favicon.png' },
+    {
+      from: 'lib',
+      to: 'lib',
+    },
+  ]),
 
   // Module ids are full names
   // Outputs more readable module names in the browser console on HMR updates
