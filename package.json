@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "start": "webpack-dev-server --progress",
-    "build": "rimraf dist && cross-env ENV=prod webpack -p --progress"
+    "build": "rimraf dist && cross-env ENV=prod webpack --progress"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

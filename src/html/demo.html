@@ -8,11 +8,43 @@
   <script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
 </head>
 <body>
-<div></div>
 
-<div id="editor"></div>
+<div id="container">
+
+</div>
+<div>
+  <button class="session">session-1</button>
+  <button class="session">session-2</button>
+  <button class="session">session-3</button>
+  <button class="session">session-4</button>
+  <button class="session">session-5</button>
+  <button class="session">session-6</button>
+</div>
+<div>
+  <select class="emoji">
+    <option value="[大笑]" data-img="/img/emoji_0.png">emoji0</option>
+    <option value="[微笑]" data-img="/img/emoji_01.png">emoji1</option>
+    <option value="[色]" data-img="/img/emoji_02.png">emoji2</option>
+    <option value="[嘘]" data-img="/img/emoji_03.png">emoji3</option>
+    <option value="[亲亲]" data-img="/img/emoji_04.png">emoji4</option>
+  </select>
+</div>
+<h1>Hello Worl</h1>
+
 <script>
-
+  ImEditor.init('container', "");
+  // emoji模拟
+  $('select.emoji').on('change', function (e) {
+    console.log(e);
+    var value = $(e.currentTarget).val();
+    var img = $(e.currentTarget).attr('data-img');
+    ImEditor.insertEmoji(value, img);
+  });
+  // session模拟
+  $('button.session').on('click', function (e) {
+    var id = $(e.currentTarget).text();
+    ImEditor.activeEditor(id);
+  });
 </script>
 </body>
 </html>

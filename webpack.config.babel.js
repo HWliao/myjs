@@ -194,9 +194,7 @@ const prodPlug = isProd ? [
     sourceMap: true,
   }),
 ] : [
-  new webpack.HotModuleReplacementPlugin({
-    multiStep: true, // Enable multi-pass compilation for enhanced performance in larger projects.
-  }),
+  new webpack.HotModuleReplacementPlugin(),
   new HtmlWebpackPlugin({
     filename: 'demo.html',
     template: './html/demo.html',

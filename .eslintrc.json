@@ -4,7 +4,7 @@
     "compat"
   ],
   "env": {
-    "shared-node-browser": true
+    "browser": true
   },
   "rules": {
     "no-unexpected-multiline": 2,
