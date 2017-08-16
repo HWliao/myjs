@@ -64,6 +64,7 @@ const cssRules = isProd ? [{
     src,
     path.resolve(__dirname, 'node_modules'),
   ],
+  exclude: [`${src}/lib`],
   use: [
     'style-loader',
     {
@@ -72,6 +73,7 @@ const cssRules = isProd ? [{
   ],
 }] : [{
   test: /\.css|\.scss$/,
+  exclude: [`${src}/lib`],
   include: [
     src,
     path.resolve(__dirname, 'node_modules'),
