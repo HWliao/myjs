@@ -3,11 +3,14 @@
   "plugins": [
     "compat"
   ],
+  "parser": "babel-eslint",
   "env": {
+    "es6": true,
     "browser": true
   },
   "rules": {
     "no-unexpected-multiline": 2,
-    "compat/compat": 2
+    "compat/compat": 2,
+    "no-underscore-dangle": 0
   }
 }

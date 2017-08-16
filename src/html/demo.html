@@ -6,6 +6,15 @@
   <link rel="stylesheet" href="../lib/normalize/normalize.css">
   <script type="text/javascript" src="../lib/modernizr/modernizr-2.8.3.min.js"></script>
   <script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
+  <style>
+    #container {
+      position: absolute;
+      width: 500px;
+      height: 300px;
+      left: 600px;
+      top: 100px;
+    }
+  </style>
 </head>
 <body>
 
@@ -22,28 +31,27 @@
 </div>
 <div>
   <select class="emoji">
-    <option value="[大笑]" data-img="/img/emoji_0.png">emoji0</option>
-    <option value="[微笑]" data-img="/img/emoji_01.png">emoji1</option>
-    <option value="[色]" data-img="/img/emoji_02.png">emoji2</option>
-    <option value="[嘘]" data-img="/img/emoji_03.png">emoji3</option>
-    <option value="[亲亲]" data-img="/img/emoji_04.png">emoji4</option>
+    <option value="[大笑]" data-img="../lib/img/emoji_0.png">emoji0</option>
+    <option value="[微笑]" data-img="../lib/img/emoji_01.png">emoji1</option>
+    <option value="[色]" data-img="../lib/img/emoji_02.png">emoji2</option>
+    <option value="[嘘]" data-img="../lib/img/emoji_03.png">emoji3</option>
+    <option value="[亲亲]" data-img="../lib/img/emoji_04.png">emoji4</option>
   </select>
 </div>
-<h1>Hello Worl</h1>
 
 <script>
-  ImEditor.init('container', "");
+  var imEditor = new ImEditor('container');
   // emoji模拟
   $('select.emoji').on('change', function (e) {
     console.log(e);
     var value = $(e.currentTarget).val();
-    var img = $(e.currentTarget).attr('data-img');
-    ImEditor.insertEmoji(value, img);
+    var img = $(e.currentTarget).find(':selected').attr('data-img');
+    imEditor.insertEmoji(value, img, 'session-1');
   });
   // session模拟
   $('button.session').on('click', function (e) {
     var id = $(e.currentTarget).text();
-    ImEditor.activeEditor(id);
+    imEditor.activeEditor(id);
   });
 </script>
 </body>

@@ -36,7 +36,7 @@ const stats = {
   assetsSort: 'name',
 };
 const externals = {
-  jquery: 'jquery',
+  jquery: 'jQuery',
 };
 // 3个入口js
 const chunksort = ['vendor', 'editor', 'main', 'demo'];

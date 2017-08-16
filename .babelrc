@@ -1,9 +1,11 @@
 {
   "presets": [
     "es2015",
-    "env"
+    "env",
+    "stage-0"
   ],
   "plugins": [
+    "transform-class-properties",
     "transform-runtime",
     "add-module-exports"
   ]
