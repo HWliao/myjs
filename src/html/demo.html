@@ -38,6 +38,13 @@
     <option value="[亲亲]" data-img="../lib/img/emoji_04.png">emoji4</option>
   </select>
 </div>
+<div>
+  <img src="../lib/img/test.png" width="70" height="70">
+  <button class="image" data-src="../lib/img/test.png">插入图片给</button>
+</div>
+<div>
+  <button class="hait" data-hait-account="123456" data-hait-text=" @工程师 (开发) "> @工程师 (开发)</button>
+</div>
 
 <script>
   var imEditor = new ImEditor('container');
@@ -52,6 +59,14 @@
   $('button.session').on('click', function (e) {
     var id = $(e.currentTarget).text();
     imEditor.activeEditor(id);
+  });
+  // images
+  $('button.image').on('click', function (e) {
+    imEditor.insertImage($(e.currentTarget).attr('data-src'), 'session-1');
+  });
+  // @
+  $('button.hait').on('click', function (e) {
+    imEditor.insertHaitImage($(e.currentTarget).attr('data-hait-account'), $(e.currentTarget).attr('data-hait-text'), '../lib/img/hait.png', 'session-1');
   });
 </script>
 </body>

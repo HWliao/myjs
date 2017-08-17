@@ -4,7 +4,7 @@
  */
 import EventEmitter from 'eventemitter3';
 import $ from 'jquery';
-import { createEditor, focusEditor, insertEmoji } from './editor';
+import { createEditor, focusEditor, insertEmoji, insertImage, insertHaitImage } from './editor';
 import '../css/editor.css';
 
 const IM_EDITOR_ID = 'im-editor';
@@ -48,7 +48,7 @@ class ImEditor extends EventEmitter {
   }
 
   /**
-   *
+   * 插入emoji图片
    * @param emojiStr
    * @param emojiImg
    * @param id
@@ -58,6 +58,28 @@ class ImEditor extends EventEmitter {
     insertEmoji(this._editors[id].quill, {
       text: emojiStr,
       img: emojiImg,
+    });
+  }
+
+  /**
+   * 插入图片
+   * @param img
+   * @param id
+   */
+  insertImage(img, id) {
+    if (!this.isActive(id)) return;
+    insertImage(this._editors[id].quill, {
+      text: '[图片]',
+      img,
+    });
+  }
+
+  insertHaitImage(account, text, img, id) {
+    if (!this.isActive(id)) return;
+    insertHaitImage(this._editors[id].quill, {
+      account,
+      text,
+      img,
     });
   }
 
