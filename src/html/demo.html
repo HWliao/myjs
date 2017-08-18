@@ -39,11 +39,17 @@
   </select>
 </div>
 <div>
-  <img src="../lib/img/test.png" width="70" height="70">
+  <img class="im-image" src="../lib/img/test.png" width="70" height="70">
   <button class="image" data-src="../lib/img/test.png">插入图片给</button>
 </div>
 <div>
   <button class="hait" data-hait-account="123456" data-hait-text=" @工程师 (开发) "> @工程师 (开发)</button>
+  <button class="haitSpan" data-hait-color="#24aeef" data-hait-account="123456" data-hait-text=" @工程师 (开发) "> @工程师
+    (开发)
+  </button>
+</div>
+<div>
+  <button class="hasContents">是否有内容</button>
 </div>
 
 <script>
@@ -67,6 +73,13 @@
   // @
   $('button.hait').on('click', function (e) {
     imEditor.insertHaitImage($(e.currentTarget).attr('data-hait-account'), $(e.currentTarget).attr('data-hait-text'), '../lib/img/hait.png', 'session-1');
+  });
+  $('button.haitSpan').on('click', function (e) {
+    imEditor.insertHaitSpan($(e.currentTarget).attr('data-hait-account'), $(e.currentTarget).attr('data-hait-text'), 'session-1');
+  });
+
+  $('button.hasContents').on('click', function () {
+    alert(imEditor.hasContents('session-1'));
   });
 </script>
 </body>

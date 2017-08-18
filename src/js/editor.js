@@ -11,7 +11,9 @@ window.Quill = Quill;
  * @param id 编辑器id
  */
 export function createEditor(id) {
-  return new Quill(`#${id}`);
+  return new Quill(`#${id}`, {
+    debug: 'info',
+  });
 }
 /**
  * 聚焦某个编辑器上
@@ -72,6 +74,29 @@ export function insertImage(quill, value) {
   insertEmbed(quill, value, IM_FORMATS.IM_FORMAT_IMAGE);
 }
 
+/**
+ * 插入图片@实现
+ * @param quill
+ * @param value
+ */
 export function insertHaitImage(quill, value) {
   insertEmbed(quill, value, IM_FORMATS.IM_FORMAT_HAIT_IMAGE);
+}
+
+/**
+ * 插入span @实现
+ * @param quill
+ * @param value
+ */
+export function insertHaitSpan(quill, value) {
+  insertEmbed(quill, value, IM_FORMATS.IM_FORMAT_HAIT_SPAN);
+}
+
+/**
+ * 获取编辑框中所有内容
+ * @param quill
+ * @return {*}
+ */
+export function getContents(quill) {
+  return quill.getContents();
 }

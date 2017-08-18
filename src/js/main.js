@@ -4,7 +4,15 @@
  */
 import EventEmitter from 'eventemitter3';
 import $ from 'jquery';
-import { createEditor, focusEditor, insertEmoji, insertImage, insertHaitImage } from './editor';
+import {
+  createEditor,
+  focusEditor,
+  insertEmoji,
+  insertImage,
+  insertHaitImage,
+  insertHaitSpan,
+  getContents,
+} from './editor';
 import '../css/editor.css';
 
 const IM_EDITOR_ID = 'im-editor';
@@ -48,6 +56,20 @@ class ImEditor extends EventEmitter {
   }
 
   /**
+   * 是否有内容
+   * @param id
+   * @return {boolean}
+   */
+  hasContents(id) {
+    if (!this.isActive(id)) return false;
+    const contents = getContents(this._editors[id].quill);
+    if (!contents || !contents.ops) return false;
+    if (contents.ops.length > 1) return true;
+    // 只包含一个回车字符,表示没有内容
+    return contents.ops[0].insert !== '\n';
+  }
+
+  /**
    * 插入emoji图片
    * @param emojiStr
    * @param emojiImg
@@ -74,12 +96,33 @@ class ImEditor extends EventEmitter {
     });
   }
 
+  /**
+   * 插入@图片
+   * @param account
+   * @param text
+   * @param img
+   * @param id
+   */
   insertHaitImage(account, text, img, id) {
     if (!this.isActive(id)) return;
     insertHaitImage(this._editors[id].quill, {
       account,
       text,
       img,
+    });
+  }
+
+  /**
+   * 插入@span embed
+   * @param account
+   * @param text
+   * @param id
+   */
+  insertHaitSpan(account, text, id) {
+    if (!this.isActive(id)) return;
+    insertHaitSpan(this._editors[id].quill, {
+      account,
+      text,
     });
   }
 

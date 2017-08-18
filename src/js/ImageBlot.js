@@ -7,9 +7,11 @@ import Quill from 'quill/dist/quill.core';
 const Embed = Quill.import('blots/embed');
 const MH = 'maxHeight';
 const MW = 'maxWidth';
+const TEXT = '[图片]';
 export default class ImageBlot extends Embed {
   static blotName = 'imImage';
-  static className = 'im-image';
+  // 不能加class,多个img先关的blot实现,其他的以className区分
+  // static className = 'im-image';
   static tagName = 'img';
   static ATTRIBUTES = [
     'alt',
@@ -19,8 +21,8 @@ export default class ImageBlot extends Embed {
 
   static create(value) {
     const node = super.create(value);
-    node.setAttribute('data-text', value.text);
-    node.setAttribute('alt', value.text);
+    node.setAttribute('data-text', value.text || TEXT);
+    node.setAttribute('alt', value.text || TEXT);
     node.setAttribute('src', value.img);
     // 高度必须做出限制
     node.style[MH] = value[MH] ? `${value[MH]}px` : '70px';
@@ -35,6 +37,7 @@ export default class ImageBlot extends Embed {
       if (domNode.hasAttribute(attribute)) {
         /* eslint-disable no-param-reassign */
         formats[attribute] = domNode.getAttribute(attribute);
+        formats[attribute] = !formats[attribute] && attribute === 'alt' ? TEXT : formats[attribute];
       }
       return formats;
     }, {});
@@ -43,7 +46,7 @@ export default class ImageBlot extends Embed {
   static value(node) {
     return {
       img: node.getAttribute('src'),
-      text: node.getAttribute('data-text'),
+      text: node.getAttribute('data-text') || TEXT,
     };
   }
 
