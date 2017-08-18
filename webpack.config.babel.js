@@ -45,8 +45,8 @@ const entry = {
 };
 // 输出
 const output = {
-  filename: isProd ? '[name].[chunkhash].js' : '[name].js',
-  chunkFilename: isProd ? '[name].[chunkhash].chunk.js' : '[name].chunk.js',
+  filename: isProd ? '[name].js' : '[name].js',
+  chunkFilename: isProd ? '[name].chunk.js' : '[name].chunk.js',
   path: dist,
   publicPath,
   pathinfo: !isProd,
@@ -253,7 +253,7 @@ const plugins = [
   // Generate an external css file with a hash in the filename
   // allChunks: true -> preserve source maps
   new ExtractTextPlugin({
-    filename: isProd ? '[name].[chunkhash].styles.css' : '[name].styles.css',
+    filename: isProd ? '[name].styles.css' : '[name].styles.css',
     disable: false,
     allChunks: true,
   }),

@@ -43,13 +43,15 @@ export function isLineFirst(quill) {
  * @param format
  */
 export function insertEmbed(quill, value, format) {
+  if (!quill.hasFocus()) quill.focus();
   let range = quill.getSelection();
-  if (range.length) quill.deleteText(range.index, range.length, Quill.sources.USER);
+  if (range.length) quill.deleteText(range.index, range.length);
   // 插入一个空格,目前发现没有这个空格会多一个光标
   if (isLineFirst(quill)) quill.insertText(range.index, ' ');
   // 插入emoji
   range = quill.getSelection();
-  quill.insertEmbed(range.index, format, value, Quill.sources.USER);
+  quill.insertEmbed(range.index, format, value);
+  quill.setSelection(range.index + 1, 0);
 }
 
 /**
