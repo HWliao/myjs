@@ -57,7 +57,7 @@ const output = {
 // 模块
 // See: https://github.com/rstacruz/webpack-tricks/blob/master/recipes/css.md
 // See: https://github.com/rstacruz/webpack-starter-kit
-const cssRules = isProd ? [{
+const cssRules = !isProd ? [{
   // Enables HMR. Inlines CSS in html head style tag
   test: /\.css|\.scss$/,
   include: [
@@ -145,7 +145,7 @@ const prodPlug = isProd ? [
 
   // Minify and optimize the index.html
   new HtmlWebpackPlugin({
-    filename: 'demo.html',
+    filename: 'html/demo.html',
     template: './html/demo.html',
     inject: 'head',
     chunksSortMode: 'dependency',
@@ -196,7 +196,7 @@ const prodPlug = isProd ? [
 ] : [
   new webpack.HotModuleReplacementPlugin(),
   new HtmlWebpackPlugin({
-    filename: 'demo.html',
+    filename: 'html/demo.html',
     template: './html/demo.html',
     inject: 'head',
     chunksSortMode(a, b) {
@@ -290,7 +290,7 @@ const devServer = {
   hot: !isProd,
   compress: true,
   open: true,
-  openPage: 'demo.html',
+  openPage: 'html/demo.html',
   noInfo: true,
   stats: 'errors-only',
   inline: true,
