@@ -6,7 +6,7 @@ import Quill from 'quill/dist/quill.core';
 
 const Embed = Quill.import('blots/embed');
 
-export default class ImageBlot extends Embed {
+export default class HaitImageBlot extends Embed {
   static blotName = 'imHaitImage';
   static className = 'im-image-hait';
   static tagName = 'img';
@@ -22,7 +22,8 @@ export default class ImageBlot extends Embed {
   static value(node) {
     return {
       img: node.getAttribute('src'),
-      text: node.getAttribute('data-text'),
+      text: node.getAttribute('data-hait-text'),
+      account: node.getAttribute('data-hait-account'),
     };
   }
 }
