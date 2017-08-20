@@ -1,9 +1,10 @@
 /**
+ * 编辑器操作相关
  * Created by lenovo on 2017/8/15.
  */
 import Quill from 'quill/dist/quill.core';
 import 'quill/dist/quill.core.css';
-import IM_FORMATS from './ImEditorBlot';
+import IM_FORMATS from './ImEditorRegister';
 
 window.Quill = Quill;
 /**
@@ -13,6 +14,11 @@ window.Quill = Quill;
 export function createEditor(id) {
   return new Quill(`#${id}`, {
     debug: 'info',
+    modules: {
+      rootAttr: {
+        spellcheck: 'false',
+      },
+    },
   });
 }
 /**
@@ -49,7 +55,7 @@ export function insertEmbed(quill, value, format) {
   let range = quill.getSelection();
   if (range.length) quill.deleteText(range.index, range.length);
   // 插入一个空格,目前发现没有这个空格会多一个光标
-  if (isLineFirst(quill)) quill.insertText(range.index, ' ');
+  // if (isLineFirst(quill)) quill.insertText(range.index, ' ');
   // 插入emoji
   range = quill.getSelection();
   quill.insertEmbed(range.index, format, value);

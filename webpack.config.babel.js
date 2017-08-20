@@ -134,15 +134,13 @@ const modulex = {
 };
 // 插件
 const prodPlug = isProd ? [
-// Note: do not use '-p' in "build:prod" script
-
+  // Note: do not use '-p' in "build:prod" script
   // CommonsChunk analyzes everything in your bundles, extracts common bits into files together.
   // See: https://webpack.js.org/plugins/commons-chunk-plugin/
   // See: https://webpack.js.org/guides/code-splitting-libraries/
   //  new webpack.optimize.CommonsChunkPlugin({
   //    names: ['vendor', 'manifest'],
   //  }),
-
   // Minify and optimize the index.html
   new HtmlWebpackPlugin({
     filename: 'html/demo.html',
@@ -163,17 +161,14 @@ const prodPlug = isProd ? [
       minifyURLs: true,
     },
   }),
-
   // Merge all duplicate modules
   // No longer needed; default in webpack2
   // new webpack.optimize.DedupePlugin(),
-
   new webpack.LoaderOptionsPlugin({
     minimize: true,
     debug: false,
     quiet: true,
   }),
-
   new webpack.optimize.UglifyJsPlugin({
     compress: {
       unused: true, // Enables tree shaking
@@ -219,10 +214,8 @@ const plugins = [
     'process.env.PUBLIC_PATH': JSON.stringify(publicPath),
     __DEV__: !isProd,
   }),
-
   // Hook into the compiler to extract progress information.
   // new webpack.ProgressPlugin(),
-
   new webpack.LoaderOptionsPlugin({
     // See: https://github.com/postcss/postcss-loader/issues/125
     // See: http://pastebin.com/Lmka3rju
@@ -242,14 +235,11 @@ const plugins = [
       failOnError: true,
     },
   }),
-
   // Avoid publishing files when compilation fails
   // Note: NoErrorsPlugin is renamed to NoEmitOnErrorsPlugin
   new webpack.NoEmitOnErrorsPlugin(),
-
   // No longer needed in Webpack2, on by default
   // new webpack.optimize.OccurrenceOrderPlugin(),
-
   // Generate an external css file with a hash in the filename
   // allChunks: true -> preserve source maps
   new ExtractTextPlugin({
@@ -257,7 +247,6 @@ const plugins = [
     disable: false,
     allChunks: true,
   }),
-
   //  new StyleLintPlugin({
   //    // https://github.com/vieron/stylelint-webpack-plugin
   //    // http://stylelint.io/user-guide/example-config/
@@ -267,7 +256,6 @@ const plugins = [
   //    syntax: 'scss',
   //    failOnError: false,
   //  }),
-
   new CopyWebpackPlugin([
     // { from: 'favicon.png' },
     {
@@ -275,7 +263,6 @@ const plugins = [
       to: 'lib',
     },
   ]),
-
   // Module ids are full names
   // Outputs more readable module names in the browser console on HMR updates
   new webpack.NamedModulesPlugin(),
