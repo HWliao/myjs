@@ -9,6 +9,7 @@ import HaitImageBlot from './HaitImageBlot';
 import HaitSpanBlot from './HaitSpanBlot';
 import RootAttrModule from './RootAttrModule';
 import MouseModule from './MouseModule';
+import Clipboard from './DropAndClipModule';
 
 // image先关blot ImageBlot必须最后注册tagName将以它进行优先匹配
 Quill.register(EmojiBlot);
@@ -22,6 +23,9 @@ const rootAttr = 'modules/rootAttr';
 const mouse = 'modules/mouse';
 Quill.register(rootAttr, RootAttrModule, true);
 Quill.register(mouse, MouseModule, true);
+
+// 覆盖clipboard
+Quill.register('modules/clipboard', Clipboard, true);
 
 export default {
   IM_FORMAT_EMOJI: EmojiBlot.blotName,
