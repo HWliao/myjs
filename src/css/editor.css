@@ -59,7 +59,7 @@
 .imEditor img,
 .imEditor svg,
 .imEditor video {
-  vertical-align: middle;
+  vertical-align: text-bottom;
 }
 
 /*

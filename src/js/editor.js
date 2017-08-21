@@ -10,13 +10,20 @@ window.Quill = Quill;
 /**
  * 创建编辑器
  * @param id 编辑器id
+ * @param options 配置
  */
-export function createEditor(id) {
+export function createEditor(id, options = {}) {
+  // 按键绑定
+  const bindings = options.bindings || {};
   return new Quill(`#${id}`, {
-    debug: 'info',
+    debug: 'warn',
     modules: {
       rootAttr: {
         spellcheck: 'false',
+      },
+      mouse: true,
+      keyboard: {
+        bindings,
       },
     },
   });

@@ -8,6 +8,7 @@ import ImageBlot from './ImageBlot';
 import HaitImageBlot from './HaitImageBlot';
 import HaitSpanBlot from './HaitSpanBlot';
 import RootAttrModule from './RootAttrModule';
+import MouseModule from './MouseModule';
 
 // image先关blot ImageBlot必须最后注册tagName将以它进行优先匹配
 Quill.register(EmojiBlot);
@@ -18,7 +19,9 @@ Quill.register(HaitSpanBlot);
 
 // modules
 const rootAttr = 'modules/rootAttr';
+const mouse = 'modules/mouse';
 Quill.register(rootAttr, RootAttrModule, true);
+Quill.register(mouse, MouseModule, true);
 
 export default {
   IM_FORMAT_EMOJI: EmojiBlot.blotName,
@@ -26,4 +29,5 @@ export default {
   IM_FORMAT_HAIT_IMAGE: HaitImageBlot.blotName,
   IM_FORMAT_HAIT_SPAN: HaitSpanBlot.blotName,
   IM_MODULE_ROOT_ATTR: rootAttr,
+  IM_MODULE_MOUSE: mouse,
 };

@@ -53,7 +53,52 @@
 </div>
 
 <script>
-  var imEditor = new ImEditor('container');
+  var imEditor = new ImEditor('container', {
+    bindings: {
+      aHaitTrigger: {
+        key: '2',
+        shiftKey: true,
+        handler: function (range, context) {
+          console.log(range, context);
+          return true;
+        }
+      },
+      aenterAHait: {
+        key: ImEditor.keys.ENTER,
+        handler: function (range, context) {
+          console.log('enterAHait');
+          return true;
+        }
+      },
+      aenterBSend1: {
+        key: ImEditor.keys.ENTER,
+        handler: function (range, context) {
+          console.log('enterBSend1');
+          return true;
+        }
+      },
+      aenterBSend2: {
+        key: ImEditor.keys.ENTER,
+        shiftKey: true,
+        handler: function (range, context) {
+          console.log('enterBSend2');
+          return true;
+        }
+      },
+    },
+  });
+  imEditor.on(ImEditor.events.TEXT_CHANGE, function () {
+    console.log(arguments);
+  });
+  imEditor.on(ImEditor.events.SELECTION_CHANGE, function () {
+    console.log(arguments);
+  });
+  imEditor.on(ImEditor.events.EDITOR_CONTEXT_MENU, function () {
+    console.log(arguments);
+  });
+  imEditor.on(ImEditor.events.IMG_DBLCLICK, function () {
+    console.log(arguments);
+  });
   // emoji模拟
   $('select.emoji').on('change', function (e) {
     console.log(e);

@@ -4,6 +4,8 @@
  */
 import EventEmitter from 'eventemitter3';
 import $ from 'jquery';
+import { defaultsDeep } from 'lodash';
+import Quill from 'quill/dist/quill.core';
 import {
   createEditor,
   focusEditor,
@@ -16,8 +18,14 @@ import {
 import '../css/editor.css';
 
 const IM_EDITOR_ID = 'im-editor';
+const Keyboard = Quill.import('modules/keyboard');
 
 class ImEditor extends EventEmitter {
+  static keys = Keyboard.keys;
+  static events = Quill.events;
+  // 配置项
+  _options = {};
+
   // 单前编辑框id
   _currId;
   // 是否初始化
@@ -35,9 +43,11 @@ class ImEditor extends EventEmitter {
   /**
    * 构造器
    * @param container id/Element
+   * @param options 配置项
    */
-  constructor(container) {
-    super();
+  constructor(container, options = {}) {
+    super(container);
+    this._options = defaultsDeep(this._options, options);
     this.init(container);
   }
 
@@ -135,9 +145,22 @@ class ImEditor extends EventEmitter {
     const $div = document.createElement('div');
     $div.id = id;
     this.$editorContainer.append($div);
+    const quill = createEditor(`${id}`, this._options);
+    quill.on(Quill.events.SELECTION_CHANGE, (...args) => {
+      this.emit(Quill.events.SELECTION_CHANGE, this._currId, ...args);
+    });
+    quill.on(Quill.events.TEXT_CHANGE, (...args) => {
+      this.emit(Quill.events.TEXT_CHANGE, this._currId, ...args);
+    });
+    quill.on(Quill.events.EDITOR_CONTEXT_MENU, (...args) => {
+      this.emit(Quill.events.EDITOR_CONTEXT_MENU, this._currId, ...args);
+    });
+    quill.on(Quill.events.IMG_DBLCLICK, (...args) => {
+      this.emit(Quill.events.IMG_DBLCLICK, this._currId, ...args);
+    });
     this._editors[id] = {
       $container: $(`#${id}`),
-      quill: createEditor(`${id}`),
+      quill,
     };
   }
 
