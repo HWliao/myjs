@@ -86,6 +86,21 @@
         }
       },
     },
+    matchers: [
+      ['IMG', function (node, detla) {
+        console.log(111);
+        return detla;
+      }],
+    ],
+    dealImg: function (src) {
+      return new Promise(function (resolve) {
+        resolve(src);
+      });
+    },
+    isValidImg: function (blob) {
+      console.log(222);
+      return blob.size < 2 * 1024 * 1024;
+    },
   });
   imEditor.on(ImEditor.events.TEXT_CHANGE, function () {
     console.log(arguments);

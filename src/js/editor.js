@@ -15,6 +15,9 @@ window.Quill = Quill;
 export function createEditor(id, options = {}) {
   // 按键绑定
   const bindings = options.bindings || {};
+  const matchers = options.matchers || [];
+  const dealImg = options.dealImg || undefined;
+  const isValidImg = options.isValidImg || undefined;
   return new Quill(`#${id}`, {
     debug: 'warn',
     modules: {
@@ -24,6 +27,11 @@ export function createEditor(id, options = {}) {
       mouse: true,
       keyboard: {
         bindings,
+      },
+      clipboard: {
+        matchers,
+        dealImg,
+        isValidImg,
       },
     },
   });

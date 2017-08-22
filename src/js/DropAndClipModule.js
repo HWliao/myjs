@@ -14,12 +14,20 @@ import {
   matchSpacing,
   matchStyles,
   matchText,
+  readBlobAsDataURL,
 } from './uitls';
+import ImageBlot from './ImageBlot';
 
 const Delta = Quill.import('delta');
 const Parchment = Quill.import('parchment');
 
 const DOM_KEY = '__ql-matcher';
+
+const DROP_AND_COPY_FILE = 'drop_and_copy_file';
+const DROP_AND_COPY_INVALID_IMAGE = 'drop_and_copy_invalid_image';
+
+Quill.events.DROP_AND_COPY_FILE = DROP_AND_COPY_FILE;
+Quill.events.DROP_AND_COPY_INVALID_IMAGE = DROP_AND_COPY_INVALID_IMAGE;
 
 // 我们这里不要任何样式
 // const ATTRIBUTE_ATTRIBUTORS = [
@@ -58,16 +66,19 @@ export default class DropAndClipModule {
   static DEFAULTS = {
     matchers: [],
     matchVisual: true,
+    dealImg: src => new Promise(resolve => setTimeout(resolve(src), 1)),
+    isValidImg: blob => blob.size < 2 * 1024 * 1024,
   };
 
   constructor(quill, options) {
     this.quill = quill;
     this.options = options;
 
+    this.quill.root.addEventListener('drop', this.onDrop.bind(this));
     this.quill.root.addEventListener('paste', this.onPaste.bind(this));
     this.container = this.quill.addContainer('ql-clipboard');
-    this.container.setAttribute('contenteditable', true);
-    this.container.setAttribute('tabindex', -1);
+    this.container.setAttribute('contenteditable', 'true');
+    this.container.setAttribute('tabindex', '-1');
     this.matchers = [];
     CLIPBOARD_CONFIG.concat(this.options.matchers).forEach(([selector, matcher]) => {
       if (!options.matchVisual && matcher === matchSpacing) return;
@@ -90,32 +101,147 @@ export default class DropAndClipModule {
       delta = delta.compose(new Delta().retain(delta.length() - 1).delete(1));
     }
     this.container.innerHTML = '';
-    return delta;
+    const ps = [];
+    const matcherMap = {};
+    const map = {};
+    if (delta && delta.ops && delta.ops.length > 0) {
+      delta.ops.forEach((tDelta) => {
+        if (typeof tDelta.insert !== 'object') return;
+        const blotName = Object.keys(tDelta.insert)[0];
+        const matcher = Parchment.query(blotName);
+        if (!matcher || !matcher.src) return;
+        ps.push(this.options.dealImg(tDelta.insert[blotName][matcher.src]));
+        map[ps.length - 1] = tDelta.insert;
+        matcherMap[ps.length - 1] = matcher;
+      });
+    }
+    if (ps.length > 0) {
+      return Promise
+        .all(ps)
+        .then((bImgs) => {
+          for (let i = 0; i < bImgs.length; i++) {
+            const matcher = matcherMap[i];
+            map[i][matcher.blotName][matcher.src] = bImgs[i];
+          }
+          return delta;
+        });
+    }
+    return Promise.resolve(delta);
   }
 
-  dangerouslyPasteHTML(index, html, source = Quill.sources.API) {
-    if (typeof index === 'string') {
-      return this.quill.setContents(this.convert(index), html);
-    }
-    const paste = this.convert(html);
-    return this.quill.updateContents(new Delta().retain(index).concat(paste), source);
+  // eslint-disable-next-line class-methods-use-this
+  dangerouslyPasteHTML() {
+    throw new Error('this method is not worked!');
+    //    if (typeof index === 'string') {
+    //      return this.quill.setContents(this.convert(index), html);
+    //    }
+    //    const paste = this.convert(html);
+    //    return this.quill.updateContents(new Delta().retain(index).concat(paste), source);
   }
 
   onPaste(e) {
     if (e.defaultPrevented || !this.quill.isEnabled()) return;
+    if (!this.quill.hasFocus()) this.quill.focus();
+    if (this.dropAndPaste(e)) {
+      e.preventDefault();
+      return;
+    }
     const range = this.quill.getSelection();
     let delta = new Delta().retain(range.index);
     const scrollTop = this.quill.scrollingContainer.scrollTop;
     this.container.focus();
     this.quill.selection.update(Quill.sources.SILENT);
     setTimeout(() => {
-      delta = delta.concat(this.convert()).delete(range.length);
-      this.quill.updateContents(delta, Quill.sources.USER);
-      // range.length contributes to delta.length()
-      this.quill.setSelection(delta.length() - range.length, Quill.sources.SILENT);
-      this.quill.scrollingContainer.scrollTop = scrollTop;
-      this.quill.focus();
+      this.convert()
+        .then((deltas) => {
+          delta = delta.concat(deltas).delete(range.length);
+          this.quill.updateContents(delta, Quill.sources.USER);
+          // range.length contributes to delta.length()
+          this.quill.setSelection(delta.length() - range.length, Quill.sources.SILENT);
+          this.quill.scrollingContainer.scrollTop = scrollTop;
+          this.quill.focus();
+        })
+        .catch(err => this.quill.emitter.emit('error', err));
     }, 1);
+  }
+
+  onDrop(e) {
+    if (e.defaultPrevented || !this.quill.isEnabled()) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (!this.quill.hasFocus()) this.quill.focus();
+    if (this.dropAndPaste(e)) {
+      return;
+    }
+    const html = e.dataTransfer.getData('text/html') || e.dataTransfer.getData('text/text');
+    const range = this.quill.getSelection();
+    let delta = new Delta().retain(range.index);
+    const scrollTop = this.quill.scrollingContainer.scrollTop;
+    this.convert(html)
+      .then((deltas) => {
+        delta = delta.concat(deltas).delete(range.length);
+        this.quill.updateContents(delta, Quill.sources.USER);
+        // range.length contributes to delta.length()
+        this.quill.setSelection(delta.length() - range.length, Quill.sources.SILENT);
+        this.quill.scrollingContainer.scrollTop = scrollTop;
+      })
+      .catch(err => this.quill.emitter.emit('error', err));
+  }
+
+  dropAndPaste(e) {
+    const dataTransfer = e.clipboardData || e.dataTransfer;
+    const items = dataTransfer && dataTransfer.items;
+    const images = [];
+    const files = [];
+    const invalideImages = [];
+    if (items && items.length > 0) {
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].kind === 'file' && items[i].type.indexOf('image/') > -1) {
+          if (this.options.isValidImg(items[i].getAsFile())) {
+            images.push(items[i].getAsFile());
+          } else {
+            invalideImages.push(items.getAsFile());
+          }
+        } else if (items[i].kind === 'file') {
+          files.push(items[i].getAsFile());
+        }
+      }
+    }
+
+    let flag = false;
+    if (files.length > 0) {
+      // 只要存在文件,全部以文件形式发送
+      this.quill.emitter.emit(DROP_AND_COPY_FILE, [].concat(files, invalideImages, images));
+      flag = true;
+    }
+    if (files.length === 0 && invalideImages.length > 0) {
+      this.quill.emitter.emit(DROP_AND_COPY_INVALID_IMAGE, invalideImages);
+      flag = true;
+    }
+    if (files.length === 0 && images.length > 0) {
+      // 有效图片转base64
+      const range = this.quill.getSelection();
+      let delta = new Delta().retain(range.index);
+      const scrollTop = this.quill.scrollingContainer.scrollTop;
+      Promise
+        .all(images.map(image => readBlobAsDataURL(image)))
+        .then((bImgs) => {
+          const imageDeltas = bImgs.reduce((delta1, bImg) => {
+            if (bImg) {
+              return delta1.concat(ImageBlot.valueDelta(bImg));
+            }
+            return delta1;
+          }, new Delta());
+
+          delta = delta.concat(imageDeltas).delete(range.length);
+          this.quill.updateContents(delta, Quill.sources.USER);
+          // range.length contributes to delta.length()
+          this.quill.setSelection(delta.length() - range.length, Quill.sources.SILENT);
+          this.quill.scrollingContainer.scrollTop = scrollTop;
+        })
+        .catch(err => this.quill.emitter.emit('error', err));
+    }
+    return flag;
   }
 
   prepareMatching() {
