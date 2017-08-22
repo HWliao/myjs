@@ -9,6 +9,7 @@ const Embed = Quill.import('blots/embed');
 export default class HaitImageBlot extends Embed {
   static blotName = 'imHaitImage';
   static className = 'im-image-hait';
+  static src = 'img';
   static tagName = 'img';
 
   static create(value) {

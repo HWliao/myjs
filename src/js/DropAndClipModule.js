@@ -6,7 +6,6 @@ import Quill from 'quill/dist/quill.core';
 import {
   deltaEndsWith,
   traverse,
-  matchAlias,
   matchBlot,
   matchBreak,
   matchIgnore,
@@ -18,6 +17,7 @@ import {
 } from './uitls';
 
 const Delta = Quill.import('delta');
+const Parchment = Quill.import('parchment');
 
 const DOM_KEY = '__ql-matcher';
 
@@ -49,11 +49,8 @@ const CLIPBOARD_CONFIG = [
   [Node.ELEMENT_NODE, matchNewline],
   [Node.ELEMENT_NODE, matchBlot],
   [Node.ELEMENT_NODE, matchSpacing],
-  // [Node.ELEMENT_NODE, matchAttributor],
   [Node.ELEMENT_NODE, matchStyles],
   ['li', matchIndent],
-  ['b', matchAlias.bind(matchAlias, 'bold')],
-  ['i', matchAlias.bind(matchAlias, 'italic')],
   ['style', matchIgnore],
 ];
 

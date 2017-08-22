@@ -9,6 +9,7 @@ const Embed = Quill.import('blots/embed');
 export default class EmojiEmbed extends Embed {
   static blotName = 'imEmoji';
   static className = 'im-emoji';
+  static src = 'img';
   static tagName = 'img';
   static ATTRIBUTES = [
     'alt',

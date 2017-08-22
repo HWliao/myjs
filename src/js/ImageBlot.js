@@ -13,6 +13,7 @@ export default class ImageBlot extends Embed {
   // 不能加class,多个img先关的blot实现,其他的以className区分
   // static className = 'im-image';
   static tagName = 'img';
+  static src = 'img';
   static ATTRIBUTES = [
     'alt',
     MH,
@@ -48,6 +49,18 @@ export default class ImageBlot extends Embed {
       img: node.getAttribute('src'),
       text: node.getAttribute('data-text') || TEXT,
     };
+  }
+
+  static valueDelta(src) {
+    return [{
+      [ImageBlot.blotName]: {
+        img: src,
+        text: TEXT,
+      },
+    }, {
+      alt: TEXT,
+      [MH]: 70,
+    }];
   }
 
   format(name, value) {

@@ -158,6 +158,15 @@ class ImEditor extends EventEmitter {
     quill.on(Quill.events.IMG_DBLCLICK, (...args) => {
       this.emit(Quill.events.IMG_DBLCLICK, this._currId, ...args);
     });
+    quill.on(Quill.events.DROP_AND_COPY_FILE, (...args) => {
+      this.emit(Quill.events.DROP_AND_COPY_FILE, this._currId, ...args);
+    });
+    quill.on(Quill.events.DROP_AND_COPY_INVALID_IMAGE, (...args) => {
+      this.emit(Quill.events.DROP_AND_COPY_INVALID_IMAGE, this._currId, ...args);
+    });
+    quill.on('error', (...args) => {
+      this.emit('error', this._currId, ...args);
+    });
     this._editors[id] = {
       $container: $(`#${id}`),
       quill,

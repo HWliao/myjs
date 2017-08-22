@@ -99,6 +99,15 @@
   imEditor.on(ImEditor.events.IMG_DBLCLICK, function () {
     console.log(arguments);
   });
+  imEditor.on(ImEditor.events.DROP_AND_COPY_FILE, function () {
+    console.log(arguments);
+  });
+  imEditor.on(ImEditor.events.DROP_AND_COPY_INVALID_IMAGE, function () {
+    console.log(arguments);
+  });
+  imEditor.on('error', function () {
+    console.log(arguments);
+  })
   // emoji模拟
   $('select.emoji').on('change', function (e) {
     console.log(e);

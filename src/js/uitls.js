@@ -217,3 +217,21 @@ export function matchText(node, delta) {
   }
   return delta.insert(text);
 }
+
+export function readBlobAsDataURL(blob) {
+  if (blob.size === 0) {
+    return Promise.resolve(null);
+  }
+  return new Promise((resolve) => {
+    const a = new FileReader();
+    a.onload = (e) => {
+      resolve(e.target.result);
+    };
+    a.onerror = (e) => {
+      // eslint-disable-next-line no-console
+      console.warn('readBlobAsDataURL err.', e);
+      resolve(null);
+    };
+    a.readAsDataURL(blob);
+  });
+}
