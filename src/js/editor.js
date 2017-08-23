@@ -121,3 +121,8 @@ export function insertHaitSpan(quill, value) {
 export function getContents(quill) {
   return quill.getContents();
 }
+
+export function clear(quill) {
+  quill.setText('', Quill.sources.USER);
+  quill.history.clear();
+}

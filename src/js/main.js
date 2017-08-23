@@ -13,6 +13,7 @@ import {
   insertHaitImage,
   insertHaitSpan,
   getContents,
+  clear,
 } from './editor';
 import '../css/editor.css';
 
@@ -70,12 +71,22 @@ class ImEditor extends EventEmitter {
    * @return {boolean}
    */
   hasContents(id) {
-    if (!this.isActive(id)) return false;
+    if (!this._editors[id]) return false;
     const contents = getContents(this._editors[id].quill);
     if (!contents || !contents.ops) return false;
     if (contents.ops.length > 1) return true;
     // 只包含一个回车字符,表示没有内容
     return contents.ops[0].insert !== '\n';
+  }
+
+  /**
+   * 获取全部内容
+   * @param id
+   * @return {boolean}
+   */
+  getContents(id) {
+    if (!this.isActive(id)) return false;
+    return getContents(this._editors[id].quill);
   }
 
   /**
@@ -211,6 +222,16 @@ class ImEditor extends EventEmitter {
    */
   isActive(id) {
     return this.isInited(id) && this.hasEditor(id) && this._currId === id;
+  }
+
+  /**
+   * 清理输入框
+   * @param id
+   */
+  clear(id) {
+    if (!this.isActive(id)) return;
+    clear(this._editors[id].quill);
+    focusEditor(this._editors[id].quill);
   }
 }
 

@@ -167,6 +167,7 @@ export default class DropAndClipModule {
         .catch(err => this.quill.emitter.emit('error', err));
     }, 1);
   }
+
   // eslint-disable-next-line class-methods-use-this
   onDragstart(e) {
     e.dataTransfer.setData(IM_DRAG_INPUT, true);
@@ -240,7 +241,7 @@ export default class DropAndClipModule {
         .then((bImgs) => {
           const imageDeltas = bImgs.reduce((delta1, bImg) => {
             if (bImg) {
-              return delta1.concat(ImageBlot.valueDelta(bImg));
+              return delta1.concat(new Delta().insert(...ImageBlot.valueDelta(bImg)));
             }
             return delta1;
           }, new Delta());

@@ -51,7 +51,9 @@
 <div>
   <button class="hasContents">是否有内容</button>
 </div>
-
+<div>
+  <button class="clear">清除内容</button>
+</div>
 <script>
   var imEditor = new ImEditor('container', {
     bindings: {
@@ -149,6 +151,10 @@
 
   $('button.hasContents').on('click', function () {
     alert(imEditor.hasContents('session-1'));
+  });
+
+  $('button.clear').on('click', function () {
+    imEditor.clear('session-1');
   });
 </script>
 </body>
