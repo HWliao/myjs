@@ -4,7 +4,6 @@
  */
 import EventEmitter from 'eventemitter3';
 import $ from 'jquery';
-import { defaultsDeep } from 'lodash';
 import Quill from 'quill/dist/quill.core';
 import {
   createEditor,
@@ -47,7 +46,7 @@ class ImEditor extends EventEmitter {
    */
   constructor(container, options = {}) {
     super(container);
-    this._options = defaultsDeep(this._options, options);
+    this._options = options;
     this.init(container);
   }
 
