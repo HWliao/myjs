@@ -97,9 +97,16 @@
 .imEditor {
   width: 100%;
   height: 100%;
-  background-color: #999999;
+  background-color: transparent;
 }
 
+.ql-editor {
+  padding: 0;
+}
+
+.ql-container {
+  font-family: 'Microsoft YaHei',Arial,sans-serif;
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */
