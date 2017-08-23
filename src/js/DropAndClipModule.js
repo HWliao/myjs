@@ -29,6 +29,8 @@ const DROP_AND_COPY_INVALID_IMAGE = 'drop_and_copy_invalid_image';
 Quill.events.DROP_AND_COPY_FILE = DROP_AND_COPY_FILE;
 Quill.events.DROP_AND_COPY_INVALID_IMAGE = DROP_AND_COPY_INVALID_IMAGE;
 
+const IM_DRAG_INPUT = 'im.drag.input';
+
 // 我们这里不要任何样式
 // const ATTRIBUTE_ATTRIBUTORS = [
 //  AlignAttribute,
@@ -75,6 +77,7 @@ export default class DropAndClipModule {
     this.options = options;
 
     this.quill.root.addEventListener('drop', this.onDrop.bind(this));
+    this.quill.root.addEventListener('dragstart', this.onDragstart.bind(this));
     this.quill.root.addEventListener('paste', this.onPaste.bind(this));
     this.container = this.quill.addContainer('ql-clipboard');
     this.container.setAttribute('contenteditable', 'true');
@@ -157,23 +160,32 @@ export default class DropAndClipModule {
           delta = delta.concat(deltas).delete(range.length);
           this.quill.updateContents(delta, Quill.sources.USER);
           // range.length contributes to delta.length()
-          this.quill.setSelection(delta.length() - range.length, Quill.sources.SILENT);
+          this.quill.setSelection(delta.length() - range.length, Quill.sources.USER);
           this.quill.scrollingContainer.scrollTop = scrollTop;
           this.quill.focus();
         })
         .catch(err => this.quill.emitter.emit('error', err));
     }, 1);
   }
+  // eslint-disable-next-line class-methods-use-this
+  onDragstart(e) {
+    e.dataTransfer.setData(IM_DRAG_INPUT, true);
+  }
 
   onDrop(e) {
     if (e.defaultPrevented || !this.quill.isEnabled()) return;
-    e.preventDefault();
+    const from = e.dataTransfer.getData(IM_DRAG_INPUT);
+    if (from) {
+      setTimeout(() => this.quill.selection.update(Quill.sources.USER), 1);
+      return;
+    }
     e.stopPropagation();
+    e.preventDefault();
     if (!this.quill.hasFocus()) this.quill.focus();
     if (this.dropAndPaste(e)) {
       return;
     }
-    const html = e.dataTransfer.getData('text/html') || e.dataTransfer.getData('text/text');
+    const html = e.dataTransfer.getData('text/html') || e.dataTransfer.getData('text/plain');
     const range = this.quill.getSelection();
     let delta = new Delta().retain(range.index);
     const scrollTop = this.quill.scrollingContainer.scrollTop;
@@ -182,7 +194,7 @@ export default class DropAndClipModule {
         delta = delta.concat(deltas).delete(range.length);
         this.quill.updateContents(delta, Quill.sources.USER);
         // range.length contributes to delta.length()
-        this.quill.setSelection(delta.length() - range.length, Quill.sources.SILENT);
+        this.quill.setSelection(delta.length() - range.length, Quill.sources.USER);
         this.quill.scrollingContainer.scrollTop = scrollTop;
       })
       .catch(err => this.quill.emitter.emit('error', err));
