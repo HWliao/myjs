@@ -26,6 +26,7 @@ export default class MouseModule {
       }
     }, false);
     this.root.addEventListener('contextmenu', (e) => {
+      e.stopPropagation();
       e.preventDefault();
       let range = this.quill.getSelection(true);
       const isSelected = range && range.length > 0;
@@ -51,14 +52,24 @@ export default class MouseModule {
           range = this.quill.getSelection();
         }
       }
-      this.emitter.emit(EDITOR_CONTEXT_MENU, this.quill.getContents(range.index, range.length));
+      this.emitter.emit(EDITOR_CONTEXT_MENU, this.quill.getContents(range.index, range.length), e);
     }, false);
     this.root.addEventListener('dblclick', (e) => {
       if (e.target.nodeName.toUpperCase() === 'IMG') {
         e.stopPropagation();
         e.preventDefault();
-        const range = this.quill.getSelection();
-        this.emitter.emit(IMG_DBLCLICK, this.quill.getContents(range.index, range.length));
+        const img = e.target;
+        const imgs = this.quill.root.querySelectorAll('img');
+        let index = -1;
+        for (let i = 0; i < imgs.length; i++) {
+          if (img === imgs[i]) index = i;
+        }
+        if (index !== -1) {
+          this.emitter.emit(IMG_DBLCLICK, {
+            index,
+            imgs,
+          });
+        }
       }
     }, false);
   }

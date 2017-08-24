@@ -232,6 +232,7 @@ export default class DropAndClipModule {
       flag = true;
     }
     if (files.length === 0 && images.length > 0) {
+      flag = true;
       // 有效图片转base64
       const range = this.quill.getSelection();
       let delta = new Delta().retain(range.index);
