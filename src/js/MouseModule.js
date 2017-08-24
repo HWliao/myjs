@@ -56,7 +56,6 @@ export default class MouseModule {
     }, false);
     this.root.addEventListener('dblclick', (e) => {
       if (e.target.nodeName.toUpperCase() === 'IMG') {
-        e.stopPropagation();
         e.preventDefault();
         const img = e.target;
         const imgs = this.quill.root.querySelectorAll('img');

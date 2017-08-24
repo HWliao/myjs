@@ -23,6 +23,7 @@ const Keyboard = Quill.import('modules/keyboard');
 class ImEditor extends EventEmitter {
   static keys = Keyboard.keys;
   static events = Quill.events;
+  static Delta = Quill.import('delta');
   // 配置项
   _options = {};
 

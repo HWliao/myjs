@@ -197,6 +197,7 @@ export default class DropAndClipModule {
         // range.length contributes to delta.length()
         this.quill.setSelection(delta.length() - range.length, Quill.sources.USER);
         this.quill.scrollingContainer.scrollTop = scrollTop;
+        this.quill.focus();
       })
       .catch(err => this.quill.emitter.emit('error', err));
   }
@@ -213,7 +214,7 @@ export default class DropAndClipModule {
           if (this.options.isValidImg(items[i].getAsFile())) {
             images.push(items[i].getAsFile());
           } else {
-            invalideImages.push(items.getAsFile());
+            invalideImages.push(items[i].getAsFile());
           }
         } else if (items[i].kind === 'file') {
           files.push(items[i].getAsFile());
@@ -252,6 +253,7 @@ export default class DropAndClipModule {
           // range.length contributes to delta.length()
           this.quill.setSelection(delta.length() - range.length, Quill.sources.SILENT);
           this.quill.scrollingContainer.scrollTop = scrollTop;
+          this.quill.focus();
         })
         .catch(err => this.quill.emitter.emit('error', err));
     }
