@@ -57,14 +57,6 @@
 <script>
   var imEditor = new ImEditor('container', {
     bindings: {
-      aHaitTrigger: {
-        key: '2',
-        shiftKey: true,
-        handler: function (range, context) {
-          console.log(range, context);
-          return true;
-        }
-      },
       aenterAHait: {
         key: ImEditor.keys.ENTER,
         handler: function (range, context) {
@@ -122,9 +114,12 @@
   imEditor.on(ImEditor.events.DROP_AND_COPY_INVALID_IMAGE, function () {
     console.log(arguments);
   });
+  imEditor.on(ImEditor.events.EDITOR_HAIT_KEYUP, function () {
+    console.log(arguments);
+  });
   imEditor.on('error', function () {
     console.log(arguments);
-  })
+  });
   // emoji模拟
   $('select.emoji').on('change', function (e) {
     console.log(e);

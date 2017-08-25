@@ -12,8 +12,12 @@ import {
   insertImage,
   insertHaitImage,
   insertHaitSpan,
+  insertText,
   getContents,
+  setContents,
   clear,
+  getSelection,
+  getBounds,
 } from './editor';
 import '../css/editor.css';
 
@@ -83,11 +87,28 @@ class ImEditor extends EventEmitter {
   /**
    * 获取全部内容
    * @param id
+   * @param index
+   * @param length
    * @return {boolean}
    */
-  getContents(id) {
+  getContents(id, index, length) {
     if (!this.isActive(id)) return false;
-    return getContents(this._editors[id].quill);
+    return getContents(this._editors[id].quill, index, length);
+  }
+
+  setContents(id, delta) {
+    if (!this.isActive(id)) return;
+    setContents(this._editors[id].quill, delta);
+  }
+
+  /**
+   * 插入字符
+   * @param id
+   * @param text
+   */
+  insertText(id, text) {
+    if (!this.isActive(id)) return;
+    insertText(this._editors[id].quill, text);
   }
 
   /**
@@ -163,6 +184,9 @@ class ImEditor extends EventEmitter {
     quill.on(Quill.events.TEXT_CHANGE, (...args) => {
       this.emit(Quill.events.TEXT_CHANGE, this._currId, ...args);
     });
+    quill.on(Quill.events.EDITOR_CHANGE, (...args) => {
+      this.emit(Quill.events.EDITOR_CHANGE, this._currId, ...args);
+    });
     quill.on(Quill.events.EDITOR_CONTEXT_MENU, (...args) => {
       this.emit(Quill.events.EDITOR_CONTEXT_MENU, this._currId, ...args);
     });
@@ -174,6 +198,9 @@ class ImEditor extends EventEmitter {
     });
     quill.on(Quill.events.DROP_AND_COPY_INVALID_IMAGE, (...args) => {
       this.emit(Quill.events.DROP_AND_COPY_INVALID_IMAGE, this._currId, ...args);
+    });
+    quill.on(Quill.events.EDITOR_HAIT_KEYUP, (...args) => {
+      this.emit(Quill.events.EDITOR_HAIT_KEYUP, this._currId, ...args);
     });
     quill.on('error', (...args) => {
       this.emit('error', this._currId, ...args);
@@ -233,6 +260,28 @@ class ImEditor extends EventEmitter {
     if (!this.isActive(id)) return;
     clear(this._editors[id].quill);
     focusEditor(this._editors[id].quill);
+  }
+
+  /**
+   * 获取光标位置
+   * @param id
+   * @param flag
+   * @return {*}
+   */
+  getSelection(id, flag = false) {
+    if (!this.isActive(id)) return null;
+    return getSelection(this._editors[id].quill, flag);
+  }
+
+  /**
+   * 获取区域坐标
+   * @param id
+   * @param index
+   * @param length
+   */
+  getBounds(id, index, length) {
+    if (!this.isActive(id)) return null;
+    return getBounds(this._editors[id], index, length);
   }
 }
 

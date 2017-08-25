@@ -7,6 +7,7 @@ import 'quill/dist/quill.core.css';
 import IM_FORMATS from './ImEditorRegister';
 
 window.Quill = Quill;
+const Delta = Quill.import('delta');
 /**
  * 创建编辑器
  * @param id 编辑器id
@@ -21,6 +22,7 @@ export function createEditor(id, options = {}) {
   return new Quill(`#${id}`, {
     debug: 'warn',
     modules: {
+      haitEvent: true,
       rootAttr: {
         spellcheck: 'false',
       },
@@ -114,15 +116,40 @@ export function insertHaitSpan(quill, value) {
 }
 
 /**
+ * 插入字符
+ * @param quill
+ * @param text
+ */
+export function insertText(quill, text) {
+  if (!quill.hasFocus()) quill.focus();
+  const range = quill.getSelection();
+  quill.insertText(range.index, text);
+}
+
+/**
  * 获取编辑框中所有内容
  * @param quill
+ * @param index
+ * @param length
  * @return {*}
  */
-export function getContents(quill) {
-  return quill.getContents();
+export function getContents(quill, index, length) {
+  return quill.getContents(index, length);
+}
+
+export function setContents(quill, delta = new Delta()) {
+  quill.setContents(delta, Quill.sources.USER);
 }
 
 export function clear(quill) {
   quill.setText('', Quill.sources.USER);
   quill.history.clear();
+}
+
+export function getSelection(quill, flag) {
+  return quill.getSelection(flag);
+}
+
+export function getBounds(quill, index, length) {
+  return quill.getBounds(index, length);
 }
