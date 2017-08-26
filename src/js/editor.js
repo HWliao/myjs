@@ -144,7 +144,8 @@ export function setContents(quill, delta = new Delta()) {
 }
 
 export function clear(quill) {
-  quill.setText('', Quill.sources.USER);
+  quill.setContents(new Delta());
+  quill.setSelection(0, 0);
   quill.history.clear();
 }
 

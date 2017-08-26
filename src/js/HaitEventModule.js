@@ -16,20 +16,28 @@ export default class HaitEventModule {
     this.selection = quill.selection;
     this.options = options;
     this.root.addEventListener('keyup', (e) => {
-      if (!e.shiftKey) return;
-      const keyCode = e.which || e.keyCode;
-      if (e.key === '@' || keyCode === 50 || keyCode === 229) {
-        if (!this.quill.hasFocus()) return;
-        const range = this.quill.getSelection();
+      let flag = false;
+      let range = null;
+      if (e.key === '@') {
+        flag = true;
+        range = this.quill.getSelection();
+      } else if (e.shiftKey && e.keyCode === 50) {
+        flag = true;
+        range = this.quill.getSelection();
+      } else if ((e.shiftKey && e.keyCode === 229) || e.keyCode === 50) {
+        range = this.quill.getSelection();
         const delta = this.quill.getContents(range.index - 1, 1);
         if (delta
           && delta.ops
           && delta.ops.length === 1
           && delta.ops[0]
           && delta.ops[0].insert === '@') {
-          range.index -= 1;
-          this.emitter.emit(Quill.events.EDITOR_HAIT_KEYUP, range);
+          flag = true;
         }
+      }
+      if (flag) {
+        range.index -= 1;
+        this.emitter.emit(Quill.events.EDITOR_HAIT_KEYUP, range);
       }
     }, false);
   }
