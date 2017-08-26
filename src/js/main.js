@@ -89,10 +89,10 @@ class ImEditor extends EventEmitter {
    * @param id
    * @param index
    * @param length
-   * @return {boolean}
+   * @return {*}
    */
   getContents(id, index, length) {
-    if (!this.isActive(id)) return false;
+    if (!this._editors[id]) return undefined;
     return getContents(this._editors[id].quill, index, length);
   }
 
@@ -256,11 +256,12 @@ class ImEditor extends EventEmitter {
   /**
    * 清理输入框
    * @param id
+   * @param needFlag
    */
-  clear(id) {
-    if (!this.isActive(id)) return;
+  clear(id, needFlag = true) {
+    if (!this._editors[id]) return;
     clear(this._editors[id].quill);
-    focusEditor(this._editors[id].quill);
+    if (needFlag)focusEditor(this._editors[id].quill);
   }
 
   /**
