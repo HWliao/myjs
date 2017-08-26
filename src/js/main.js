@@ -144,14 +144,15 @@ class ImEditor extends EventEmitter {
    * @param text
    * @param img
    * @param id
+   * @param range
    */
-  insertHaitImage(account, text, img, id) {
+  insertHaitImage(account, text, img, id, range) {
     if (!this.isActive(id)) return;
     insertHaitImage(this._editors[id].quill, {
       account,
       text,
       img,
-    });
+    }, range);
   }
 
   /**
@@ -281,7 +282,7 @@ class ImEditor extends EventEmitter {
    */
   getBounds(id, index, length) {
     if (!this.isActive(id)) return null;
-    return getBounds(this._editors[id], index, length);
+    return getBounds(this._editors[id].quill, index, length);
   }
 }
 

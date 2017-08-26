@@ -101,8 +101,10 @@ export function insertImage(quill, value) {
  * 插入图片@实现
  * @param quill
  * @param value
+ * @param range
  */
-export function insertHaitImage(quill, value) {
+export function insertHaitImage(quill, value, range) {
+  if (range) quill.deleteText(range.index, range.length);
   insertEmbed(quill, value, IM_FORMATS.IM_FORMAT_HAIT_IMAGE);
 }
 
