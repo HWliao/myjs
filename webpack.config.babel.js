@@ -38,10 +38,9 @@ const stats = {
 const externals = {
   jquery: 'jQuery',
 };
-// 3个入口js
-const chunksort = ['vendor', 'editor', 'main', 'demo'];
 const entry = {
-  main: './js/main',
+  editor: './EditorManager/js/main/main',
+  main: './ImEditor/js/index',
 };
 // 输出
 const output = {
@@ -64,7 +63,7 @@ const cssRules = !isProd ? [{
     src,
     path.resolve(__dirname, 'node_modules'),
   ],
-  exclude: [`${src}/lib`],
+  exclude: [/lib/],
   use: [
     'style-loader',
     {
@@ -73,7 +72,7 @@ const cssRules = !isProd ? [{
   ],
 }] : [{
   test: /\.css|\.scss$/,
-  exclude: [`${src}/lib`],
+  exclude: [/lib/],
   include: [
     src,
     path.resolve(__dirname, 'node_modules'),
@@ -98,12 +97,32 @@ const modulex = {
     {
       test: /\.js[x]?$/,
       include: [src],
-      exclude: [/node_modules/, `${src}/lib`],
+      exclude: [/node_modules/, /lib/],
       loader: 'babel-loader',
     }, {
       // Enables HMR. Extra step is needed in './src/index.js'
       test: /\.html$/,
+      exclude: [/EditorManager/],
       loader: 'html-loader', // loader: 'html', // loader: 'raw' // html vs raw: what's the difference??
+    }, {
+      test: /.*EditorManager.*editor\.html/,
+      use: [
+        {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+          },
+        },
+        {
+          loader: 'extract-loader',
+        },
+        {
+          loader: 'html-loader',
+          options: {
+            interpolate: true,
+          },
+        },
+      ],
     }, {
       test: /\.(jpg|jpeg)$/,
       loader: 'url-loader?name=[name].[ext]&limit=8192&mimetype=image/jpg',
@@ -112,7 +131,11 @@ const modulex = {
       loader: 'url-loader?name=[name].[ext]&limit=8192&mimetype=image/gif',
     }, {
       test: /\.png$/,
+      exclude: [/lib/],
       use: 'url-loader?name=[name].[ext]&limit=8192&mimetype=image/png',
+    }, {
+      test: /lib.*\.png$/,
+      use: 'url-loader?name=lib/img/[name].[ext]&limit=8192&mimetype=image/png',
     }, {
       test: /\.svg$/,
       loader: 'url-loader?name=[name].[ext]&limit=8192&mimetype=image/svg+xml',
@@ -143,11 +166,12 @@ const prodPlug = isProd ? [
   //  }),
   // Minify and optimize the index.html
   new HtmlWebpackPlugin({
-    filename: 'html/demo.html',
-    template: './html/demo.html',
+    filename: 'demo.html',
+    template: 'demo.html',
     inject: 'head',
     chunksSortMode: 'dependency',
     xhtml: true,
+    excludeChunks: ['editor'],
     minify: {
       removeComments: true,
       collapseWhitespace: true,
@@ -191,16 +215,10 @@ const prodPlug = isProd ? [
 ] : [
   new webpack.HotModuleReplacementPlugin(),
   new HtmlWebpackPlugin({
-    filename: 'html/demo.html',
-    template: './html/demo.html',
+    filename: 'demo.html',
+    template: 'demo.html',
     inject: 'head',
-    chunksSortMode(a, b) {
-      let aIndex = chunksort.indexOf(a.names[0]);
-      let bIndex = chunksort.indexOf(b.names[0]);
-      aIndex = aIndex < 0 ? chunksort.length + 1 : aIndex;
-      bIndex = bIndex < 0 ? chunksort.length + 1 : bIndex;
-      return aIndex - bIndex;
-    },
+    excludeChunks: ['editor'],
     xhtml: true,
   }),
 ];
@@ -277,7 +295,7 @@ const devServer = {
   hot: !isProd,
   compress: true,
   open: true,
-  openPage: 'html/demo.html',
+  openPage: 'demo.html',
   noInfo: true,
   stats: 'errors-only',
   inline: true,

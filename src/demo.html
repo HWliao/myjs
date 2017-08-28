@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>editor</title>
-  <link rel="stylesheet" href="../lib/normalize/normalize.css">
-  <script type="text/javascript" src="../lib/modernizr/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
+  <link rel="stylesheet" href="lib/normalize/normalize.css">
+  <script type="text/javascript" src="lib/modernizr/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
   <style>
     #container {
       position: absolute;
@@ -31,16 +31,16 @@
 </div>
 <div>
   <select class="emoji">
-    <option value="[大笑]" data-img="../lib/img/emoji_0.png">emoji0</option>
-    <option value="[微笑]" data-img="../lib/img/emoji_01.png">emoji1</option>
-    <option value="[色]" data-img="../lib/img/emoji_02.png">emoji2</option>
-    <option value="[嘘]" data-img="../lib/img/emoji_03.png">emoji3</option>
-    <option value="[亲亲]" data-img="../lib/img/emoji_04.png">emoji4</option>
+    <option value="[大笑]" data-img="lib/img/emoji_0.png">emoji0</option>
+    <option value="[微笑]" data-img="lib/img/emoji_01.png">emoji1</option>
+    <option value="[色]" data-img="lib/img/emoji_02.png">emoji2</option>
+    <option value="[嘘]" data-img="lib/img/emoji_03.png">emoji3</option>
+    <option value="[亲亲]" data-img="lib/img/emoji_04.png">emoji4</option>
   </select>
 </div>
 <div>
-  <img class="im-image" src="../lib/img/test.png" width="70" height="70">
-  <button class="image" data-src="../lib/img/test.png">插入图片给</button>
+  <img class="im-image" src="lib/img/test.png" width="70" height="70">
+  <button class="image" data-src="lib/img/test.png">插入图片给</button>
 </div>
 <div>
   <button class="hait" data-hait-account="123456" data-hait-text=" @工程师 (开发) "> @工程师 (开发)</button>
@@ -138,7 +138,7 @@
   });
   // @
   $('button.hait').on('click', function (e) {
-    imEditor.insertHaitImage($(e.currentTarget).attr('data-hait-account'), $(e.currentTarget).attr('data-hait-text'), '../lib/img/hait.png', 'session-1');
+    imEditor.insertHaitImage($(e.currentTarget).attr('data-hait-account'), $(e.currentTarget).attr('data-hait-text'), 'lib/img/hait.png', 'session-1');
   });
   $('button.haitSpan').on('click', function (e) {
     imEditor.insertHaitSpan($(e.currentTarget).attr('data-hait-account'), $(e.currentTarget).attr('data-hait-text'), 'session-1');
