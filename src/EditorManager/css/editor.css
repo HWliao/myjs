@@ -38,7 +38,7 @@
  * A better looking default horizontal rule
  */
 
-.imEditor hr {
+hr {
   display: block;
   height: 1px;
   border: 0;
@@ -53,12 +53,12 @@
  * https://github.com/h5bp/html5-boilerplate/issues/440
  */
 
-.imEditor audio,
-.imEditor canvas,
-.imEditor iframe,
-.imEditor img,
-.imEditor svg,
-.imEditor video {
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
   vertical-align: text-bottom;
 }
 
@@ -66,7 +66,7 @@
  * Remove default fieldset styles.
  */
 
-.imEditor fieldset {
+fieldset {
   border: 0;
   margin: 0;
   padding: 0;
@@ -76,7 +76,7 @@
  * Allow only vertical resizing of textareas.
  */
 
-.imEditor textarea {
+textarea {
   resize: vertical;
 }
 
@@ -84,7 +84,7 @@
    Browser Upgrade Prompt
    ========================================================================== */
 
-.imEditor .browserupgrade {
+.browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
@@ -94,10 +94,11 @@
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-.imEditor {
+html, body {
   width: 100%;
   height: 100%;
-  background-color: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 .ql-editor {
@@ -105,8 +106,9 @@
 }
 
 .ql-container {
-  font-family: 'Microsoft YaHei',Arial,sans-serif;
+  font-family: 'Microsoft YaHei', Arial, sans-serif;
 }
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
@@ -115,7 +117,7 @@
  * Hide visually and from screen readers
  */
 
-.imEditor .hidden {
+.hidden {
   display: none !important;
 }
 
@@ -124,7 +126,7 @@
  * http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
  */
 
-.imEditor .visuallyhidden {
+.visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
   height: 1px;
@@ -141,8 +143,8 @@
  * https://www.drupal.org/node/897638
  */
 
-.imEditor .visuallyhidden.focusable:active,
-.imEditor .visuallyhidden.focusable:focus {
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
   clip: auto;
   height: auto;
   margin: 0;
@@ -155,7 +157,7 @@
  * Hide visually and from screen readers, but maintain layout
  */
 
-.imEditor .invisible {
+.invisible {
   visibility: hidden;
 }
 
@@ -171,13 +173,13 @@
  *    `:before` to contain the top-margins of child elements.
  */
 
-.imEditor .clearfix:before,
-.imEditor .clearfix:after {
+.clearfix:before,
+.clearfix:after {
   content: " "; /* 1 */
   display: table; /* 2 */
 }
 
-.imEditor .clearfix:after {
+.clearfix:after {
   clear: both;
 }
 

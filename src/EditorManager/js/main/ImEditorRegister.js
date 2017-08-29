@@ -3,14 +3,14 @@
  * Created by lenovo on 2017/8/16.
  */
 import Quill from 'quill/dist/quill.core';
-import EmojiBlot from './EmojiBlot';
-import ImageBlot from './ImageBlot';
-import HaitImageBlot from './HaitImageBlot';
-import HaitSpanBlot from './HaitSpanBlot';
-import RootAttrModule from './RootAttrModule';
-import MouseModule from './MouseModule';
-import Clipboard from './DropAndClipModule';
-import HaitEventModule from './HaitEventModule';
+import EmojiBlot from '../blot/EmojiBlot';
+import ImageBlot from '../blot/ImageBlot';
+import HaitImageBlot from '../blot/HaitImageBlot';
+import HaitSpanBlot from '../blot/HaitSpanBlot';
+import RootAttrModule from '../module/RootAttrModule';
+import MouseModule from '../module/MouseModule';
+import Clipboard from '../module/DropAndClipModule';
+import HaitEventModule from '../module/HaitEventModule';
 
 // image先关blot ImageBlot必须最后注册tagName将以它进行优先匹配
 Quill.register(EmojiBlot);

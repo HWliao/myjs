@@ -39,7 +39,7 @@ const externals = {
   jquery: 'jQuery',
 };
 const entry = {
-  editor: './EditorManager/js/main/main',
+  editor: './EditorManager/js/index',
   main: './ImEditor/js/index',
 };
 // 输出

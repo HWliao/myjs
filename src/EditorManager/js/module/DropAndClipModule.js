@@ -15,8 +15,8 @@ import {
   matchStyles,
   matchText,
   readBlobAsDataURL,
-} from './uitls';
-import ImageBlot from './ImageBlot';
+} from '../uitls';
+import ImageBlot from '../blot/ImageBlot';
 
 const Delta = Quill.import('delta');
 const Parchment = Quill.import('parchment');
