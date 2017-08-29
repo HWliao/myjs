@@ -2,6 +2,7 @@
  * editor manager 在window上导出接口
  * Created by lenovo on 2017/8/29.
  */
+import Quill from 'quill/dist/quill.core';
 import {
   hasEditor,
   createEditor,
@@ -18,7 +19,10 @@ import {
   insertText,
   setContents,
   getContents,
+  doDrop,
 } from './main/main';
+
+const Delta = Quill.import('delta');
 
 window.ImManager = {
   hasEditor,
@@ -36,5 +40,7 @@ window.ImManager = {
   insertText,
   setContents,
   getContents,
+  Delta,
+  doDrop,
 };
 export default undefined;

@@ -16,6 +16,7 @@ import {
   clear as clear1,
   getSelection as getSelection1,
   getBounds as getBounds1,
+  doDrop as doDrop1,
 } from './editor';
 
 import '../../css/editor.css';
@@ -90,8 +91,12 @@ export function insertText(id, text) {
   return insertText1(_editors[id].quill, text);
 }
 export function setContents(id, delta) {
-  return setContents1(_editors[id], delta);
+  return setContents1(_editors[id].quill, delta);
 }
 export function getContents(id, index, length) {
   return getContents1(_editors[id].quill, index, length);
+}
+
+export function doDrop(e) {
+  return doDrop1(e, _editors[_currId].quill);
 }

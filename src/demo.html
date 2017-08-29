@@ -14,6 +14,15 @@
       left: 600px;
       top: 100px;
     }
+
+    #dropEl {
+      position: absolute;
+      width: 500px;
+      height: 50px;
+      left: 600px;
+      top: 0;
+      background-color: #000000;
+    }
   </style>
 </head>
 <body>
@@ -21,6 +30,7 @@
 <div id="container">
 
 </div>
+<div id="dropEl" style="" contenteditable="true"></div>
 <div>
   <button class="session">session-1</button>
   <button class="session">session-2</button>
@@ -95,6 +105,7 @@
       console.log(222);
       return blob.size < 2 * 1024 * 1024;
     },
+    dropEl: document.getElementById('dropEl'),
   });
   imEditor.on(ImEditor.events.TEXT_CHANGE, function () {
     console.log(arguments);

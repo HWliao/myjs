@@ -3,7 +3,6 @@
  * Created by lenovo on 2017/8/15.
  */
 import Quill from 'quill/dist/quill.core';
-import 'quill/dist/quill.core.css';
 import IM_FORMATS from './ImEditorRegister';
 
 window.Quill = Quill;
@@ -155,4 +154,8 @@ export function getSelection(quill, flag) {
 
 export function getBounds(quill, index, length) {
   return quill.getBounds(index, length);
+}
+
+export function doDrop(e, quill) {
+  quill.clipboard.onDrop(e);
 }

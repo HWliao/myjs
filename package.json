@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "start": "webpack-dev-server --progress",
-    "build": "rimraf dist && cross-env ENV=prod PUBLIC_PATH=./ webpack --progress"
+    "build": "rimraf dist && cross-env ENV=prod PUBLIC_PATH=app://im.jjshome.com/app/resource/app/js/imEditor/dist/ webpack --progress"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

@@ -42,9 +42,17 @@ export default class ImEditor extends EventEmitter {
       this._iframeDocument = this._iframeWindow.document;
       // iframe中编辑器
       this._manager = this._iframeWindow.ImManager;
+      ImEditor.Delta = this._manager.Delta;
       this._isInited = true;
 
       if (this._currId) this.activeEditor(this._currId);
+      if (this._options.dropEl) {
+        this._options.dropEl.addEventListener('drop', (e) => {
+          this._manager.doDrop(e);
+          e.preventDefault();
+          e.stopPropagation();
+        }, false);
+      }
     }, false);
 
     this._container.appendChild(this._iframe);
