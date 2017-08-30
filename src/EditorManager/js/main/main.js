@@ -17,6 +17,7 @@ import {
   getSelection as getSelection1,
   getBounds as getBounds1,
   doDrop as doDrop1,
+  update as update1,
 } from './editor';
 
 import '../../css/editor.css';
@@ -99,4 +100,8 @@ export function getContents(id, index, length) {
 
 export function doDrop(e) {
   return doDrop1(e, _editors[_currId].quill);
+}
+
+export function update(id) {
+  return update1(_editors[id].quill);
 }

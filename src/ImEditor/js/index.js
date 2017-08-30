@@ -46,6 +46,11 @@ export default class ImEditor extends EventEmitter {
       this._isInited = true;
 
       if (this._currId) this.activeEditor(this._currId);
+      // iframe内部click暴露
+      this._iframeDocument.addEventListener('click', (e) => {
+        this.emit(events.click, e);
+      }, false);
+      // 额外drop区域
       if (this._options.dropEl) {
         this._options.dropEl.addEventListener('drop', (e) => {
           this._manager.doDrop(e);
@@ -262,5 +267,14 @@ export default class ImEditor extends EventEmitter {
   getBounds(id, index, length) {
     if (!this.isActive(id)) return null;
     return this._manager.getBounds(id, index, length);
+  }
+
+  /**
+   * 更新输入框
+   * @param id
+   */
+  update(id) {
+    if (!this.isActive(id)) return;
+    this._manager.update(id);
   }
 }

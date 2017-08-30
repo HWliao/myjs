@@ -131,6 +131,12 @@
   imEditor.on('error', function () {
     console.log(arguments);
   });
+  imEditor.on(ImEditor.events.click,function (e) {
+    console.log(e);
+  });
+//  $(document).on('mouseup', function (e) {
+//    imEditor.update('session-1');
+//  });
   // emoji模拟
   $('select.emoji').on('change', function (e) {
     console.log(e);

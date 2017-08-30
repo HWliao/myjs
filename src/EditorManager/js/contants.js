@@ -25,4 +25,5 @@ export const events = {
   SCROLL_UPDATE: 'scroll-update',
   SELECTION_CHANGE: 'selection-change',
   TEXT_CHANGE: 'text-change',
+  click: 'click',
 };

@@ -159,3 +159,7 @@ export function getBounds(quill, index, length) {
 export function doDrop(e, quill) {
   quill.clipboard.onDrop(e);
 }
+
+export function update(quill) {
+  return quill.update();
+}

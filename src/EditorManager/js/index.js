@@ -20,6 +20,7 @@ import {
   setContents,
   getContents,
   doDrop,
+  update,
 } from './main/main';
 
 const Delta = Quill.import('delta');
@@ -42,5 +43,6 @@ window.ImManager = {
   getContents,
   Delta,
   doDrop,
+  update,
 };
 export default undefined;
