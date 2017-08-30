@@ -27,7 +27,7 @@ export default class ImageBlot extends Embed {
     node.setAttribute('src', value.img);
     // 高度必须做出限制
     node.style[MH] = value[MH] ? `${value[MH]}px` : '70px';
-    if (value[MW]) node.style[MW] = `${value[MW]}px`;
+    node.style[MW] = value[MW] ? `${value[MW]}px` : '600px';
     node.setAttribute(MH, node.style[MH]);
     node.setAttribute(MW, node.style[MW]);
     return node;
