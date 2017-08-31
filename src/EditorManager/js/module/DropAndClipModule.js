@@ -103,6 +103,7 @@ export default class DropAndClipModule {
     if (deltaEndsWith(delta, '\n') && delta.ops[delta.ops.length - 1].attributes == null) {
       delta = delta.compose(new Delta().retain(delta.length() - 1).delete(1));
     }
+    console.log(this.container.innerHTML);
     this.container.innerHTML = '';
     const ps = [];
     const matcherMap = {};
@@ -154,6 +155,7 @@ export default class DropAndClipModule {
     const scrollTop = this.quill.scrollingContainer.scrollTop;
     this.container.focus();
     this.quill.selection.update(Quill.sources.SILENT);
+    console.log(111111);
     setTimeout(() => {
       this.convert()
         .then((deltas) => {
@@ -210,18 +212,22 @@ export default class DropAndClipModule {
     const invalideImages = [];
     if (items && items.length > 0) {
       for (let i = 0; i < items.length; i++) {
-        if (items[i].kind === 'file' && items[i].type.indexOf('image/') > -1) {
+        if (items[i].kind === 'file' &&
+          items[i].type.indexOf('image/') > -1 &&
+          items[i].getAsFile() &&
+          items[i].getAsFile().size > 0) {
           if (this.options.isValidImg(items[i].getAsFile())) {
             images.push(items[i].getAsFile());
           } else {
             invalideImages.push(items[i].getAsFile());
           }
-        } else if (items[i].kind === 'file') {
+        } else if (items[i].kind === 'file' &&
+          items[i].getAsFile() &&
+          items[i].getAsFile().size > 0) {
           files.push(items[i].getAsFile());
         }
       }
     }
-
     let flag = false;
     if (files.length > 0) {
       // 只要存在文件,全部以文件形式发送

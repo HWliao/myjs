@@ -102,8 +102,7 @@
       });
     },
     isValidImg: function (blob) {
-      console.log(222);
-      return blob.size < 2 * 1024 * 1024;
+      return blob && blob.size < 2 * 1024 * 1024;
     },
     dropEl: document.getElementById('dropEl'),
   });
@@ -131,12 +130,12 @@
   imEditor.on('error', function () {
     console.log(arguments);
   });
-  imEditor.on(ImEditor.events.click,function (e) {
+  imEditor.on(ImEditor.events.click, function (e) {
     console.log(e);
   });
-//  $(document).on('mouseup', function (e) {
-//    imEditor.update('session-1');
-//  });
+  //  $(document).on('mouseup', function (e) {
+  //    imEditor.update('session-1');
+  //  });
   // emoji模拟
   $('select.emoji').on('change', function (e) {
     console.log(e);
