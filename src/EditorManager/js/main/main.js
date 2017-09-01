@@ -25,7 +25,7 @@ import '../../css/editor.css';
 if (process.env.ENV) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = `${process.env.PUBLIC_PATH}editor.styles.css`;
+  link.href = './editor.styles.css';
   document.head.appendChild(link);
 }
 let _currId;
