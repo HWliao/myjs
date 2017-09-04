@@ -5,7 +5,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-const host = process.env.HOST || 'localhost';
+const host = process.env.HOST || '172.16.6.44';
 const port = process.env.PORT || 3000;
 const publicPath = process.env.PUBLIC_PATH || '/';
 const dist = path.resolve(__dirname, 'dist');
