@@ -103,7 +103,6 @@ export default class DropAndClipModule {
     if (deltaEndsWith(delta, '\n') && delta.ops[delta.ops.length - 1].attributes == null) {
       delta = delta.compose(new Delta().retain(delta.length() - 1).delete(1));
     }
-    console.log(this.container.innerHTML);
     this.container.innerHTML = '';
     const ps = [];
     const matcherMap = {};
@@ -155,7 +154,6 @@ export default class DropAndClipModule {
     const scrollTop = this.quill.scrollingContainer.scrollTop;
     this.container.focus();
     this.quill.selection.update(Quill.sources.SILENT);
-    console.log(111111);
     setTimeout(() => {
       this.convert()
         .then((deltas) => {
