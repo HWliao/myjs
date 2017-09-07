@@ -37,18 +37,6 @@ const hidden = 'hidden';
 export function hasEditor(id) {
   return !!_editors[id];
 }
-window.addEventListener('blur', () => {
-  if (_currId) {
-    const quill = _editors[_currId].quill;
-    if (quill &&
-      quill.selection &&
-      quill.selection &&
-      quill.selection.savedRange &&
-      quill.selection.savedRange.length === 0) {
-      blur(quill);
-    }
-  }
-});
 
 export function createEditor(id, options) {
   const $div = document.createElement('div');
@@ -121,4 +109,15 @@ export function update(id) {
 
 export function blurEditor(id) {
   return blur(_editors[id].quill);
+}
+
+export function safeBlurEditor(id) {
+  const quill = _editors[id].quill;
+  if (quill &&
+    quill.selection &&
+    quill.selection &&
+    quill.selection.savedRange &&
+    quill.selection.savedRange.length === 0) {
+    blur(quill);
+  }
 }

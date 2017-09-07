@@ -46,6 +46,10 @@ export default class ImEditor extends EventEmitter {
       this._isInited = true;
 
       if (this._currId) this.activeEditor(this._currId);
+      // 失去焦点
+      this._iframeWindow.addEventListener('blur', () => {
+        this.emit(events.EDITOR_BLUR, this._currId);
+      });
       // iframe内部click暴露
       this._iframeDocument.addEventListener('click', (e) => {
         this.emit(events.click, e);
@@ -210,9 +214,22 @@ export default class ImEditor extends EventEmitter {
     this._manager.activeEditor(id);
   }
 
+  /**
+   * 失去焦点
+   * @param id
+   */
   blurEditor(id) {
     if (!this.hasEditor(id)) return;
     this._manager.blurEditor(id);
+  }
+
+  /**
+   * 安全的失去焦点
+   * @param id
+   */
+  safeBlurEditor(id) {
+    if (!this.hasEditor(id)) return;
+    this._manager.safeBlurEditor(id);
   }
 
   /**

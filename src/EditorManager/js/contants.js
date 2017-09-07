@@ -26,4 +26,5 @@ export const events = {
   SELECTION_CHANGE: 'selection-change',
   TEXT_CHANGE: 'text-change',
   click: 'click',
+  EDITOR_BLUR: 'editor-blur',
 };

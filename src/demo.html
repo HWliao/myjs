@@ -106,6 +106,10 @@
     },
     dropEl: document.getElementById('dropEl'),
   });
+  imEditor.on(ImEditor.events.EDITOR_BLUR, function () {
+    imEditor.safeBlurEditor('session-1');
+    console.log(arguments);
+  });
   imEditor.on(ImEditor.events.TEXT_CHANGE, function () {
     console.log(arguments);
   });
