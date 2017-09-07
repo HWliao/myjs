@@ -100,7 +100,7 @@ export default class ImEditor extends EventEmitter {
    * @param text
    */
   insertText(id, text) {
-    if (!this.isActive(id)) return;
+    if (!this.hasEditor(id)) return;
     this._manager.insertText(id, text);
   }
 
@@ -111,7 +111,7 @@ export default class ImEditor extends EventEmitter {
    * @param id
    */
   insertEmoji(emojiStr, emojiImg, id) {
-    if (!this.isActive(id)) return;
+    if (!this.hasEditor(id)) return;
     this._manager.insertEmoji(id, {
       text: emojiStr,
       img: emojiImg,
@@ -124,7 +124,7 @@ export default class ImEditor extends EventEmitter {
    * @param id
    */
   insertImage(img, id) {
-    if (!this.isActive(id)) return;
+    if (!this.hasEditor(id)) return;
     this._manager.insertImage(id, {
       text: '[图片]',
       img,
@@ -140,7 +140,7 @@ export default class ImEditor extends EventEmitter {
    * @param range
    */
   insertHaitImage(account, text, img, id, range) {
-    if (!this.isActive(id)) return;
+    if (!this.hasEditor(id)) return;
     this._manager.insertHaitImage(id, {
       account,
       text,
@@ -155,7 +155,7 @@ export default class ImEditor extends EventEmitter {
    * @param id
    */
   insertHaitSpan(account, text, id) {
-    if (!this.isActive(id)) return;
+    if (!this.hasEditor(id)) return;
     this._manager.insertHaitSpan(id, {
       account,
       text,
@@ -208,6 +208,11 @@ export default class ImEditor extends EventEmitter {
     // 没有编辑器则创建
     if (!this.hasEditor(id)) this.createEditor(id);
     this._manager.activeEditor(id);
+  }
+
+  blurEditor(id) {
+    if (!this.hasEditor(id)) return;
+    this._manager.blurEditor(id);
   }
 
   /**

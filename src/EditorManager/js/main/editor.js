@@ -163,3 +163,7 @@ export function doDrop(e, quill) {
 export function update(quill) {
   return quill.update();
 }
+
+export function blur(quill) {
+  return quill.blur();
+}

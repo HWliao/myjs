@@ -21,6 +21,7 @@ import {
   getContents,
   doDrop,
   update,
+  blurEditor,
 } from './main/main';
 
 const Delta = Quill.import('delta');
@@ -44,5 +45,6 @@ window.ImManager = {
   Delta,
   doDrop,
   update,
+  blurEditor,
 };
 export default undefined;

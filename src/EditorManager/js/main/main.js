@@ -18,6 +18,7 @@ import {
   getBounds as getBounds1,
   doDrop as doDrop1,
   update as update1,
+  blur,
 } from './editor';
 
 import '../../css/editor.css';
@@ -36,6 +37,18 @@ const hidden = 'hidden';
 export function hasEditor(id) {
   return !!_editors[id];
 }
+window.addEventListener('blur', () => {
+  if (_currId) {
+    const quill = _editors[_currId].quill;
+    if (quill &&
+      quill.selection &&
+      quill.selection &&
+      quill.selection.savedRange &&
+      quill.selection.savedRange.length === 0) {
+      blur(quill);
+    }
+  }
+});
 
 export function createEditor(id, options) {
   const $div = document.createElement('div');
@@ -104,4 +117,8 @@ export function doDrop(e) {
 
 export function update(id) {
   return update1(_editors[id].quill);
+}
+
+export function blurEditor(id) {
+  return blur(_editors[id].quill);
 }
