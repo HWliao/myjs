@@ -11,9 +11,9 @@
    ========================================================================== */
 
 html {
-    color: #222;
-    font-size: 1em;
-    line-height: 1.4;
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
 }
 
 /*
@@ -27,13 +27,13 @@ html {
  */
 
 ::-moz-selection {
-    background: #b3d4fc;
-    text-shadow: none;
+  background: #b3d4fc;
+  text-shadow: none;
 }
 
 ::selection {
-    background: #b3d4fc;
-    text-shadow: none;
+  background: #b3d4fc;
+  text-shadow: none;
 }
 
 /*
@@ -41,12 +41,12 @@ html {
  */
 
 hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
 }
 
 /*
@@ -61,7 +61,7 @@ iframe,
 img,
 svg,
 video {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 /*
@@ -69,9 +69,9 @@ video {
  */
 
 fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
 }
 
 /*
@@ -79,7 +79,7 @@ fieldset {
  */
 
 textarea {
-    resize: vertical;
+  resize: vertical;
 }
 
 /* ==========================================================================
@@ -87,32 +87,94 @@ textarea {
    ========================================================================== */
 
 .browserupgrade {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
 }
 
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+:root {
+  --mdc-theme-primary: #e65100;
+  --mdc-theme-primary-light: #ff833a;
+  --mdc-theme-primary-dark: #ac1900;
+  --mdc-theme-secondary: #ffab40;
+  --mdc-theme-secondary-light: #ffdd71;
+  --mdc-theme-secondary-dark: #c77c02;
+}
+.mdc-button--raised.mdc-ripple-upgraded::before,
+.mdc-button--raised.mdc-ripple-upgraded::after {
+  background-color: rgba(0, 0, 0, 0.06);
+}
 
+.mdc-button--plain.mdc-ripple-upgraded::before,
+.mdc-button--plain.mdc-ripple-upgraded::after {
+  background-color: rgba(230, 81, 0, 0.06);
+}
 
+.mdc-fab.mdc-ripple-upgraded::after {
+  background-color: rgba(0, 0, 0, 0.16);
+}
 
+.mdc-fab--plain.mdc-ripple-upgraded::after {
+  background-color: rgba(230, 81, 0, 0.16);
+}
 
+.mdc-button--raised.mdc-ripple-upgraded::before,
+.mdc-button--raised.mdc-ripple-upgraded::after {
+  background-color: rgba(0, 0, 0, 0.06);
+}
 
+.mdc-button--plain.mdc-ripple-upgraded::before,
+.mdc-button--plain.mdc-ripple-upgraded::after {
+  background-color: rgba(255, 171, 64, 0.06);
+}
 
+.mdc-fab.mdc-ripple-upgraded::after {
+  background-color: rgba(0, 0, 0, 0.16);
+}
 
+.mdc-fab--plain.mdc-ripple-upgraded::after {
+  background-color: rgba(255, 171, 64, 0.16);
+}
+.mdc-checkbox.mdc-ripple-upgraded--unbounded::before,
+.mdc-checkbox.mdc-ripple-upgraded--unbounded::after,
+.mdc-radio.mdc-ripple-upgraded--unbounded::before,
+.mdc-radio.mdc-ripple-upgraded--unbounded::after {
+  background-color: rgba(230, 81, 0, 0.14);
+}
 
+.mdc-checkbox.mdc-ripple-upgraded--unbounded::before,
+.mdc-checkbox.mdc-ripple-upgraded--unbounded::after,
+.mdc-radio.mdc-ripple-upgraded--unbounded::before,
+.mdc-radio.mdc-ripple-upgraded--unbounded::after {
+  background-color: rgba(255, 171, 64, 0.14);
+}
+.mdc-button--raised.mdc--theme-primary.mdc-ripple-upgraded::after {
+  background-color: rgba(0, 0, 0, 0.06);
+}
 
+.mdc-button--raised.mdc--theme-secondary.mdc-ripple-upgraded::after {
+  background-color: rgba(0, 0, 0, 0.06);
+}
 
+.mdc-list-item.mdc-ripple-upgraded {
+  left: 0;
+}
 
+.mdc-list-item.mdc-ripple-upgraded::before,
+.mdc-list-item.mdc-ripple-upgraded::after {
+  background-color: rgba(230, 81, 0, 0.06);
+}
+.mdc-fab.mdc--theme-primary.mdc-ripple-upgraded::after {
+  background-color: rgba(0, 0, 0, 0.16);
+}
 
-
-
-
-
-
+.mdc-fab.mdc--theme-secondary.mdc-ripple-upgraded::after {
+  background-color: rgba(0, 0, 0, 0.16);
+}
 /* ==========================================================================
    Helper classes
    ========================================================================== */
@@ -122,7 +184,7 @@ textarea {
  */
 
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 /*
@@ -135,16 +197,16 @@ textarea {
  */
 
 .visuallyhidden {
-    border: 0;
-    -webkit-clip-path: inset(50%);
-    clip-path: inset(50%);
-    display: inline-block;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    width: 1px;
-    white-space: nowrap; /* 1 */
+  border: 0;
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  display: inline-block;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  width: 1px;
+  white-space: nowrap; /* 1 */
 }
 
 /*
@@ -155,15 +217,15 @@ textarea {
 
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
-    clip: auto;
-    -webkit-clip-path: none;
-    clip-path: none;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    position: static;
-    width: auto;
-    white-space: inherit;
+  clip: auto;
+  -webkit-clip-path: none;
+  clip-path: none;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+  white-space: inherit;
 }
 
 /*
@@ -171,7 +233,7 @@ textarea {
  */
 
 .invisible {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 /*
@@ -188,12 +250,12 @@ textarea {
 
 .clearfix:before,
 .clearfix:after {
-    content: " "; /* 1 */
-    display: table; /* 2 */
+  content: " "; /* 1 */
+  display: table; /* 2 */
 }
 
 .clearfix:after {
-    clear: both;
+  clear: both;
 }
 
 /* ==========================================================================
@@ -203,14 +265,14 @@ textarea {
    ========================================================================== */
 
 @media only screen and (min-width: 35em) {
-    /* Style adjustments for viewports that meet the condition */
+  /* Style adjustments for viewports that meet the condition */
 }
 
 @media print,
-       (-webkit-min-device-pixel-ratio: 1.25),
-       (min-resolution: 1.25dppx),
-       (min-resolution: 120dpi) {
-    /* Style adjustments for high resolution devices */
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 1.25dppx),
+(min-resolution: 120dpi) {
+  /* Style adjustments for high resolution devices */
 }
 
 /* ==========================================================================
@@ -220,71 +282,71 @@ textarea {
    ========================================================================== */
 
 @media print {
-    *,
-    *:before,
-    *:after {
-        background: transparent !important;
-        color: #000 !important; /* Black prints faster:
-                                   http://www.sanbeiji.com/archives/953 */
-        box-shadow: none !important;
-        text-shadow: none !important;
-    }
+  *,
+  *:before,
+  *:after {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster:
+                                      http://www.sanbeiji.com/archives/953 */
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
 
-    a,
-    a:visited {
-        text-decoration: underline;
-    }
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
 
-    a[href]:after {
-        content: " (" attr(href) ")";
-    }
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
 
-    abbr[title]:after {
-        content: " (" attr(title) ")";
-    }
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
 
-    /*
-     * Don't show links that are fragment identifiers,
-     * or use the `javascript:` pseudo protocol
-     */
+  /*
+   * Don't show links that are fragment identifiers,
+   * or use the `javascript:` pseudo protocol
+   */
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after {
+    content: "";
+  }
 
-    a[href^="#"]:after,
-    a[href^="javascript:"]:after {
-        content: "";
-    }
+  pre {
+    white-space: pre-wrap !important;
+  }
 
-    pre {
-        white-space: pre-wrap !important;
-    }
-    pre,
-    blockquote {
-        border: 1px solid #999;
-        page-break-inside: avoid;
-    }
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
 
-    /*
-     * Printing Tables:
-     * http://css-discuss.incutio.com/wiki/Printing_Tables
-     */
+  /*
+   * Printing Tables:
+   * http://css-discuss.incutio.com/wiki/Printing_Tables
+   */
+  thead {
+    display: table-header-group;
+  }
 
-    thead {
-        display: table-header-group;
-    }
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
 
-    tr,
-    img {
-        page-break-inside: avoid;
-    }
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
 
-    p,
-    h2,
-    h3 {
-        orphans: 3;
-        widows: 3;
-    }
-
-    h2,
-    h3 {
-        page-break-after: avoid;
-    }
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
 }
