@@ -104,6 +104,7 @@ textarea {
   --mdc-theme-secondary-light: #ffdd71;
   --mdc-theme-secondary-dark: #c77c02;
 }
+
 .mdc-button--raised.mdc-ripple-upgraded::before,
 .mdc-button--raised.mdc-ripple-upgraded::after {
   background-color: rgba(0, 0, 0, 0.06);
@@ -139,6 +140,7 @@ textarea {
 .mdc-fab--plain.mdc-ripple-upgraded::after {
   background-color: rgba(255, 171, 64, 0.16);
 }
+
 .mdc-checkbox.mdc-ripple-upgraded--unbounded::before,
 .mdc-checkbox.mdc-ripple-upgraded--unbounded::after,
 .mdc-radio.mdc-ripple-upgraded--unbounded::before,
@@ -152,6 +154,7 @@ textarea {
 .mdc-radio.mdc-ripple-upgraded--unbounded::after {
   background-color: rgba(255, 171, 64, 0.14);
 }
+
 .mdc-button--raised.mdc--theme-primary.mdc-ripple-upgraded::after {
   background-color: rgba(0, 0, 0, 0.06);
 }
@@ -168,6 +171,7 @@ textarea {
 .mdc-list-item.mdc-ripple-upgraded::after {
   background-color: rgba(230, 81, 0, 0.06);
 }
+
 .mdc-fab.mdc--theme-primary.mdc-ripple-upgraded::after {
   background-color: rgba(0, 0, 0, 0.16);
 }
@@ -175,6 +179,15 @@ textarea {
 .mdc-fab.mdc--theme-secondary.mdc-ripple-upgraded::after {
   background-color: rgba(0, 0, 0, 0.16);
 }
+
+.toobar-switch-label {
+  padding-right: 20px;
+}
+
+.toobar-switch {
+  padding-right: 20px;
+}
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
