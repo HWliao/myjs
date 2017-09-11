@@ -105,6 +105,10 @@ textarea {
   --mdc-theme-secondary-dark: #c77c02;
 }
 
+.mdc-theme--dark {
+  background: #caa052;
+}
+
 .mdc-button--raised.mdc-ripple-upgraded::before,
 .mdc-button--raised.mdc-ripple-upgraded::after {
   background-color: rgba(0, 0, 0, 0.06);
