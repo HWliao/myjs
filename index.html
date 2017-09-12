@@ -1,0 +1,53 @@
+<!doctype html>
+<html class="no-js" lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
+  <link rel="stylesheet" href="js/vendor/vue-materail/vue-material.css">
+
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+  <md-theme :md-name="theme">
+    <md-whiteframe md-tag="header" :md-elevation="2">
+      <md-toolbar class="md-dense">
+        <md-button class="md-icon-button" @click="click">
+          <md-icon>home</md-icon>
+        </md-button>
+        <h2 class="md-title" style="flex: 1;">盖章管理</h2>
+        <router-link to="/foo" class="md-raised md-primary">/foo</router-link>
+        <router-link to="/bar" class="md-raised md-primary">/bar</router-link>
+        <md-button class="md-icon-button">
+          <md-icon>people</md-icon>
+        </md-button>
+        <span class="md-subheading">廖红卫</span>
+      </md-toolbar>
+    </md-whiteframe>
+    <div>
+      <!-- 路由匹配到的组件将渲染在这里 -->
+      <router-view></router-view>
+    </div>
+  </md-theme>
+</div>
+
+<script src="js/vendor/vue/vue.js"></script>
+<script src="js/vendor/vue-router/vue-router.js"></script>
+<script src="js/vendor/vue-materail/vue-material.debug.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
