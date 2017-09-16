@@ -97,7 +97,17 @@ textarea {
 [v-cloak]{
   display: none;
 }
-
+#m1, #m1 .container {
+  min-height: 700px;
+  overflow: hidden;
+  z-index: 0;
+}
+#m1 .input-group__details:after {
+  background-color: rgba(255,255,255,0.32) !important;
+}
+#m1 .input-group--focused .input-group__append-icon {
+  color: inherit !important;
+}
 
 
 
