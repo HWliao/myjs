@@ -45,59 +45,121 @@
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-subheader class="mt-3 grey--text text--darken-1">SUBSCRIPTIONS</v-subheader>
+        <v-subheader class="mt-3 grey--text text--darken-1">盖章管理</v-subheader>
         <v-list>
-          <v-list-tile v-for="item in items2" :key="item.text" avatar @click="">
-            <v-list-tile-avatar>
-              <img :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`" alt="">
-            </v-list-tile-avatar>
+          <v-list-tile v-for="item in items2"
+                       :key="item.id"
+                       :to="item.href">
+            <v-list-tile-action>
+              <v-icon v-if="item.icon">{{item.icon}}</v-icon>
+            </v-list-tile-action>
             <v-list-tile-title v-text="item.text"></v-list-tile-title>
           </v-list-tile>
         </v-list>
-        <v-list-tile class="mt-3" @click="">
-          <v-list-tile-action>
-            <v-icon class="grey--text text--darken-1">add_circle_outline</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title class="grey--text text--darken-1">Browse Channels</v-list-tile-title>
-        </v-list-tile>
-        <v-list-tile @click="">
-          <v-list-tile-action>
-            <v-icon class="grey--text text--darken-1">settings</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title class="grey--text text--darken-1">Manage Subscriptions</v-list-tile-title>
-        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar class="red" fixed>
-      <v-toolbar-title>
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-icon class="ml-3">fa-youtube</v-icon>
-      </v-toolbar-title>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>管理后台</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-text-field
-        label="Search..."
-        single-line
-        append-icon="search"
-        dark
-        hide-details
-      ></v-text-field>
+      <span>廖红卫</span>
+      <v-btn icon>
+        <v-icon>person</v-icon>
+      </v-btn>
     </v-toolbar>
     <main>
-      <v-container fill-height>
-        <v-layout>
-          <v-flex xs12>
-            <v-card height="300px"></v-card>
-          </v-flex>
-        </v-layout>
+      <v-container fluid>
+        <router-view></router-view>
+
       </v-container>
     </main>
   </v-app>
 </div>
 
+<!-- 盖章信息组件模板 -->
+<script type="text/x-template" id="seal">
+  <v-layout column>
+    <v-flex class="mb-3">
+      <v-card>
+        <v-layout>
+          <v-flex>
+            <v-select
+              label="Async items"
+              autocomplete
+              :async-loading="loading"
+              multiple
+              cache-items
+              chips
+              :items="items3"
+              :rules="[() => select.length > 0 || 'You must choose at least one']"
+              :search-input.sync="search"
+              v-model="select"
+            ></v-select>
+          </v-flex>
+          <v-flex>
+            <v-btn>xxx</v-btn>
+            <v-btn>xxx</v-btn>
+            <v-btn>xxx</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-card>
+    </v-flex>
+    <v-flex>
+      <v-card>
+        {{test}}1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+        <div>asf</div>
+      </v-card>
+    </v-flex>
+  </v-layout>
+</script>
+<!-- 文件资料组件模板 -->
+<script type="text/x-template" id="file">
+  <v-layout>
+    <v-flex xs12>
+      <v-card height="300px">
+        {{test}}
+      </v-card>
+    </v-flex>
+  </v-layout>
+</script>
+
+
+<!-- 公共模板 -->
+<script type="text/x-template" id="table">
+  <div>{{test}}</div>
+</script>
+
 <script src="js/vendor/vue/vue.js"></script>
 <script src="js/vendor/vue-router/vue-router.js"></script>
 <script src="js/vendor/vuetify/vuetify.js"></script>
 <script src="js/plugins.js"></script>
+
+<!-- 各个组件定义 -->
+<script src="js/GzSealComponent.js"></script>
+<script src="js/GzFileComponent.js"></script>
+
+
+<script src="js/route.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
