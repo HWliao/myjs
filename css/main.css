@@ -98,7 +98,7 @@ textarea {
   display: none;
 }
 #m1, #m1 .container {
-  min-height: 700px;
+  /*min-height: 700px;*/
   overflow: hidden;
   z-index: 0;
 }
@@ -108,7 +108,9 @@ textarea {
 #m1 .input-group--focused .input-group__append-icon {
   color: inherit !important;
 }
-
+body {
+  font-family: Roboto,'Microsoft YaHei','Open sans',sans-serif;
+}
 
 
 

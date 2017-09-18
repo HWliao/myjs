@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="zh-CN">
+<html class="no-js" lang="zh-CN" xmlns:v-tooltip="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -12,10 +12,11 @@
 
   <link rel="stylesheet" href="css/normalize.css">
 
-  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-
-  <link rel="stylesheet" href="css/main.css">
+  <link href='http://fonts.font.im/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="fonts/material-icons/material-icons.css">
   <link rel="stylesheet" href="js/vendor/vuetify/vuetify.min.css">
+  <link rel="stylesheet" href="css/main.css">
+
   <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
@@ -68,69 +69,150 @@
       </v-btn>
     </v-toolbar>
     <main>
-      <v-container fluid>
-        <router-view></router-view>
-
-      </v-container>
+      <router-view></router-view>
     </main>
   </v-app>
 </div>
 
 <!-- 盖章信息组件模板 -->
 <script type="text/x-template" id="seal">
-  <v-layout column>
-    <v-flex class="mb-3">
+  <v-container fluid grid-list-xl>
+    <v-layout column>
+      <v-flex>
+        <v-card>
+          <v-container>
+            <v-layout row wrap>
+              <v-flex xs12 md6>
+                <v-select
+                  label="选择公司"
+                  autocomplete
+                  :async-loading="loading"
+                  multiple
+                  cache-items
+                  chips
+                  :items="items3"
+                  :search-input.sync="search"
+                  v-model="select"
+                ></v-select>
+              </v-flex>
+              <v-flex xs12 md6 style="align-self:center;">
+                <v-btn primary small>
+                  <v-icon>search</v-icon>
+                  查询
+                </v-btn>
+                <v-btn secondary small class="ml-4">
+                  <v-icon>add</v-icon>
+                  增加
+                </v-btn>
+                <v-btn secondary small>
+                  <v-icon>swap_horiz</v-icon>
+                  替换
+                </v-btn>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-flex>
+      <v-flex>
+        <v-card>
+          <v-container>
+            <v-layout column>
+              <v-flex>
+                <v-data-table
+                  v-bind:headers="headers"
+                  v-bind:items="itemsTable"
+                  v-bind:pagination.sync="pagination"
+                  :total-items="totalItems"
+                  :loading="loadingTable"
+                  no-data-text="暂无数据"
+                  no-results-text="没有检索到结果"
+                  :rows-per-page-items="[2, 5, 10, 25, { text: '所有', value: -1 }]"
+                  rows-per-page-text="行/每页"
+                >
+                  <template slot="headerCell" scope="props">
+                  <span v-tooltip:bottom="{ 'html': props.header.text }">
+                    {{ props.header.text }}
+                  </span>
+                  </template>
+                  <template slot="items" scope="props">
+                    <td>{{ props.item.name }}</td>
+                    <td class="text-xs-left">{{ props.item.calories }}</td>
+                    <td class="text-xs-left">{{ props.item.fat }}</td>
+                    <td class="text-xs-left">{{ props.item.carbs }}</td>
+                    <td class="text-xs-left">{{ props.item.protein }}</td>
+                    <td class="text-xs-left">{{ props.item.sodium }}</td>
+                    <td class="text-xs-left">{{ props.item.calcium }}</td>
+                    <td class="text-xs-left">{{ props.item.iron }}</td>
+                    <td class="text-xs-center">
+                      <v-btn icon small class="mx-0" v-tooltip:bottom="{ html: '修改' }"
+                             @click.native.stop="dialog1=!dialog1">
+                        <v-icon class="primary--text">edit</v-icon>
+                      </v-btn>
+                      <v-btn icon small class="mx-0" v-tooltip:bottom="{ html: '删除' }"
+                             @click.native.stop="dialog=!dialog">
+                        <v-icon class="grey--text">delete</v-icon>
+                      </v-btn>
+                    </td>
+                  </template>
+                </v-data-table>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-dialog v-model="dialog">
       <v-card>
-        <v-layout>
-          <v-flex>
-            <v-select
-              label="Async items"
-              autocomplete
-              :async-loading="loading"
-              multiple
-              cache-items
-              chips
-              :items="items3"
-              :rules="[() => select.length > 0 || 'You must choose at least one']"
-              :search-input.sync="search"
-              v-model="select"
-            ></v-select>
-          </v-flex>
-          <v-flex>
-            <v-btn>xxx</v-btn>
-            <v-btn>xxx</v-btn>
-            <v-btn>xxx</v-btn>
-          </v-flex>
-        </v-layout>
+        <v-card-title class="headline" style="justify-content: center;">删除后无法恢复</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click.native="dialog = false">取消</v-btn>
+          <v-btn
+            flat
+            warning
+            :loading="false"
+            :disabled="false"
+          >
+            确定
+            <span slot="loader" class="custom-loader">
+              <v-icon light>cached</v-icon>
+            </span>
+          </v-btn>
+        </v-card-actions>
       </v-card>
-    </v-flex>
-    <v-flex>
+    </v-dialog>
+    <v-dialog persistent width="50%" v-model="dialog1">
       <v-card>
-        {{test}}1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
-        <div>asf</div>
+        <v-card-title>
+          <span class="headline">新增/修改印章信息</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12 sm6 v-for="(itmp, index) in editItems" :key="index">
+                <v-select
+                  :label="itmp.label"
+                  autocomplete
+                  :async-loading="itmp.loading"
+                  cache-items
+                  required
+                  :items="itmp.items"
+                  :rules="itmp.rules"
+                  :search-input.sync="itmp.search"
+                  v-model="itmp.select"
+                ></v-select>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="grey--text" flat @click.native="dialog1 = false">取消</v-btn>
+          <v-btn class="primary--text" flat @click.native="dialog1 = false">提交</v-btn>
+        </v-card-actions>
       </v-card>
-    </v-flex>
-  </v-layout>
+    </v-dialog>
+  </v-container>
 </script>
 <!-- 文件资料组件模板 -->
 <script type="text/x-template" id="file">

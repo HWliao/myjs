@@ -2,7 +2,7 @@
   'use strict';
   // 路由
   Vue.use(VueRouter);
-  
+
   // vue 实例
   var app = window.app = new Vue({
     data: function () {
