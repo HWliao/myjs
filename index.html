@@ -155,6 +155,7 @@
                     </td>
                   </template>
                 </v-data-table>
+                <m-select></m-select>
               </v-flex>
             </v-layout>
           </v-container>
@@ -225,6 +226,21 @@
   </v-layout>
 </script>
 
+<script type="text/x-template" id="MSelect">
+  <v-select
+    label="Async items"
+    autocomplete
+    :async-loading="loading"
+    multiple
+    cache-items
+    chips
+    required
+    :items="items"
+    :rules="[() => select.length > 0 || 'You must choose at least one']"
+    :search-input.sync="search"
+    v-model="select"
+  ></v-select>
+</script>
 
 <!-- 公共模板 -->
 <script type="text/x-template" id="table">
@@ -237,6 +253,7 @@
 <script src="js/plugins.js"></script>
 
 <!-- 各个组件定义 -->
+<script src="js/MSelect.js"></script>
 <script src="js/GzSealComponent.js"></script>
 <script src="js/GzFileComponent.js"></script>
 
