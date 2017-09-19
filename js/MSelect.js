@@ -99,6 +99,9 @@
       }
     },
     methods: {
+      doclick: function () {
+        this.querySelections(this.searchInput || '');
+      },
       querySelections: function (v) {
         var that = this;
         that.loading = true;

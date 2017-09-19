@@ -83,20 +83,16 @@
           <v-container>
             <v-layout row wrap>
               <v-flex xs12 md6>
-                <v-select
+                <m-select
                   label="选择公司"
-                  autocomplete
-                  :async-loading="loading"
+                  hint="印章信息中对应的公司,与系统中的公司有可能存在名字上的差异"
                   multiple
-                  cache-items
-                  chips
-                  :items="items3"
-                  :search-input.sync="search"
-                  v-model="select"
-                ></v-select>
+                  :data-from="dataFrom"
+                  v-model="selectCompanies">
+                </m-select>
               </v-flex>
               <v-flex xs12 md6 style="align-self:center;">
-                <v-btn primary small>
+                <v-btn primary small @click="doSearch">
                   <v-icon>search</v-icon>
                   查询
                 </v-btn>
@@ -120,13 +116,13 @@
               <v-flex>
                 <v-data-table
                   v-bind:headers="headers"
-                  v-bind:items="itemsTable"
+                  v-bind:items="sealInfos"
                   v-bind:pagination.sync="pagination"
                   :total-items="totalItems"
                   :loading="loadingTable"
                   no-data-text="暂无数据"
                   no-results-text="没有检索到结果"
-                  :rows-per-page-items="[2, 5, 10, 25, { text: '所有', value: -1 }]"
+                  :rows-per-page-items="[5, 10,15,20, 25, { text: '所有', value: -1 }]"
                   rows-per-page-text="行/每页"
                 >
                   <template slot="headerCell" scope="props">
@@ -144,18 +140,22 @@
                     <td class="text-xs-left">{{ props.item.calcium }}</td>
                     <td class="text-xs-left">{{ props.item.iron }}</td>
                     <td class="text-xs-center">
-                      <v-btn icon small class="mx-0" v-tooltip:bottom="{ html: '修改' }"
-                             @click.native.stop="dialog1=!dialog1">
-                        <v-icon class="primary--text">edit</v-icon>
-                      </v-btn>
-                      <v-btn icon small class="mx-0" v-tooltip:bottom="{ html: '删除' }"
-                             @click.native.stop="dialog=!dialog">
-                        <v-icon class="grey--text">delete</v-icon>
-                      </v-btn>
+                      <div>
+                        <v-btn icon small class="mx-0" v-tooltip:bottom="{ html: '修改' }"
+                               @click.native.stop="dialog1=!dialog1">
+                          <v-icon class="primary--text">edit</v-icon>
+                        </v-btn>
+                        <v-btn icon small class="mx-0" v-tooltip:bottom="{ html: '删除' }"
+                               @click.native.stop="dialog=!dialog">
+                          <v-icon class="grey--text">delete</v-icon>
+                        </v-btn>
+                      </div>
                     </td>
                   </template>
+                  <template slot="pageText" scope="prop">
+                    第 {{prop.pageStart}} 行到 {{prop.pageStop}} 行 总行数:{{prop.itemsLength}} 当前页码:{{currPage}}
+                  </template>
                 </v-data-table>
-                <m-select label="廖红卫" hint="我的下拉" required multiple :data-from="dataFrom" v-model="mselect"></m-select>
               </v-flex>
             </v-layout>
           </v-container>
@@ -256,6 +256,7 @@
 
     :label="label"
     :hint="hint"
+    @click.native="doclick"
   ></v-select>
 </script>
 
@@ -263,7 +264,7 @@
 <script src="js/vendor/vue-router/vue-router.js"></script>
 <script src="js/vendor/vuetify/vuetify.js"></script>
 <script src="js/plugins.js"></script>
-
+<script src="js/utils.js"></script>
 <!-- 各个组件定义 -->
 <script src="js/MSelect.js"></script>
 <script src="js/GzSealComponent.js"></script>
