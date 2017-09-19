@@ -155,7 +155,7 @@
                     </td>
                   </template>
                 </v-data-table>
-                <m-select></m-select>
+                <m-select label="廖红卫" hint="我的下拉" required multiple :data-from="dataFrom" v-model="mselect"></m-select>
               </v-flex>
             </v-layout>
           </v-container>
@@ -225,26 +225,38 @@
     </v-flex>
   </v-layout>
 </script>
-
-<script type="text/x-template" id="MSelect">
-  <v-select
-    label="Async items"
-    autocomplete
-    :async-loading="loading"
-    multiple
-    cache-items
-    chips
-    required
-    :items="items"
-    :rules="[() => select.length > 0 || 'You must choose at least one']"
-    :search-input.sync="search"
-    v-model="select"
-  ></v-select>
-</script>
-
 <!-- 公共模板 -->
 <script type="text/x-template" id="table">
   <div>{{test}}</div>
+</script>
+
+<!-- auto select -->
+<script type="text/x-template" id="MSelect">
+  <v-select
+    :autocomplete="autocomplete"
+    :browser-autocomplete="browserAutocomplete"
+    :search-input.sync="searchInput"
+    :async-loading="loading"
+    :items="items"
+    v-model="select"
+
+    :filter="filter"
+
+    :multiple="multiple"
+    :cache-items="multiple"
+    :chips="multiple"
+    :clearable="clearable"
+    :required="required"
+    :no-data-text="noDataText"
+    :persistent-hint="persistentHint"
+    :debounce-search="debounceSearch"
+    :disabled="disabled"
+    :return-object="returnObject"
+    :rules="rules"
+
+    :label="label"
+    :hint="hint"
+  ></v-select>
 </script>
 
 <script src="js/vendor/vue/vue.js"></script>

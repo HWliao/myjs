@@ -9,6 +9,22 @@
     template: '#seal',
     data: function () {
       return {
+        mselect: [{text: 'lhw', value: 1}],
+        dataFrom: function () {
+          return Promise.resolve([{
+            text: 't1',
+            value: 1,
+            x: 1
+          }, {
+            text: 't2',
+            value: 2,
+            x: 1
+          }, {
+            text: 't3',
+            value: 3,
+            x: 1
+          }]);
+        },
         loading: false,
         items3: [],
         search: null,

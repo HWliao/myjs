@@ -3,92 +3,118 @@
  */
 (function () {
   'use strict';
-  var MSelect = window.MSelect = {
+  window.MSelect = {
     template: '#MSelect',
-    data() {
+    props: {
+      multiple: {
+        type: Boolean,
+        default: false,
+      },
+      debounceSearch: {
+        type: Number,
+        default: 200
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      hint: {
+        type: String,
+        required: true
+      },
+      persistentHint: {
+        type: Boolean,
+        default: true
+      },
+      label: {
+        type: String,
+        required: true
+      },
+      noDataText: {
+        type: String,
+        default: '暂无数据'
+      },
+      required: {
+        type: Boolean,
+        default: false
+      },
+      returnObject: {
+        type: Boolean,
+        default: true
+      },
+      rules: {
+        type: Array,
+        default: function () {
+          return [];
+        }
+      },
+      dataFrom: {
+        type: Function,
+        required: true
+      },
+      value: {
+        type: Array,
+        default: function () {
+          return [];
+        }
+      }
+    },
+    computed: {},
+    data: function () {
+      var select = null, items = null;
+      // 对于输入值进行处理
+      if (this.multiple) {
+        select = this.value;
+        items = [].concat(this.value);
+      } else {
+        select = this.value[0] || {};
+        items = this.value[0] ? [this.value[0]] : [];
+      }
       return {
+        select: select,
+        clearable: true,
+        autocomplete: true,
+        browserAutocomplete: 'off',
+        searchInput: null,
         loading: false,
-        items: [],
-        search: null,
-        select: [],
-        states: [
-          "Alabama",
-          "Alaska",
-          "American Samoa",
-          "Arizona",
-          "Arkansas",
-          "California",
-          "Colorado",
-          "Connecticut",
-          "Delaware",
-          "District of Columbia",
-          "Federated States of Micronesia",
-          "Florida",
-          "Georgia",
-          "Guam",
-          "Hawaii",
-          "Idaho",
-          "Illinois",
-          "Indiana",
-          "Iowa",
-          "Kansas",
-          "Kentucky",
-          "Louisiana",
-          "Maine",
-          "Marshall Islands",
-          "Maryland",
-          "Massachusetts",
-          "Michigan",
-          "Minnesota",
-          "Mississippi",
-          "Missouri",
-          "Montana",
-          "Nebraska",
-          "Nevada",
-          "New Hampshire",
-          "New Jersey",
-          "New Mexico",
-          "New York",
-          "North Carolina",
-          "North Dakota",
-          "Northern Mariana Islands",
-          "Ohio",
-          "Oklahoma",
-          "Oregon",
-          "Palau",
-          "Pennsylvania",
-          "Puerto Rico",
-          "Rhode Island",
-          "South Carolina",
-          "South Dakota",
-          "Tennessee",
-          "Texas",
-          "Utah",
-          "Vermont",
-          "Virgin Island",
-          "Virginia",
-          "Washington",
-          "West Virginia",
-          "Wisconsin",
-          "Wyoming"
-        ]
+        items: items,
+        filter: function () {
+          return true;
+        }
       }
     },
     watch: {
-      search(val) {
-        val && this.querySelections(val)
+      searchInput: function (val) {
+        this.querySelections(val);
+      },
+      select: {
+        handler: function (v) {
+          if (v instanceof Array) {
+            this.$emit('input', v);
+          } else {
+            this.$emit('input', [v]);
+          }
+        },
+        deep: true
       }
     },
     methods: {
-      querySelections(v) {
-        this.loading = true
-        // Simulated ajax query
-        setTimeout(() => {
-          this.items = this.states.filter(e => {
-            return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-          })
-          this.loading = false
-        }, 500)
+      querySelections: function (v) {
+        var that = this;
+        that.loading = true;
+        that.dataFrom(v).then(function (dItems) {
+          if (dItems && dItems.length > 0) {
+            that.items = dItems;
+          } else {
+            that.items = [];
+          }
+          that.loading = false;
+        }).catch(function (e) {
+          console.error(e);
+          that.items = [];
+          that.loading = false;
+        });
+
       }
     }
   };
