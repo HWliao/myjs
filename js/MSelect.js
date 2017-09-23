@@ -8,7 +8,7 @@
     props: {
       multiple: {
         type: Boolean,
-        default: false,
+        default: false
       },
       debounceSearch: {
         type: Number,
@@ -77,10 +77,7 @@
         browserAutocomplete: 'off',
         searchInput: null,
         loading: false,
-        items: items,
-        filter: function () {
-          return true;
-        }
+        items: items
       }
     },
     watch: {
@@ -108,16 +105,12 @@
         that.dataFrom(v).then(function (dItems) {
           if (dItems && dItems.length > 0) {
             that.items = dItems;
-          } else {
-            that.items = [];
           }
           that.loading = false;
         }).catch(function (e) {
           console.error(e);
-          that.items = [];
           that.loading = false;
         });
-
       }
     }
   };

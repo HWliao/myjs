@@ -3,12 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title></title>
+  <title>盖章管理</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <!-- Place favicon.ico in the root directory -->
 
   <link rel="stylesheet" href="css/normalize.css">
 
@@ -36,34 +34,34 @@
       v-model="drawer"
     >
       <v-list dense>
-        <v-list-tile v-for="item in items" :key="item.text" @click="">
+        <v-list-tile v-for="title in titles" :key="title.text" :href="title.href" target="_blank" tag="a">
           <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>{{ title.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
-              {{ item.text }}
+              {{ title.text }}
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-subheader class="mt-3 grey--text text--darken-1">盖章管理</v-subheader>
         <v-list>
-          <v-list-tile v-for="item in items2"
-                       :key="item.id"
-                       :to="item.href">
+          <v-list-tile v-for="sealTitle in sealTitles"
+                       :key="sealTitle.id"
+                       :to="sealTitle.href">
             <v-list-tile-action>
-              <v-icon v-if="item.icon">{{item.icon}}</v-icon>
+              <v-icon v-if="sealTitle.icon">{{sealTitle.icon}}</v-icon>
             </v-list-tile-action>
-            <v-list-tile-title v-text="item.text"></v-list-tile-title>
+            <v-list-tile-title v-text="sealTitle.text"></v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="red" fixed>
+    <v-toolbar class="red" fixed style="z-index:7;">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>管理后台</v-toolbar-title>
       <v-spacer></v-spacer>
-      <span>廖红卫</span>
+      <span>${workerName!}</span>
       <v-btn icon>
         <v-icon>person</v-icon>
       </v-btn>
@@ -96,11 +94,11 @@
                   <v-icon>search</v-icon>
                   查询
                 </v-btn>
-                <v-btn secondary small class="ml-4">
+                <v-btn secondary small class="ml-4" @click="editModal(null)">
                   <v-icon>add</v-icon>
                   增加
                 </v-btn>
-                <v-btn secondary small>
+                <v-btn secondary small @click="replaceDialog=!replaceDialog">
                   <v-icon>swap_horiz</v-icon>
                   替换
                 </v-btn>
@@ -131,22 +129,24 @@
                   </span>
                   </template>
                   <template slot="items" scope="props">
-                    <td>{{ props.item.name }}</td>
-                    <td class="text-xs-left">{{ props.item.calories }}</td>
-                    <td class="text-xs-left">{{ props.item.fat }}</td>
-                    <td class="text-xs-left">{{ props.item.carbs }}</td>
-                    <td class="text-xs-left">{{ props.item.protein }}</td>
-                    <td class="text-xs-left">{{ props.item.sodium }}</td>
-                    <td class="text-xs-left">{{ props.item.calcium }}</td>
-                    <td class="text-xs-left">{{ props.item.iron }}</td>
+                    <td v-tooltip:bottom="{ 'html': props.item.company }">
+                      <span class="w">{{ props.item.company }}</span>
+                    </td>
+                    <td class="text-xs-left">{{ props.item.saveEmpName }}</td>
+                    <td class="text-xs-left">{{ props.item.monitorEmpName }}</td>
+                    <td class="text-xs-left">{{ props.item.employedEmpName }}</td>
+                    <td class="text-xs-left">{{ props.item.incomeEmpName }}</td>
+                    <td class="text-xs-left">{{ props.item.branchEmpName }}</td>
+                    <td class="text-xs-left">{{ props.item.financeEmpName }}</td>
+                    <td class="text-xs-left">{{ props.item.hrEmpName }}</td>
                     <td class="text-xs-center">
                       <div>
                         <v-btn icon small class="mx-0" v-tooltip:bottom="{ html: '修改' }"
-                               @click.native.stop="dialog1=!dialog1">
+                               @click.native.stop="editModal(props.item)">
                           <v-icon class="primary--text">edit</v-icon>
                         </v-btn>
                         <v-btn icon small class="mx-0" v-tooltip:bottom="{ html: '删除' }"
-                               @click.native.stop="dialog=!dialog">
+                               @click.native.stop="toDeleteItem=props.item">
                           <v-icon class="grey--text">delete</v-icon>
                         </v-btn>
                       </div>
@@ -162,18 +162,13 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="deleteDialog">
       <v-card>
         <v-card-title class="headline" style="justify-content: center;">删除后无法恢复</v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click.native="dialog = false">取消</v-btn>
-          <v-btn
-            flat
-            warning
-            :loading="false"
-            :disabled="false"
-          >
+          <v-btn flat @click.native="toDeleteItem=null">取消</v-btn>
+          <v-btn flat warning :loading="deleting" :disabled="deleting" @click="doDelete(toDeleteItem.id)">
             确定
             <span slot="loader" class="custom-loader">
               <v-icon light>cached</v-icon>
@@ -182,37 +177,128 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog persistent width="50%" v-model="dialog1">
+    <v-dialog persistent width="50%" v-model="editDialog">
       <v-card>
         <v-card-title>
-          <span class="headline">新增/修改印章信息</span>
+          <span class="headline">{{editText}}</span>
         </v-card-title>
         <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12 sm6 v-for="(itmp, index) in editItems" :key="index">
-                <v-select
-                  :label="itmp.label"
-                  autocomplete
-                  :async-loading="itmp.loading"
-                  cache-items
-                  required
-                  :items="itmp.items"
-                  :rules="itmp.rules"
-                  :search-input.sync="itmp.search"
-                  v-model="itmp.select"
-                ></v-select>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <v-form v-model="editValid" ref="editForm">
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12 sm6 v-for="(ei, index) in editItems" :key="ei.id">
+                  <m-select :label="ei.label"
+                            :hint="ei.hint"
+                            :data-from="ei.dataFrom"
+                            :required="!!ei.rules"
+                            :rules="ei.rules"
+                            v-model="ei.select"></m-select>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="grey--text" flat @click.native="dialog1 = false">取消</v-btn>
-          <v-btn class="primary--text" flat @click.native="dialog1 = false">提交</v-btn>
+          <v-btn class="grey--text" flat @click.native="editCancel" :disabled="editing">取消</v-btn>
+          <v-btn flat
+                 @click.native="editCommit"
+                 :loading="editing"
+                 :class="{'grey--text':!(editValid&&editHasChange),'primary--text':editValid&&editHasChange}"
+                 :disabled="!(editValid&&editHasChange)">
+            提交
+            <span slot="loader" class="custom-loader">
+              <v-icon light>cached</v-icon>
+            </span>
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog persistent width="50%" v-model="replaceDialog">
+      <v-card>
+        <v-card-title>
+          <span class="headline">人员替换</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form v-model="replaceValid" ref="replaceForm">
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex xs12>
+                  <m-select
+                    :label="replaceItems[2].label"
+                    :hint="replaceItems[2].hint"
+                    multiple
+                    :data-from="replaceItems[2].dataFrom"
+                    v-model="replaceItems[2].select">
+                  </m-select>
+                </v-flex>
+                <v-flex xs12>
+                  <v-select
+                    :label="replaceItems[3].label"
+                    :items="replaceItems[3].items"
+                    v-model="replaceItems[3].select"
+                    multiple
+                    chips
+                    clearable
+                    return-object
+                    :hint="replaceItems[3].hint"
+                    persistent-hint
+                  ></v-select>
+                </v-flex>
+                <v-flex xs5>
+                  <m-select :label="replaceItems[0].label"
+                            :hint="replaceItems[0].hint"
+                            :data-from="replaceItems[0].dataFrom"
+                            :required="!!replaceItems[0].rules"
+                            :rules="replaceItems[0].rules"
+                            v-model="replaceItems[0].select">
+                  </m-select>
+                </v-flex>
+                <v-flex xs2 align-center justify-center d-flex>
+                  <v-icon warning large>swap_horiz</v-icon>
+                </v-flex>
+                <v-flex xs5>
+                  <m-select :label="replaceItems[1].label"
+                            :hint="replaceItems[1].hint"
+                            :data-from="replaceItems[1].dataFrom"
+                            :required="!!replaceItems[1].rules"
+                            :rules="replaceItems[1].rules"
+                            v-model="replaceItems[1].select">
+                  </m-select>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="grey--text" flat @click.native="replaceDialog=false" :disabled="replacing">取消</v-btn>
+          <v-btn flat
+                 @click.native="repalceCommit"
+                 :loading="replacing"
+                 :class="{'grey--text':!replaceValid,'primary--text':replaceValid}"
+                 :disabled="!replaceValid">
+            提交
+            <span slot="loader" class="custom-loader">
+              <v-icon light>cached</v-icon>
+            </span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-snackbar
+      bottom
+      right
+      :info="snackbarState === 'info'"
+      :success="snackbarState === 'success'"
+      :error="snackbarState === 'error'"
+      v-model="snackbar"
+      :timeout="6000">
+      {{ snackbarText }}
+      <v-btn icon @click="snackbar=false">
+        <v-icon>close</v-icon>
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </script>
 <!-- 文件资料组件模板 -->
@@ -240,8 +326,6 @@
     :items="items"
     v-model="select"
 
-    :filter="filter"
-
     :multiple="multiple"
     :cache-items="multiple"
     :chips="multiple"
@@ -260,9 +344,11 @@
   ></v-select>
 </script>
 
-<script src="js/vendor/vue/vue.js"></script>
-<script src="js/vendor/vue-router/vue-router.js"></script>
-<script src="js/vendor/vuetify/vuetify.js"></script>
+<script src="js/vendor/jquery-1.12.0.min.js"></script>
+<script src="js/vendor/polyfill.min.js"></script>
+<script src="js/vendor/vue/vue.min.js"></script>
+<script src="js/vendor/vue-router/vue-router.min.js"></script>
+<script src="js/vendor/vuetify/vuetify.min.js"></script>
 <script src="js/plugins.js"></script>
 <script src="js/utils.js"></script>
 <!-- 各个组件定义 -->
