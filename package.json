@@ -13,10 +13,13 @@
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "et-theme-init": "et -i ./src/theme/config/element-variables.css",
-    "et-theme-compile":"et -c ./src/theme/element-variables.css -o ./src/theme/"
+    "et-theme-compile": "et -c ./src/theme/element-variables.css -o ./src/theme/"
   },
   "dependencies": {
     "element-ui": "^1.4.4",
+    "font-awesome": "^4.7.0",
+    "modernizr": "^3.5.0",
+    "normalize.css": "^7.0.0",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0"
   },
