@@ -1,36 +1,76 @@
 <template>
-  <div id="app" v-cloak="true">
-    <el-row type="flex" tag="header" justify="start" align="middle">
-      <a class="fa fa-2x fa-home" style="cursor: pointer;margin-right: 20px;"></a>
+  <div id="app">
+    <header>
+      <i class="el-icon-fa el-icon-fa-th-large el-icon-fa-2x" style="cursor: pointer;margin-right: 20px;"
+         @click="doCollapseMenu"></i>
       <span class="gz-font--xl" style="flex: 1 1 auto;">管理后台</span>
       <span class="gz-font--md" style="margin-right: 12px;">廖红卫</span>
-      <a class="fa fa-user" style="cursor: pointer;"></a>
-    </el-row>
-    <el-row type="flex" tag="main">
-      <el-col>
-        <el-menu mode="horizontal" style="background: red;">
-          xxxxx
+      <i class="el-icon-fa el-icon-fa-user" style="cursor: pointer;"></i>
+    </header>
+    <main>
+      <div>
+        <el-menu
+          class="gz-menu-vertical"
+          :default-active="currRoute"
+          :collapse="!!collapse"
+          router>
+          <el-menu-item index="/" @click.native.stop="doHome">
+            <i class="el-icon-fa-home"></i>
+            <span slot="title">首页</span>
+          </el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-setting"></i>
+              <span slot="title">盖章管理</span>
+            </template>
+            <el-menu-item v-for="item in items" :index="item.path" :key="item.name">
+              <i :class="item.icon"></i>
+              <span slot="title">{{item.title}}</span>
+            </el-menu-item>
+          </el-submenu>
         </el-menu>
-      </el-col>
-      <el-col>
+      </div>
+      <div style="flex: 1;overflow-y: auto">
         <router-view></router-view>
-      </el-col>
-    </el-row>
-
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
-  import { Row, Col, Menu, Icon } from 'element-ui';
-
   export default {
-    components: {
-      [Row.name]: Row,
-      [Col.name]: Col,
-      [Menu.name]: Menu,
-      [Icon.name]: Icon,
-    },
     name: 'app',
+    data() {
+      return {
+        items: [
+          {
+            name: 'seal',
+            path: '/gz/seal',
+            title: '印章信息',
+            icon: 'el-icon-fa-envelope',
+          }, {
+            name: 'file',
+            path: '/gz/file',
+            title: '文件资料',
+            icon: 'el-icon-fa-file',
+          },
+        ],
+        collapse: false,
+      };
+    },
+    computed: {
+      currRoute() {
+        return this.$route.path;
+      },
+    },
+    methods: {
+      doCollapseMenu() {
+        this.collapse = this.collapse ? false : 'auto';
+      },
+      doHome() {
+        window.open(`${window.location.origin}/jjslogin/index`);
+      },
+    },
   };
 </script>
 
@@ -48,25 +88,24 @@
 
   #app {
     display: flex;
-    flex-direction: column;
-    width: 100%;
     height: 100%;
+    flex-direction: column;
   }
 
   header {
-    background-color: rgb(32, 160, 255);
+    background-color: rgb(101, 191, 96);
+    color: #fff;
     height: 64px;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    padding: 0 20px;
     z-index: 1;
-    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
   }
 
   main {
-    flex: 1 1 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
   }
 
   .gz-font--xl {
@@ -91,5 +130,19 @@
 
   .gz-font--xxs {
     font-size: 12px;
+  }
+
+  .gz-menu-vertical {
+    height: 100%;
+  }
+
+  .gz-menu-vertical:not(.el-menu--collapse) {
+    width: 200px;
+  }
+
+  .el-menu-item .fa {
+    margin-right: 5px;
+    width: 20px;
+    text-align: center;
   }
 </style>
