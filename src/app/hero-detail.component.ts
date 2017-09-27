@@ -8,7 +8,8 @@ import { Hero } from './hero';
 
 @Component({
   templateUrl: './hero-detail.component.html',
-  selector: 'app-hero-detail'
+  selector: 'app-hero-detail',
+  styleUrls: ['./hero-detail.component.css']
 })
 export class HeroDetailComponent implements OnInit {
   constructor(private heroService: HeroService,
@@ -20,6 +21,11 @@ export class HeroDetailComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  save(): void {
+    this.heroService.update(this.hero)
+      .then(() => this.goBack());
   }
 
   ngOnInit(): void {
