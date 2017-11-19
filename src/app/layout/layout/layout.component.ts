@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor() { }
+  private isCollapsed = false;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }

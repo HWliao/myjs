@@ -1,0 +1,39 @@
+nz-layout {
+  height: 100%;
+}
+
+nz-sider {
+  display: flex;
+  flex-direction: column;
+}
+
+nz-sider .logo {
+  height: 64px;
+  background: #333;
+  overflow: hidden;
+  display: flex;
+  color: hsla(0,0%,100%,.67);
+}
+
+nz-sider .logo .icon {
+  width: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32pt;
+}
+
+nz-sider .logo .title {
+  font-size: 20pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nz-sider ul {
+  overflow: auto;
+}
+
+nz-content {
+  overflow: auto;
+}
