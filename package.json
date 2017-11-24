@@ -1,0 +1,32 @@
+{
+  "name": "im-web-plugin",
+  "version": "1.0.0",
+  "description": "WEB IM Plugin",
+  "main": "dist/index.js",
+  "module": "src/index.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --progress --config build/webpack.config.babel.js",
+    "build": "webpack --config build/webpack.config.babel.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HWliao/myjs.git"
+  },
+  "keywords": [
+    "IM",
+    "ES6"
+  ],
+  "author": "HWliao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HWliao/myjs/issues"
+  },
+  "homepage": "https://github.com/HWliao/myjs#readme"
+}
