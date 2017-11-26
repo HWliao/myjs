@@ -6,7 +6,7 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin';
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
-import noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddleware';
+import postcssFlexbugsFixes from 'postcss-flexbugs-fixes';
 
 import paths from './paths';
 import getClientEnvironment from './env';
@@ -14,8 +14,6 @@ import getClientEnvironment from './env';
 const publicPath = '/';
 
 const env = getClientEnvironment(paths.publicUrl);
-console.log(JSON.stringify(env));
-console.log(JSON.stringify(paths));
 export default {
   context: paths.appRoot,
   devtool: 'cheap-module-source-map',
@@ -26,7 +24,7 @@ export default {
     pathinfo: true,
     filename: 'static/js/bundle.js',
     chunkFilename: 'static/js/[name].chunk.js',
-    publicPath: publicPath,
+    publicPath,
     devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   resolve: {
@@ -86,7 +84,7 @@ export default {
                   // https://github.com/facebookincubator/create-react-app/issues/2677
                   ident: 'postcss',
                   plugins: () => [
-                    require('postcss-flexbugs-fixes'),
+                    postcssFlexbugsFixes,
                     autoprefixer({
                       browsers: [
                         '>1%',
@@ -115,11 +113,11 @@ export default {
             loader: require.resolve('file-loader'),
             options: {
               name: 'static/media/[name].[hash:8].[ext]',
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     // Makes some environment variables available in index.html.
@@ -170,9 +168,9 @@ export default {
     openPage: 'index.html',
     overlay: false,
     proxy: {
-      "/api": "http://localhost:3000"
+      '/api': 'http://localhost:3000',
     },
-    publicPath: publicPath,
+    publicPath,
     quiet: true,
     watchContentBase: true,
     before: app => app.use(errorOverlayMiddleware()),
