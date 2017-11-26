@@ -1,12 +1,21 @@
 import path from 'path';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import InterpolateHtmlPlugin from 'interpolate-html-plugin';
+import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
+import autoprefixer from 'autoprefixer';
+import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin';
+import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware';
+import noopServiceWorkerMiddleware from 'react-dev-utils/noopServiceWorkerMiddleware';
 
 import paths from './paths';
-import env from './env';
+import getClientEnvironment from './env';
 
+const publicPath = '/';
+
+const env = getClientEnvironment(paths.publicUrl);
+console.log(JSON.stringify(env));
+console.log(JSON.stringify(paths));
 export default {
   context: paths.appRoot,
   devtool: 'cheap-module-source-map',
@@ -17,7 +26,7 @@ export default {
     pathinfo: true,
     filename: 'static/js/bundle.js',
     chunkFilename: 'static/js/[name].chunk.js',
-    publicPath: '/',
+    publicPath: publicPath,
     devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   resolve: {
@@ -147,8 +156,26 @@ export default {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
   devServer: {
-    contentBase: '../dist',
-    hot: true
+    contentBase: paths.appSrc,
+    compress: true,
+    index: 'index.html',
+    port: 3000,
+    host: 'localhost',
+    clientLogLevel: 'none',
+    historyApiFallback: {
+      disableDotRule: true,
+    },
+    hot: true,
+    open: true,
+    openPage: 'index.html',
+    overlay: false,
+    proxy: {
+      "/api": "http://localhost:3000"
+    },
+    publicPath: publicPath,
+    quiet: true,
+    watchContentBase: true,
+    before: app => app.use(errorOverlayMiddleware()),
   },
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
