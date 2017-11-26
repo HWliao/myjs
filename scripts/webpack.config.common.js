@@ -4,6 +4,7 @@ import CleanWebpackPlugin from 'clean-webpack-plugin';
 import path from 'path';
 
 export default {
+  context: path.resolve(__dirname, '..'),
   entry: {
     app: './src/app/index.js'
   },
