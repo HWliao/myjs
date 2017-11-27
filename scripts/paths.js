@@ -21,7 +21,7 @@ export default {
   appBuild: resolveApp('build'),
   appHtml: resolveApp('src/index.html'),
   appIndexJs: resolveApp('src/index.js'),
-  appVender: resolveApp('vender'),
+  appVender: resolveApp('src/vender'),
   appPolyfillJs: resolveApp('src/polyfill.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),

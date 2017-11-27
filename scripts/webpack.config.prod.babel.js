@@ -47,6 +47,9 @@ export default {
     modules: ['node_modules', paths.appSrc, paths.appVender],
     extensions: ['.js', '.json'],
   },
+  externals: {
+    jquery: 'window.jQuery',
+  },
   module: {
     strictExportPresence: true,
     rules: [
@@ -63,7 +66,7 @@ export default {
           },
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            exclude: [/node_modules/, /vender/],
             loader: require.resolve('babel-loader'),
             options: {
               compact: true,
