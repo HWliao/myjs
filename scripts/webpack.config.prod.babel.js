@@ -31,7 +31,7 @@ export default {
   bail: true,
   devtool: shouldUseSourceMap ? 'source-map' : false,
   entry: {
-    vender: [`${paths.appVender}/nim-sdk/NIM_Web_NIM_v3.8.0.js`, 'eventemitter3'],
+    vender: [`${paths.appVender}/nim-sdk/NIM_Web_NIM_v3.8.0.js`, 'eventemitter3', 'redux'],
     main: './src/main.js',
   },
   output: {
