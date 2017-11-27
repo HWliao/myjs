@@ -1,9 +1,7 @@
 import $ from 'jquery';
 
-console.log($.browser);
-const name = '廖红卫';
-const html = `<h1>i'm ${name},hello!</h1>`;
-const div = document.createElement('div');
-div.innerHTML = html;
-$(document.body).append(html);
+import { Im } from './main';
 
+$(document.body).append(`<h1>${Im.test}</h1>`);
+const im = new Im();
+im.on('test', data => console.log(data));

@@ -1,5 +1,7 @@
-export default class Im {
+import EventEmiiter from 'eventemitter3';
+
+export class Im extends EventEmiiter {
   constructor() {
-    console.log(1111);
+    super();
   }
 }
