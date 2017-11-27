@@ -18,17 +18,18 @@ export default {
   context: paths.appRoot,
   devtool: 'cheap-module-source-map',
   entry: {
+    vender: [`${paths.appVender}/nim-sdk/NIM_Web_NIM_v3.8.0.js`, 'eventemitter3'],
     main: './src/index.js',
   },
   output: {
     pathinfo: true,
-    filename: 'static/js/bundle.js',
+    filename: 'static/js/[name].js',
     chunkFilename: 'static/js/[name].chunk.js',
     publicPath,
     devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   resolve: {
-    modules: ['node_modules', './src'],
+    modules: ['node_modules', paths.appSrc, paths.appVender],
     extensions: ['.js', '.json'],
   },
   module: {
