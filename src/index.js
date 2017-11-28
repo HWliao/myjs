@@ -1,10 +1,16 @@
+import 'bootstrap/dist/css/bootstrap-theme.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import $ from 'jquery';
-import { createStore } from 'redux';
 
-import { Im } from './main';
+import Im from './main/main';
 
-console.log(createStore(() => {
-}));
-$(document.body).append(`<h1>${Im.test}</h1>`);
-const im = new Im();
-im.on('test', data => console.log(data));
+const options = {
+  class: 'my-class',
+  debug: true,
+  thirdPartyDebug: false,
+};
+
+$('#init').on('click', () => {
+  // eslint-disable-next-line no-new
+  new Im(options);
+});
