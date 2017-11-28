@@ -18,7 +18,6 @@ export default {
   context: paths.appRoot,
   devtool: 'cheap-module-source-map',
   entry: {
-    vender: [`${paths.appVender}/nim-sdk/NIM_Web_NIM_v3.8.0.js`, 'eventemitter3', 'redux'],
     main: './src/index.js',
   },
   output: {
