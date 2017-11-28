@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>IM页面</title>
+    <link rel="stylesheet" type="text/css" href="css/im.css">
+</head>
+<body>
+<!-- jjs IM -->
+<div class="jjsim im-fold">
+  	<div class="jjsim-shandow clearfix">
+    	<div class="jjsim-wrap">
+      		<div class="jjsim-hd">
+      			<i class="sprite sprite-dialog shake"><span class="jjsim-hd-num" data-unread="3">3</span></i>
+		        <span class="im-title">在线咨询</span>
+		        <a title="收起" class="jjsim-hd-closebtn sprite sprite-down"></a>
+		    </div>
+	      	<div class="jjsim-bd scroll">
+	        	<ul class="jjsim-list" id="jjsim-list" >
+	        		<li class="jjsim-bd-item">
+             			<div class="jjsim-item-img">
+             				<img src="https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88" onerror="this.src='images/default.png';this.onError=null;">
+             			</div>
+             			<em class="num" title="103">···</em>
+             			<span class="name" title="李芳">李芳</span>
+             			<span class="text" title="啥时候有空来看看">啥时候有空来看看</span>
+             			<span class="time" title="08:48">08:48</span>
+	          		</li>
+	          		<li class="jjsim-bd-item">
+             			<div class="jjsim-item-img">
+             				<img src="https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88"  onerror="this.src='images/default.png';this.onError=null;">
+             			</div>
+             			<span class="name" title="李芳">李芳</span>
+             			<span class="text" title="这套房子满五年，差不多可以马上出售">这套房子满五年，差不多可以马上出售</span>
+             			<span class="time" title="昨天 08:48">昨天 08:48</span>
+	          		</li>
+	        	</ul>
+	        	<!-- 未登录 -->
+		        <div class="jjsim-noagent" id="jjsim-nologin">
+		        	<i class="sprite sprite-chart"></i>
+		        	<p>请先登录后再咨询经纪人</p>
+		        	<a href="javascript:;" class="loginbtn">登录</a>        
+		        </div>
+		        <!-- 登录之后暂无经纪人 -->
+		        <div class="jjsim-noagent" id="jjsim-noagent" style="display: none;">
+		        	<i class="sprite sprite-person"></i>
+		        	<p>暂无聊过天的经纪人</p>     
+		        </div>
+	    	</div>
+		</div>
+		<!-- 聊天面板 -->
+	    <div class="jjsim-window im-online" data-agentid="1">
+			<div class="jjsim-wintitle">
+				<span class="im-wt-name">李芳</span>
+				<!-- <div class="im-wt-portrait"><i class="sprite sprite-portrait"></i></div> -->
+				<!-- <div class="im-wt-loading"><img src="images/loading.gif"></div> -->
+				<a class="im-wt-closebtn" title="关闭"><i class="sprite sprite-close"></i></a>
+			</div>
+			<div class="jjsim-wincont">
+				<div class="im-wc-chat scroll">
+					<p class="chat-tophint"><span class="txt">聊天中经纪人无法知道您的手机号</span></p>
+					<ul class="im-chat-content clearfix">
+						<li class="im-msg-time">
+							<p class="chat-time">昨天 15:30</p>
+						</li>
+						<li class="im-msg-item im-msg-right im-msg-link">
+							<div class="msg-img">
+								<img src="images/default.png">
+							</div>
+							<div class="msg-text">
+								<div class="text">
+									<a class="msg-link clearfix" href="#" target="_blank">
+										<div class="link-item-img">
+				             				<img src="https://imgcloud.jjshome.com/pic/hsl/2017-09/19/929354be-3202-4b83-bd71-9755a82aa8fe.jpg?imageView2/2/w/160/h/120"  onerror="this.src='images/default.png';this.onError=null;">
+				             			</div>
+				             			<span class="link-span link-title" title="旭飞花园 一房一厅一室一卫">旭飞花园 一房一厅一室一卫</span>
+				             			<span class="link-span  link-attr" title="啥时候有空来看看"><em>1室1厅1卫</em>&nbsp;&nbsp;<em>108m²</em></span>
+				             			<span class="link-span link-price" title="昨天 12:10"><em>155</em>万</span>
+			             			</a>
+								</div>
+							</div>
+						</li>
+						<li class="im-msg-item im-msg-tip">
+							<!-- 等待中 -->
+							<!-- <span class="msg-tip">正在为您安排置业顾问，请稍等...</span> -->
+							<!-- 无人抢单 -->
+							<!-- <span class="msg-tip">置业顾问正忙，您可致电客服<br/>2028400-8869-200</span> -->
+							<!-- 服务中 -->
+							<span class="msg-tip">置业顾问<em>陈就</em>为您服务</span>
+						</li>
+						<li class="im-msg-item im-msg-left">
+							<div class="msg-img">
+								<img src="https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88">
+							</div>
+							<div class="msg-text">
+								<div class="text">您好！我是您的置业顾问陈某某，很高兴为您服务！</div>
+							</div>
+						</li>
+						<li class="im-msg-item im-msg-right">
+							<div class="msg-img">
+								<img src="images/default.png">
+							</div>
+							<div class="msg-text">
+								<div class="text">你好，我比较喜欢这套房子......</div>
+								<i class="sprite sprite-warning msg-warning" title="发送失败"></i>
+							</div>
+						</li>
+						
+					</ul>
+				</div>
+				<!-- 连接中禁用class加上 disabled -->
+				<div class="im-wc-input">
+					<div class="im-tool">
+						<a href="javascript:;"><i class="sprite sprite-face"></i></a>
+						<a href="javascript:;"><i class="sprite sprite-pic"></i></a>
+					</div>
+					<div class="im-input-container">
+						<!-- 连接中禁用加上 disabled=true -->
+						<textarea class="scroll" name="im-msg-content" id="im-msg-content" placeholder="输入您要咨询的内容" ></textarea>
+					</div>
+					<div class="im-btn-container">
+						<a class="applink" href="https://shenzhen.leyoujia.com/common/app/download" target="_blank" title="下载房源网App">下载房源网App，随时随地找房</a>
+						<a href="javascript:;" class="btn send">发送</a>
+					</div>
+				</div>
+			</div>
+	    </div>
+  	</div>
+  	<!-- 下线通知 -->
+  	<div class="im-promp" id="im-promp">
+  		<div class="prompwrap">
+  			<div class="promp-title">下线通知</div>
+	  		<div class="promp-content">您的账号由于咨询操作过于频繁，<br>已于11：23分被迫下线</div>
+			<div class="promp-btn">
+				<a href="javascript:;" class="btn-cancel">取消</a>
+				<a href="javascript:;" class="btn-confirm">重新登录</a>
+			</div>
+		</div>
+  	</div>
+</div>
+<script src="./js/jquery-min.js"></script>
+<script type="text/javascript">
+    (function () {
+    	var isLogin = true,  /* 是否登录 */
+    		isHasAgent = true;  /* 是否有联系过的经纪人 */
+
+    	/* 如果已经登录 */
+    	if(isLogin){
+    		if(isHasAgent){
+    			$("#jjsim-noagent").hide();
+    			$(".jjsim-list").show();
+    		}else{
+    			$("#jjsim-noagent").show();
+	    		$(".jjsim-list").hide();
+    		}
+    		$("#jjsim-nologin").hide();
+    		$(".jjsim-service").hide();
+    	}
+		/* 闪烁效果 */
+		var shake = $(".jjsim").find(".sprite-dialog");
+		var twikle = true;
+		var t = setInterval(function(){
+			var css={'visibility':'visible'};
+			if(!shake.hasClass("shake")){
+				shake.css(css);
+				return;
+			}	
+		    if(twikle){
+		    	twikle = false;
+		        css={'visibility':'hidden'};
+		    }else{
+		    	twikle = true;
+		    	css={'visibility':'visible'};
+		    }
+		    shake.css(css);
+		},500);
+
+    	/* 展开、收起咨询经纪人 */
+    	$(".jjsim-hd").click(function(){
+    		$(".jjsim").toggleClass("im-fold");
+    		$(".jjsim-window").hide();
+    		$(".sprite-dialog").removeClass("shake");
+    	});
+
+    	/* 点击右侧的联系人切换对话框 */
+    	$(".jjsim-list").on("click",".jjsim-bd-item",function(){
+    		$(this).addClass("current").siblings().removeClass("current");
+    		$(".jjsim-window").show();
+    		scrollBottom();
+    	});
+
+    	/* 关闭聊天窗口 */
+    	$(".im-wt-closebtn").click(function(){
+    		$(".jjsim-window").hide();
+    	});
+
+		/* 发送信息内容 */
+		$(".send").click(function(){
+			if($(this).parents(".im-wc-input").hasClass("disabled")){
+				return false;
+			}
+			var text = $.trim($("#im-msg-content").val());
+			sendMsg(text);
+		});
+		$("#im-msg-content").on("keydown",function(e){
+			if(13 === e.keyCode){
+				e.preventDefault();
+				var text = $.trim($(this).val());
+				sendMsg(text);
+			}
+		});
+
+
+		/* 滚动加载到顶部 */
+		var isLocked = false;
+		$(".im-wc-chat").scroll(function(){
+			if(isLocked){
+				return;
+			}
+			var top = $(this).scrollTop();
+			if(top == 0){
+				isLocked = true;
+				loadMore();
+			}
+		});
+
+		$(".im-promp").find(".btn-cancel").click(function(){
+			$(".im-promp").hide();
+		});
+
+		/* 加载更多 */
+		function loadMore(){
+			setTimeout(function(){
+				var more = '<li class="im-msg-item im-msg-right">'+
+					'<div class="msg-img">'+
+						'<img src="https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88">'+
+					'</div>'+
+					'<div class="msg-text">'+
+						'<span class="text">这是加载的内容</span>'+
+					'</div>'+
+				'</li>'+
+				'<li class="im-msg-item im-msg-left">'+
+					'<div class="msg-img">'+
+						'<img src="https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88">'+
+					'</div>'+
+					'<div class="msg-text">'+
+						'<span class="text">这是加载的内容</span>'+
+					'</div>'+
+				'</li>';
+				$(".im-wc-chat ul").prepend(more);
+				isLocked = false;
+			},1000);
+		}
+		/* 滚动到底部 */
+		function scrollBottom(){
+			var scrollWrap = $(".im-wc-chat"),
+				scrollItem = $(".im-chat-content");
+			scrollWrap.scrollTop(scrollItem.height()-scrollWrap.height());
+		}
+		
+		/* 显示下线 */
+		function offline(){
+			$("#im-promp").show();
+		}
+
+		/* 发送消息 */
+		function sendMsg(text){
+			if(!text){
+				return;
+			}
+			var li = '<li class="im-msg-item im-msg-right">'+
+				'<div class="msg-img">'+
+					'<img src="https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88">'+
+				'</div>'+
+				'<div class="msg-text">'+
+					'<span class="text">'+text+'</span>'+
+				'</div>'+
+			'</li>';
+			$(".im-wc-chat ul").append(li);
+			$("#im-msg-content").val("");
+			scrollBottom();
+		}
+    })();
+
+</script>
+</body>

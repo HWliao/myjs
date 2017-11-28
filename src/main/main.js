@@ -15,7 +15,6 @@ export default class Im extends EventEmiiter {
     setEnabled(options.debug);
 
     log('im contruct...');
-
     // 2.初始配置项,静态配置项,不可改变
     this.options = getConfig(options);
 

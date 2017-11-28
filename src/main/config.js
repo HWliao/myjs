@@ -7,5 +7,5 @@ const config = {
 };
 
 export function getConfig(options = {}) {
-  return $.extend(config, options);
+  return $.extend({}, config, options);
 }
