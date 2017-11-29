@@ -5,7 +5,7 @@ import $ from 'jquery';
 import Im from './main/main';
 
 const options = {
-  class: 'my-class',
+  className: 'my-class',
   debug: true,
   thirdPartyDebug: false,
 };

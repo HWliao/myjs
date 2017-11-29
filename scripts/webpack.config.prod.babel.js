@@ -112,6 +112,10 @@ export default {
             }, extractTextPluginOptions)),
           },
           {
+            test: /\.html$/,
+            loader: require.resolve('html-loader'),
+          },
+          {
             loader: require.resolve('file-loader'),
             exclude: [/\.js$/, /\.html$/, /\.json$/],
             options: {

@@ -102,6 +102,10 @@ export default {
               },
             ],
           },
+          {
+            test: /\.html$/,
+            loader: require.resolve('html-loader'),
+          },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
           // In production, they would get copied to the `build` folder.
@@ -131,7 +135,7 @@ export default {
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
-      template: paths.appHtml,
+      template: `!!html-loader!${paths.appHtml}`,
     }),
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),

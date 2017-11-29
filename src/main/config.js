@@ -4,6 +4,7 @@ const config = {
   debug: true,
   thirdPartyDebug: false,
   appKey: '',
+  className: '',
 };
 
 export function getConfig(options = {}) {

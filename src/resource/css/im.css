@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS reset */
-textarea{font-family: "Microsoft YaHei","Hiragino Sans GB","STHeiti","SimSun","Arial";}
+.jjsim textarea{font-family: "Microsoft YaHei","Hiragino Sans GB","STHeiti","SimSun","Arial";}
 .jjsim *{margin:0;padding:0; border:none; }
 .jjsim img {border:0;}
 .jjsim em,.jjsim i{font-style:normal;font-weight:normal;}

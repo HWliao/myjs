@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { createDebug } from './utils/log';
+import { createDebug } from '../utils/log';
+import { layout } from './testReducer';
 
 const log = createDebug('im:store');
 
@@ -14,11 +15,24 @@ export class Store {
   constructor() {
     log('store construct...');
     const reducers = combineReducers({
-      test: t => t || {},
+      layout,
     });
     this.store = createStore(reducers, applyMiddleware(...middlewares));
-    setTimeout(() => {
-      this.store.dispatch({ type: 1 });
-    }, 1000);
+  }
+
+  dispatch(...args) {
+    return this.store.dispatch(...args);
+  }
+
+  getState(...args) {
+    return this.store.getState(...args);
+  }
+
+  subscribe(...args) {
+    return this.store.subscribe(...args);
+  }
+
+  replaceReducer(...args) {
+    return this.store.replaceReducer(...args);
   }
 }
