@@ -24,3 +24,15 @@ im-web-plugin
 ```
 ####架构
 ![架构图](/ArchitectureDiagram.png)
+####技术关键词
+```
+webpack
+babel
+eslint
+ES6
+redux
+redux-immutable
+redux-thunk
+jquery
+NIM_WEB_SDK
+```

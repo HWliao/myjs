@@ -9,8 +9,15 @@ const options = {
   debug: true,
   thirdPartyDebug: false,
 };
-
+// 初始化
+let im = null;
 $('#init').on('click', () => {
   // eslint-disable-next-line no-new
-  new Im(options);
+  im = new Im(options);
+});
+// 显示/隐藏
+let i = 0;
+$('#hideLayout').on('click', () => {
+  im.show(i % 2 === 0);
+  i += 1;
 });

@@ -1,7 +1,10 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import thunkMiddleware from 'redux-thunk';
+import { Map } from 'immutable';
+
 import { createDebug } from '../utils/log';
-import { layout } from './testReducer';
+import { isLayoutShow } from '../components/layout/layoutReducer';
 
 const log = createDebug('im:store');
 
@@ -14,18 +17,19 @@ if (process.env.NODE_ENV === 'development') {
 export class Store {
   constructor() {
     log('store construct...');
-    const reducers = combineReducers({
-      layout,
+    const initialState = Map({});
+    const rootReducer = combineReducers({
+      isLayoutShow,
     });
-    this.store = createStore(reducers, applyMiddleware(...middlewares));
+    this.store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));
   }
 
   dispatch(...args) {
     return this.store.dispatch(...args);
   }
 
-  getState(...args) {
-    return this.store.getState(...args);
+  getState() {
+    return this.store.getState();
   }
 
   subscribe(...args) {
