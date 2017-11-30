@@ -4,3 +4,5 @@ export const IS_LOGIN = 'isLogin';
 export const IS_LAYOUT_SHOW = 'isLayoutShow';
 // 展开/收起
 export const IS_SIDEBAR_UP = 'isSidebarUp';
+// 用户account
+export const USER_ACCOUNT = 'userAccount';

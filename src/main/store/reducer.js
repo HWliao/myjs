@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import { LOGIN, LOGOUT } from '../model/action';
 
 /**
@@ -12,6 +13,23 @@ export function isLogin(state = false, action) {
       return true;
     case LOGOUT:
       return false;
+    default:
+      return state;
+  }
+}
+
+/**
+ * 用户account
+ * @param state
+ * @param action
+ * @return {{}}
+ */
+export function userAccount(state = {}, action) {
+  switch (action.type) {
+    case LOGIN:
+      return $.extend({}, action.payload);
+    case LOGOUT:
+      return {};
     default:
       return state;
   }

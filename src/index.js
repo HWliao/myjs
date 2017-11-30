@@ -41,3 +41,11 @@ $('#hideLayout').on('click', () => {
   im.show(i % 2 === 0);
   i += 1;
 });
+// 登入
+$('#login').on('click', () => {
+  im.login('123106', '123456');
+});
+// 登出
+$('#logout').on('click', () => {
+  im.logout();
+});

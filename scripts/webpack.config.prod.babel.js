@@ -32,12 +32,11 @@ export default {
   devtool: shouldUseSourceMap ? 'source-map' : false,
   entry: {
     vender: [
+      './src/polyfill.js',
       `${paths.appVender}/nim-sdk/NIM_Web_NIM_v3.8.0.js`,
       'eventemitter3',
       'redux',
-      'immutable',
       'redux-thunk',
-      'redux-immutable',
     ],
     main: './src/main/main.js',
   },

@@ -12,6 +12,8 @@ import { Sidebar } from './components/sidebar/sidebar';
 import { IM_TO_CONSULTING, IM_TO_LOGIN, SIDEBAR_HEADER_CLICK, SIDEBAR_LOGIN_BTN_CLICK } from './model/event';
 import { sideUpOrDown } from './components/sidebar/sidebarAction';
 import { IS_LOGIN, IS_SIDEBAR_UP } from './model/state';
+import { login, logout } from './store/action';
+import { createError, IS_LOGINED, NOT_LOGIN } from './model/error';
 
 const log = createDebug('im:main');
 
@@ -56,7 +58,7 @@ export default class Im extends EventEmiiter {
     // 登入按钮点击处理
     this.sidebar.on(SIDEBAR_LOGIN_BTN_CLICK, () => {
       // 未登入发起登入
-      if (this.store.get(IS_LOGIN)) {
+      if (!this.store.get(IS_LOGIN)) {
         this.emit(IM_TO_LOGIN);
       }
     });
@@ -74,8 +76,38 @@ export default class Im extends EventEmiiter {
     }
   }
 
+  /**
+   * 登入
+   * @param accid
+   * @param password
+   * @return {*}
+   */
+  login(accid, password) {
+    log('im login accid:%s,pasword:%s', accid, password);
+    if (this.store.get(IS_LOGIN)) Promise.reject(createError(IS_LOGINED));
+    // im login
+    log('isLogin state set to true');
+    this.store.dispatch(login({ accid, password }));
+    // sdk connect
+    return this.sdk.connect(accid, password);
+  }
+
+  logout() {
+    log('im logout');
+    if (!this.store.get(IS_LOGIN)) Promise.reject(createError(NOT_LOGIN));
+    log('isLogin state set false');
+    this.store.dispatch(logout());
+    return Promise.resolve();
+  }
+
+  // 事件类型
   static event = {
     IM_TO_LOGIN,
     IM_TO_CONSULTING,
-  }
+  };
+
+  static errorCode = {
+    IS_LOGINED,
+    NOT_LOGIN,
+  };
 }
