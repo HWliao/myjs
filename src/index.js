@@ -4,16 +4,36 @@ import $ from 'jquery';
 
 import Im from './main/main';
 
+let im = null;
+
+// 打印
+function println(str) {
+  const $c = $('#console');
+  $c.val(`${str}\n${$c.val()}`);
+}
+
+// 监听事件
+function doOn() {
+  // 监听im事件
+  im.on(Im.event.IM_TO_LOGIN, () => {
+    println('need to login');
+  });
+  im.on(Im.event.IM_TO_CONSULTING, () => {
+    println('need to consulting');
+  });
+}
+
+// 配置
 const options = {
   className: 'my-class',
   debug: true,
   thirdPartyDebug: false,
 };
 // 初始化
-let im = null;
 $('#init').on('click', () => {
   // eslint-disable-next-line no-new
   im = new Im(options);
+  doOn();
 });
 // 显示/隐藏
 let i = 0;

@@ -73,4 +73,9 @@ export default class Im extends EventEmiiter {
       this.store.dispatch(hideLayout());
     }
   }
+
+  static event = {
+    IM_TO_LOGIN,
+    IM_TO_CONSULTING,
+  }
 }
