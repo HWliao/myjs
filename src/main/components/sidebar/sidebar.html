@@ -1,7 +1,46 @@
-<div class="jjsim-hd">
-  <i class="im-icon sprite sprite-dialog shake">
-    <span class="jjsim-hd-num"></span>
-  </i>
-  <span class="im-title"></span>
-  <a class="jjsim-hd-closebtn sprite sprite-down"></a>
+<div class="jjsim-wrap">
+  <div class="jjsim-hd">
+    <i class="jjsim-icon sprite sprite-dialog shake">
+      <span class="jjsim-hd-num"></span>
+    </i>
+    <span class="im-title"></span>
+    <a class="jjsim-hd-closebtn sprite sprite-down"></a>
+  </div>
+  <div class="jjsim-bd scroll">
+    <!-- 未登录 -->
+    <div class="jjsim-noagent" id="jjsim-nologin">
+      <i class="sprite sprite-chart"></i>
+      <p></p>
+      <a href="javascript:" class="loginbtn"></a>
+    </div>
+    <!-- 登录之后暂无经纪人 -->
+    <div class="jjsim-noagent" id="jjsim-noagent">
+      <i class="sprite sprite-person"></i>
+      <p></p>
+    </div>
+    <!-- 列表 -->
+    <ul class="jjsim-list" id="jjsim-list">
+      <li class="jjsim-bd-item">
+        <div class="jjsim-item-img">
+          <img
+            src="https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88"
+            onerror="this.src='images/default.png';this.onError=null;">
+        </div>
+        <em class="num" title="103">···</em>
+        <span class="name" title="李芳">李芳</span>
+        <span class="text" title="啥时候有空来看看">啥时候有空来看看</span>
+        <span class="time" title="08:48">08:48</span>
+      </li>
+      <li class="jjsim-bd-item">
+        <div class="jjsim-item-img">
+          <img
+            src="https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88"
+            onerror="this.src='images/default.png';this.onError=null;">
+        </div>
+        <span class="name" title="李芳">李芳</span>
+        <span class="text" title="这套房子满五年，差不多可以马上出售">这套房子满五年，差不多可以马上出售</span>
+        <span class="time" title="昨天 08:48">昨天 08:48</span>
+      </li>
+    </ul>
+  </div>
 </div>

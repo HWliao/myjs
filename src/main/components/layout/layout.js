@@ -2,6 +2,7 @@ import $ from 'jquery';
 
 import { createDebug } from '../../utils/log';
 import layoutHeml from './layout.html';
+import { IS_LAYOUT_SHOW, IS_SIDEBAR_UP } from '../../model/state';
 
 const log = createDebug('im:layout');
 
@@ -18,8 +19,10 @@ export class Layout {
     this.init();
     // 监听状态变化
     this.store.subscribe(() => {
-      const state = this.store.getState();
-      this.update(state.get('isLayoutShow'));
+      this.update({
+        isShow: this.store.get(IS_LAYOUT_SHOW),
+        isSidebarUp: this.store.get(IS_SIDEBAR_UP),
+      });
     });
   }
 
@@ -28,15 +31,30 @@ export class Layout {
     $(layoutHeml).addClass(this.className).attr('id', id).appendTo(document.body);
     this.$layout = $(`#${id}`);
     this.inited = true;
-    this.update(false);
     log(`im layout ui inited,id:${id}`);
   }
 
-  update(isShow) {
-    log(`update isShow:${isShow},inited:${this.inited}`);
+  update(state) {
+    log(`update state:%o,inited:${this.inited}`, state);
     if (!this.inited) return;
+    this.showOrHide(state.isShow);
+    this.upOrDown(state.isSidebarUp);
+  }
+
+  upOrDown(isUp) {
+    if (this.isUp === isUp) return;
+    log(`layout do up ${isUp}`);
+    this.isUp = isUp;
+    if (isUp) {
+      this.$layout.removeClass('im-fold');
+    } else {
+      this.$layout.addClass('im-fold');
+    }
+  }
+
+  showOrHide(isShow) {
     if (this.isShow === isShow) return;
-    log('do update.');
+    log(`layout show ${isShow}`);
     this.isShow = isShow;
     if (isShow) {
       this.$layout.show();

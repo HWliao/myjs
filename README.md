@@ -31,6 +31,7 @@ babel
 eslint
 ES6
 redux
+redux devtool
 redux-immutable
 redux-thunk
 jquery

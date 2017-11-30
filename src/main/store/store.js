@@ -1,10 +1,13 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import thunkMiddleware from 'redux-thunk';
 import { Map } from 'immutable';
 
 import { createDebug } from '../utils/log';
 import { isLayoutShow } from '../components/layout/layoutReducer';
+import { isSidebarUp } from '../components/sidebar/sidebarReducer';
+import { isLogin } from './reducer';
+import { IS_LAYOUT_SHOW, IS_SIDEBAR_UP, IS_LOGIN } from '../model/state';
 
 const log = createDebug('im:store');
 
@@ -19,9 +22,24 @@ export class Store {
     log('store construct...');
     const initialState = Map({});
     const rootReducer = combineReducers({
-      isLayoutShow,
+      [IS_LAYOUT_SHOW]: isLayoutShow,
+      [IS_SIDEBAR_UP]: isSidebarUp,
+      [IS_LOGIN]: isLogin,
     });
-    this.store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));
+
+    if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+      // 有redux开发工具,加载开发工具
+      this.store = createStore(
+        rootReducer,
+        initialState,
+        compose(
+          applyMiddleware(...middlewares),
+          window.__REDUX_DEVTOOLS_EXTENSION__(),
+        ),
+      );
+    } else {
+      this.store = createStore(rootReducer, initialState, applyMiddleware(...middlewares));
+    }
   }
 
   dispatch(...args) {
@@ -38,5 +56,9 @@ export class Store {
 
   replaceReducer(...args) {
     return this.store.replaceReducer(...args);
+  }
+
+  get(...args) {
+    return this.store.getState().get(...args);
   }
 }

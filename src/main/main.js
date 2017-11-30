@@ -8,7 +8,10 @@ import { getConfig } from './config';
 import { Sdk } from './sdk';
 import { Layout } from './components/layout/layout';
 import { hideLayout, showLayout } from './components/layout/layoutAction';
-import { Sidebar } from "./components/sidebar/sidebar";
+import { Sidebar } from './components/sidebar/sidebar';
+import { IM_TO_CONSULTING, IM_TO_LOGIN, SIDEBAR_HEADER_CLICK, SIDEBAR_LOGIN_BTN_CLICK } from './model/event';
+import { sideUpOrDown } from './components/sidebar/sidebarAction';
+import { IS_LOGIN, IS_SIDEBAR_UP } from './model/state';
 
 const log = createDebug('im:main');
 
@@ -34,10 +37,29 @@ export default class Im extends EventEmiiter {
 
     // 显示layout ui
     this.store.dispatch(showLayout());
-  }
 
-  login(accid, password) {
+    // 侧边栏头部被点击
+    this.sidebar.on(SIDEBAR_HEADER_CLICK, () => {
+      log('main on SIDEBAR_HEADER_CLICK');
+      // 改变 收起/展开 状态
+      const currIsUp = this.store.get(IS_SIDEBAR_UP);
+      log(`main change size up/down. ${!currIsUp}`);
+      this.store.dispatch(sideUpOrDown(!currIsUp));
 
+      // 登入状态发起咨询
+      if (this.store.get(IS_LOGIN)) {
+        log('main emit IM_TO_CONSULTING');
+        this.emit(IM_TO_CONSULTING);
+      }
+    });
+
+    // 登入按钮点击处理
+    this.sidebar.on(SIDEBAR_LOGIN_BTN_CLICK, () => {
+      // 未登入发起登入
+      if (this.store.get(IS_LOGIN)) {
+        this.emit(IM_TO_LOGIN);
+      }
+    });
   }
 
   /**

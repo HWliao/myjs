@@ -1,4 +1,4 @@
-import { LAYOUT_SHOW, LAYOUT_HIDE } from '../../store/action';
+import { LAYOUT_SHOW, LAYOUT_HIDE } from '../../model/action';
 
 export function isLayoutShow(state = false, action) {
   switch (action.type) {

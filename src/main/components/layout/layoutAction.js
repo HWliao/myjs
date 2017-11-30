@@ -1,4 +1,4 @@
-import { LAYOUT_SHOW, LAYOUT_HIDE, createAction } from '../../store/action';
+import { LAYOUT_SHOW, LAYOUT_HIDE, createAction } from '../../model/action';
 
 export function showLayout() {
   return createAction(LAYOUT_SHOW, true);
