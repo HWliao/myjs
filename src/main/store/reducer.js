@@ -1,4 +1,8 @@
-import { LOGIN, LOGOUT, SDK_CONNECT, SDK_DISCONNECT, SDK_WILL_CONNECT } from '../model/action';
+import {
+  LOGIN, LOGOUT, SDK_CONNECT, SDK_DISCONNECT, SDK_LOGIN_PORTS_CHANGE, SDK_SYNC_DONE, SDK_UPDATE_MY_INFO,
+  SDK_UPDATE_SESSIONS,
+  SDK_WILL_CONNECT
+} from '../model/action';
 
 /**
  * 登入状态变化处理
@@ -72,9 +76,51 @@ export function sdkWillConnectInfo(state = null, action) {
   }
 }
 
+export function sdkLoginPorts(state = [], action) {
+  if (action.type === SDK_LOGIN_PORTS_CHANGE) {
+    return action.payload.map(loginPort => Object.assign({}, loginPort));
+  }
+  return state;
+}
+
+export function sdkMyInfo(state = {}, action) {
+  if (action.type === SDK_UPDATE_MY_INFO) {
+    return Object.assign({}, action.payload);
+  }
+  return state;
+}
+
+export function sdkSessionTime(state = 0, action) {
+  if (action.type === SDK_UPDATE_SESSIONS) {
+    return action.meta.updateTime;
+  }
+  return state;
+}
+
+export function sdkSessions(state = [], action) {
+  if (action.type === SDK_UPDATE_SESSIONS) {
+    return [].concat(action.meta.sessions);
+  }
+  return state;
+}
+
+export function sdkCurrUpdateSessions(state = [], action) {
+  if (action.type === SDK_UPDATE_SESSIONS) {
+    return [].concat(action.payload);
+  }
+  return state;
+}
+
 export function error(state = null, action) {
   if (action.error) {
     return Object.assign({}, action.payload);
+  }
+  return state;
+}
+
+export function sdkSyncDone(state = false, action) {
+  if (action.type === SDK_SYNC_DONE) {
+    return true;
   }
   return state;
 }

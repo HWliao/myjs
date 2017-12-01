@@ -1,9 +1,19 @@
 import EventEmitter from 'eventemitter3';
-import NIM from '../vender/nim-sdk/NIM_Web_NIM_v3.8.0';
+import $ from 'jquery';
 
+import NIM from '../vender/nim-sdk/NIM_Web_NIM_v3.8.0';
 import { createDebug } from './utils/log';
 import { SDK_CONNECT_COUNT, USER_ACCOUNT } from './model/state';
-import { error, sdkConnected, sdkDisconnected, sdkWillConnect } from './store/action';
+import {
+  error,
+  sdkConnected,
+  sdkDisconnected,
+  sdkLoginPortsChange, sdkSyncDeon,
+  sdkUpdateMyInfo,
+  sdkUpdateSessions,
+  sdkWillConnect,
+} from './store/action';
+import { SCENE_P2P } from './model/constant';
 
 const log = createDebug('im:sdk');
 
@@ -58,7 +68,8 @@ export class Sdk extends EventEmitter {
       syncSessionUnread: true,
       onsessions: this.onsessions.bind(this),
       onupdatesession: this.onupdatesession.bind(this),
-      syncRoamingMsgs: false,
+      syncRoamingMsgs: true,
+      onroamingmsgs: this.onroamingmsgs.bind(this),
       onofflinemsgs: this.onofflinemsgs.bind(this),
       onmsg: this.onmsg.bind(this),
       syncMsgReceipts: true,
@@ -112,56 +123,100 @@ export class Sdk extends EventEmitter {
   /**
    * 多端登录状态变化的回调
    */
-  onloginportschange() {
-    log('sdk loginportschange %o', this);
+  onloginportschange(loginPorts = []) {
+    log('sdk loginportschange %o', loginPorts);
+    if ($.isArray(loginPorts)) {
+      this.store.dispatch(sdkLoginPortsChange(loginPorts));
+    }
   }
 
   /**
    * 同步登录用户名片的回调
    */
-  onmyinfo() {
-    log('sdk meyinfo %o', this);
+  onmyinfo(info = {}) {
+    log('sdk meyinfo %o', info);
+    this.store.dispatch(sdkUpdateMyInfo(info));
   }
 
   /**
    * 当前用户信息其他段修改同步
    */
-  onupdatemyinfo() {
-    log('sdk updatemyinfo %o', this);
+  onupdatemyinfo(info = {}) {
+    log('sdk updatemyinfo %o', info);
+    this.store.dispatch(sdkUpdateMyInfo(info));
   }
 
   /**
    * 同步最近会话列表回调
    */
-  onsessions() {
-    log('sdk sessions %o', this);
+  onsessions(sessions = []) {
+    log('sdk sessions %o', sessions);
+    this.store.putSessions(sessions);
+
+    const updateSessions = sessions.map(session => session.id);
+    const totalSessions = this.store.getTotalSessionIds();
+    this.store.dispatch(sdkUpdateSessions(updateSessions, totalSessions));
   }
 
   /**
    * 更新会话的回调
    */
-  onupdatesession() {
-    log('sdk updatesession %o', this);
+  onupdatesession(s) {
+    log('sdk updatesession %o', s);
+    const sessions = [s];
+    this.store.putSessions(sessions);
+
+    const updateSessions = sessions.map(session => session.id);
+    const totalSessions = this.store.getTotalSessionIds();
+    this.store.dispatch(sdkUpdateSessions(updateSessions, totalSessions));
+  }
+
+  /**
+   * 同步漫游消息的回调
+   */
+  onroamingmsgs({ msgs = [] }) {
+    log('sdk roamingmsgs %o', msgs);
+    this.store.putMsgs(msgs);
   }
 
   /**
    * 同步离线消息的回调
    */
-  onofflinemsgs() {
-    log('sdk offlinemsgs %o', this);
+  onofflinemsgs({ msgs = [] }) {
+    log('sdk offlinemsgs %o', msgs);
+    this.store.putMsgs(msgs);
   }
 
   /**
    * 收到消息的回调
    */
-  onmsg() {
-    log('sdk onmsg %o', this);
+  onmsg(msg) {
+    log('sdk onmsg %o', msg);
+    this.store.putMsgs([msg]);
   }
 
   /**
    * 数据同步完成
    */
   onsyncdone() {
-    log('sdk onsyncdone %o', this);
+    const sessions = this.store.getTotalSessions();
+    log('sdk onsyncdone %o', this.store);
+    this.store.dispatch(sdkSyncDeon());
+    // 获取所有单聊会话中涉及到的人员accid
+    const userAccids = sessions
+      .filter(session => session.scene === SCENE_P2P)
+      .map(session => session.to);
+    userAccids.push(this.store.get(USER_ACCOUNT).accid);
+    // 获取人员信息
+    this.getUsers(userAccids);
+  }
+
+  /**
+   * 批量获取用户信息
+   * @param accids
+   */
+  getUsers(accids = []) {
+    log('getUsers accids num %d', accids.length);
   }
 }
+

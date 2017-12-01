@@ -1,4 +1,15 @@
-import { createAction, ERROR, LOGIN, LOGOUT, SDK_CONNECT, SDK_DISCONNECT, SDK_WILL_CONNECT } from '../model/action';
+import {
+  createAction,
+  ERROR,
+  LOGIN,
+  LOGOUT,
+  SDK_CONNECT,
+  SDK_DISCONNECT,
+  SDK_LOGIN_PORTS_CHANGE, SDK_SYNC_DONE,
+  SDK_UPDATE_MY_INFO,
+  SDK_UPDATE_SESSIONS,
+  SDK_WILL_CONNECT,
+} from '../model/action';
 
 /**
  * 登入
@@ -31,7 +42,7 @@ export function sdkConnected(connectNum) {
  * @return {{type, payload, error, meta}|*}
  */
 export function sdkDisconnected() {
-  return createAction(SDK_DISCONNECT);
+  return createAction(SDK_DISCONNECT, '');
 }
 
 /**
@@ -41,6 +52,37 @@ export function sdkDisconnected() {
  */
 export function sdkWillConnect(obj) {
   return createAction(SDK_WILL_CONNECT, { time: new Date().getTime(), retry: obj.retryCount });
+}
+
+/**
+ * 多段登入状态变化
+ * @param loginPorts
+ * @return {{type, payload, error, meta}|*}
+ */
+export function sdkLoginPortsChange(loginPorts) {
+  return createAction(SDK_LOGIN_PORTS_CHANGE, loginPorts);
+}
+
+/**
+ * 更新当前用户信息
+ * @param info
+ * @return {{type, payload, error, meta}|*}
+ */
+export function sdkUpdateMyInfo(info) {
+  return createAction(SDK_UPDATE_MY_INFO, {
+    account: info.account,
+    nick: info.nick,
+    avatar: info.avatar,
+    createTime: info.createTime,
+    updateTime: info.updateTime,
+  });
+}
+
+export function sdkUpdateSessions(sessions = [], totalSessions = []) {
+  return createAction(SDK_UPDATE_SESSIONS, [].concat(sessions), false, {
+    updateTime: new Date().getTime(),
+    sessions: [].concat(totalSessions),
+  });
 }
 
 /**
@@ -54,4 +96,12 @@ export function error(e) {
     code: e.code,
     message: e.message,
   }, true);
+}
+
+/**
+ * 数据同步完成
+ * @return {{type, payload, error, meta}|*}
+ */
+export function sdkSyncDeon() {
+  return createAction(SDK_SYNC_DONE, true);
 }

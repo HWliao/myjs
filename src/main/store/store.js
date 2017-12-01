@@ -2,12 +2,22 @@ import $ from 'jquery';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
+import NIM from '../../vender/nim-sdk/NIM_Web_NIM_v3.8.0';
 import { createDebug } from '../utils/log';
 import { isLayoutShow } from '../components/layout/layoutReducer';
 import { isSidebarUp } from '../components/sidebar/sidebarReducer';
 import {
-  error, isLogin, isSdkConnected, sdkConnectCount, sdkDriverInfo, sdkWillConnectInfo,
-  userAccount
+  error,
+  isLogin,
+  isSdkConnected,
+  sdkConnectCount, sdkCurrUpdateSessions,
+  sdkDriverInfo,
+  sdkLoginPorts,
+  sdkMyInfo, sdkSessions,
+  sdkSessionTime,
+  sdkWillConnectInfo,
+  userAccount,
+  sdkSyncDone,
 } from './reducer';
 import {
   IS_LAYOUT_SHOW,
@@ -17,7 +27,11 @@ import {
   IS_SDK_CONNECTED,
   SDK_CONNECT_COUNT,
   SDK_DRIVER_INFO,
-  ERROR, SDK_WILL_CONNECT_INFO,
+  ERROR,
+  SDK_WILL_CONNECT_INFO,
+  SDK_LOGIN_PORTS,
+  SDK_MY_INFO,
+  SDK_SESSION_TIME, SDK_SESSIONS, SDK_CURR_UPDATE_SESSIONS, SDK_SYNC_DONE,
 } from '../model/state';
 
 const log = createDebug('im:store');
@@ -29,6 +43,15 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export class Store {
+  // 按updateTime倒序排列
+  sessions = [];
+  // 以sessionId作为key
+  sessionMap = {};
+  // 以sessionid作为key,分组消息
+  msgs = {};
+  // 以idServer作为key
+  msgMap = {};
+
   constructor() {
     log('store construct...');
     const initialState = {};
@@ -41,10 +64,17 @@ export class Store {
       [SDK_CONNECT_COUNT]: sdkConnectCount,
       [SDK_DRIVER_INFO]: sdkDriverInfo,
       [SDK_WILL_CONNECT_INFO]: sdkWillConnectInfo,
+      [SDK_LOGIN_PORTS]: sdkLoginPorts,
+      [SDK_MY_INFO]: sdkMyInfo,
+      [SDK_SESSION_TIME]: sdkSessionTime,
+      [SDK_SESSIONS]: sdkSessions,
+      [SDK_CURR_UPDATE_SESSIONS]: sdkCurrUpdateSessions,
       [ERROR]: error,
+      [SDK_SYNC_DONE]: sdkSyncDone,
     });
-
+    log('rootRoducer %o', rootReducer);
     if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+      log('==== __REDUX_DEVTOOLS_EXTENSION__ ====');
       // 有redux开发工具,加载开发工具
       this.store = createStore(
         rootReducer,
@@ -83,5 +113,70 @@ export class Store {
       return [].concat(value);
     }
     return value;
+  }
+
+  /**
+   * 保存sessions,并且按updateTime倒序排列
+   * @param sessions
+   */
+  putSessions(sessions = []) {
+    this.sessions = NIM.util.mergeObjArray([], this.sessions, sessions, {
+      sortPath: 'updateTime',
+      desc: true,
+    });
+    sessions.forEach((session) => {
+      this.sessionMap[session.id] = session;
+    });
+  }
+
+  /**
+   * 获取总的sessionids
+   * @return {Array}
+   */
+  getTotalSessionIds() {
+    return this.sessions.map(session => session.id);
+  }
+
+  /**
+   * 获取所有的会话
+   * @return {Array.<*>}
+   */
+  getTotalSessions() {
+    return [].concat(this.sessions);
+  }
+
+  /**
+   * 传递进来的消息,倒序去重
+   * @param msgs
+   */
+  putMsgs(msgs = []) {
+    NIM.util.mergeObjArray([], [], msgs, {
+      keyPath: 'idClient',
+      sortPath: 'time',
+      desc: true,
+    }).forEach((msg) => {
+      this.msgMap[msg.idServer] = msg;
+      const sessionMsgs = this.msgs[msg.sessionId] || [];
+      sessionMsgs.push(msg);
+      this.msgs[msg.sessionId] = sessionMsgs;
+    });
+  }
+
+  /**
+   * 获取session对应的消息
+   * @param sessionId
+   * @return {Array.<*>}
+   */
+  getMsgsBySessionId(sessionId) {
+    return [].concat(this.msgs[sessionId]);
+  }
+
+  /**
+   * 根据idServer获取msg
+   * @param idServer
+   * @return {*}
+   */
+  getMsgByIdServer(idServer) {
+    return this.msgMap[idServer];
   }
 }

@@ -40,6 +40,16 @@ export const SDK_CONNECT = 'sdkConnect';
 export const SDK_DISCONNECT = 'sdkDisconnect';
 // sdk重新连接
 export const SDK_WILL_CONNECT = 'sdkWillConnect';
+// 多段登入状态变化
+export const SDK_LOGIN_PORTS_CHANGE = 'sdkLoginPortschange';
+// 更新当前用户信息
+export const SDK_UPDATE_MY_INFO = 'sdkUpdateMyInfo';
+// 更新会话
+export const SDK_UPDATE_SESSIONS = 'sdkUpdateSessions';
+// 更新用户信息
+export const SDK_UPDATE_USER = 'sdkUpdateUser';
+// 同步完成
+export const SDK_SYNC_DONE = 'sdkSyncDone';
 
 // error
 export const ERROR = 'error';

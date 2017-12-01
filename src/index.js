@@ -28,6 +28,7 @@ const options = {
   className: 'my-class',
   debug: true,
   thirdPartyDebug: false,
+  appKey: '638aae803525df4d733c7703e0c3323f',
 };
 // 初始化
 $('#init').on('click', () => {
