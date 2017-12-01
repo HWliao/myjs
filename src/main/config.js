@@ -1,9 +1,7 @@
-import $ from 'jquery';
-
 const config = {
   debug: true,
   thirdPartyDebug: false,
-  appKey: '',
+  appKey: '5ec5e1e55171f05a42483c5d33339691',
   className: '',
   // 侧边栏提示配置
   sidebarTitle: '在线咨询',
@@ -17,5 +15,5 @@ const config = {
 };
 
 export function getConfig(options = {}) {
-  return $.extend({}, config, options);
+  return Object.assign({}, config, options);
 }

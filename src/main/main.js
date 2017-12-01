@@ -84,17 +84,18 @@ export default class Im extends EventEmiiter {
    */
   login(accid, password) {
     log('im login accid:%s,pasword:%s', accid, password);
-    if (this.store.get(IS_LOGIN)) Promise.reject(createError(IS_LOGINED));
+    if (this.store.get(IS_LOGIN)) return;
     // im login
     log('isLogin state set to true');
     this.store.dispatch(login({ accid, password }));
     // sdk connect
-    return this.sdk.connect(accid, password);
+    this.sdk.connect(accid, password);
   }
 
   logout() {
     log('im logout');
-    if (!this.store.get(IS_LOGIN)) Promise.reject(createError(NOT_LOGIN));
+    if (!this.store.get(IS_LOGIN)) return Promise.reject(createError(NOT_LOGIN));
+    this.sdk.disconnect();
     log('isLogin state set false');
     this.store.dispatch(logout());
     return Promise.resolve();

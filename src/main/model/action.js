@@ -3,7 +3,7 @@ import $ from 'jquery';
 /**
  * 创建标准的action
  */
-export function createAction(type, payload, error = true, meta) {
+export function createAction(type, payload, error = false, meta) {
   if ($.isEmptyObject(type)) {
     throw new Error(`the action type must be a empty. ${type}`);
   }
@@ -33,3 +33,13 @@ export const SIDEBAR_DOWN = 'sidebar_down';
 export const LOGIN = 'login';
 // 登出
 export const LOGOUT = 'logout';
+
+// sdk连接
+export const SDK_CONNECT = 'sdkConnect';
+// sdk断开连接
+export const SDK_DISCONNECT = 'sdkDisconnect';
+// sdk重新连接
+export const SDK_WILL_CONNECT = 'sdkWillConnect';
+
+// error
+export const ERROR = 'error';

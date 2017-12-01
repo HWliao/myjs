@@ -5,8 +5,20 @@ import thunkMiddleware from 'redux-thunk';
 import { createDebug } from '../utils/log';
 import { isLayoutShow } from '../components/layout/layoutReducer';
 import { isSidebarUp } from '../components/sidebar/sidebarReducer';
-import { isLogin, userAccount } from './reducer';
-import { IS_LAYOUT_SHOW, IS_SIDEBAR_UP, IS_LOGIN, USER_ACCOUNT } from '../model/state';
+import {
+  error, isLogin, isSdkConnected, sdkConnectCount, sdkDriverInfo, sdkWillConnectInfo,
+  userAccount
+} from './reducer';
+import {
+  IS_LAYOUT_SHOW,
+  IS_SIDEBAR_UP,
+  IS_LOGIN,
+  USER_ACCOUNT,
+  IS_SDK_CONNECTED,
+  SDK_CONNECT_COUNT,
+  SDK_DRIVER_INFO,
+  ERROR, SDK_WILL_CONNECT_INFO,
+} from '../model/state';
 
 const log = createDebug('im:store');
 
@@ -25,6 +37,11 @@ export class Store {
       [IS_SIDEBAR_UP]: isSidebarUp,
       [IS_LOGIN]: isLogin,
       [USER_ACCOUNT]: userAccount,
+      [IS_SDK_CONNECTED]: isSdkConnected,
+      [SDK_CONNECT_COUNT]: sdkConnectCount,
+      [SDK_DRIVER_INFO]: sdkDriverInfo,
+      [SDK_WILL_CONNECT_INFO]: sdkWillConnectInfo,
+      [ERROR]: error,
     });
 
     if (window.__REDUX_DEVTOOLS_EXTENSION__) {
@@ -61,7 +78,7 @@ export class Store {
   get(key) {
     const value = this.store.getState()[key];
     if ($.isPlainObject(value)) {
-      return $.extend({}, value);
+      return Object.assign({}, value);
     } else if ($.isArray(value)) {
       return [].concat(value);
     }
