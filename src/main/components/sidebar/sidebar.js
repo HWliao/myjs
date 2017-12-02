@@ -1,9 +1,10 @@
 import EventEmitter from 'eventemitter3';
 import $ from 'jquery';
 import sidebarHtml from './sidebar.html';
+import { clearFlashing, flashing } from '../../utils/utils';
 import { createDebug } from '../../utils/log';
 import { SIDEBAR_HEADER_CLICK, SIDEBAR_LOGIN_BTN_CLICK } from '../../model/event';
-import { IS_LOGIN, IS_SIDEBAR_UP } from '../../model/state';
+import { IS_LOGIN, IS_SIDEBAR_UP, SDK_SESSIONS } from '../../model/state';
 
 const log = createDebug('im:sidebar');
 
@@ -13,6 +14,11 @@ const SIDEBAR_CONTENT_NOLOGIN = 1;
 const SIDEBAR_CONTENT_NOAGENT = 2;
 // 有sessions
 const SIDEBAR_CONTENT_LIST = 3;
+
+// 侧边栏 未读总数 属性
+const SIDEBAR_TOTAL_MSG_NUM_ATTR = 'data-unread';
+// 侧边栏 未读总数 最大限制
+const SIDEBAR_TOTAL_NUM_MAX = 99;
 
 export class Sidebar extends EventEmitter {
   constructor(options, layout, store) {
@@ -30,10 +36,7 @@ export class Sidebar extends EventEmitter {
     // 监听状态变化
     this.store.subscribe(() => {
       log('listening store change');
-      this.update({
-        isLogin: this.store.get(IS_LOGIN),
-        isSidebarUp: this.store.get(IS_SIDEBAR_UP),
-      });
+      this.update();
     });
   }
 
@@ -59,7 +62,7 @@ export class Sidebar extends EventEmitter {
 
     this.$header = this.$sidebar.find('.jjsim-hd');
     this.$totalMsgNum = this.$sidebar.find('.jjsim-hd-num');
-    this.$msgIcon = this.$sidebar.find('.im-icon');
+    this.$msgIcon = this.$sidebar.find('.jjsim-icon');
     this.$toggleBtn = this.$sidebar.find('.jjsim-hd-closebtn');
 
     this.$nologin = this.$sidebar.find('#jjsim-nologin');
@@ -73,29 +76,23 @@ export class Sidebar extends EventEmitter {
     this.$sessionList = this.$sidebar.find('#jjsim-list');
   }
 
-  update(state) {
-    log('update sidebar,%o', state);
+  update() {
+    log('update sidebar');
     if (!this.inited) return;
-    if (!state.isLogin && !state.isSidebarUp) {
-      // 未登入,且收起侧边栏
-      log(`sidebar isLogin:${state.isLogin},isSidebarUp:${state.isSidebarUp}`);
-      this.showUnreadMsgTotalNum(0);
-      this.shakeUnreadMsgTotalNum(false);
-      this.toggleSidebarHeader(false);
-      this.switchSidebarContent(SIDEBAR_CONTENT_NOLOGIN);
-    } else if (!state.isLogin && state.isSidebarUp) {
-      // 未登入,且收起侧边栏
-      log(`sidebar isLogin:${state.isLogin},isSidebarUp:${state.isSidebarUp}`);
-      this.showUnreadMsgTotalNum(0);
-      this.shakeUnreadMsgTotalNum(false);
-      this.toggleSidebarHeader(true);
-      this.switchSidebarContent(SIDEBAR_CONTENT_NOLOGIN);
-    } else {
-      // todo
-      log('sidebar update todo');
-    }
+
+    // 展开收起 与登入与否无关
+    this.toggleSidebarHeader();
+
+    // 未读数量(闪烁)
+    this.showUnreadMsgTotalNum();
+
+    this.switchSidebarContent(SIDEBAR_CONTENT_NOLOGIN);
   }
 
+  /**
+   *
+   * @param type
+   */
   switchSidebarContent(type = SIDEBAR_CONTENT_NOLOGIN) {
     if (this.sdiebarContentType === SIDEBAR_CONTENT_NOLOGIN) return;
     log(`switchSidebarContent type ${type}`);
@@ -123,38 +120,74 @@ export class Sidebar extends EventEmitter {
     }
   }
 
-  showUnreadMsgTotalNum(num) {
-    log('show total unread msg num:%i', num);
-    if (this.totalNum === num) return;
-    this.totalNum = num;
-    this.$totalMsgNum.text(num);
-    if (num) {
-      this.$totalMsgNum.show();
-    } else {
+  /**
+   * 总未读数,展示,闪烁
+   */
+  showUnreadMsgTotalNum() {
+    const isLogin = this.store.get(IS_LOGIN);
+
+    if (!isLogin) {
+      log('not login don\'t show msg total num');
+      // 未登入,不显示数量,不闪烁
       this.$totalMsgNum.hide();
+      this.$totalMsgNum.attr(SIDEBAR_TOTAL_MSG_NUM_ATTR, 0);
+      this.$totalMsgNum.text(0);
+      clearFlashing(this.flashingDevice);
+      return;
+    }
+
+    // 侧边栏状态
+    const isSidebarUp = this.store.get(IS_SIDEBAR_UP);
+    // 当前UI未读数
+    const totalCurrUnread = parseInt(this.$totalMsgNum.attr(SIDEBAR_TOTAL_MSG_NUM_ATTR), 10) || 0;
+    // 总sessionid
+    const totalSessionIds = this.store.get(SDK_SESSIONS);
+    // 当前store总未读数
+    const totalMsgNum = totalSessionIds.reduce((sum, sessionId) => {
+      const session = this.store.getSessionBySessionId(sessionId) || {};
+      return sum + (session.unread || 0);
+    }, 0);
+
+    if (totalMsgNum === 0) {
+      // 未读数量为0,不展示,不闪动
+      log('there is no unread msg.');
+      // 没有未读数
+      this.$totalMsgNum.hide();
+      this.$totalMsgNum.attr(SIDEBAR_TOTAL_MSG_NUM_ATTR, totalMsgNum);
+      this.$totalMsgNum.text(totalMsgNum);
+      clearFlashing(this.flashingDevice);
+      return;
+    }
+
+    if (totalMsgNum !== totalCurrUnread) {
+      this.$totalMsgNum.attr(SIDEBAR_TOTAL_MSG_NUM_ATTR, totalMsgNum);
+      this.$totalMsgNum.text(totalMsgNum > SIDEBAR_TOTAL_NUM_MAX ? `${SIDEBAR_TOTAL_NUM_MAX}+` : totalMsgNum);
+      this.$totalMsgNum.show();
+    }
+
+    if (isSidebarUp) {
+      // 展开 不需要闪动
+      clearFlashing(this.flashingDevice);
+    } else if (totalMsgNum > totalCurrUnread) {
+      // 当未读数增加的时候进行闪动
+      this.flashingDevice = flashing(this.$msgIcon, 500);
     }
   }
 
-  shakeUnreadMsgTotalNum(flag) {
-    if (this.isShaking === flag) return;
-    this.isShaking = flag;
-    if (flag) {
-      // todo
-      log('add shake');
-    } else {
-      log('remove shake');
-    }
-  }
-
-  toggleSidebarHeader(flag) {
-    if (this.isUp === flag) return;
-    this.isUp = flag;
-    if (flag) {
+  /**
+   * 侧边栏张开收起
+   */
+  toggleSidebarHeader() {
+    const isSidebarUp = this.store.get(IS_SIDEBAR_UP);
+    if (this.isUp === isSidebarUp) return;
+    log('sidebar toggle %o', isSidebarUp);
+    this.isUp = isSidebarUp;
+    if (isSidebarUp) {
       this.$toggleBtn.attr('title', this.options.sidebarUpTip);
       log(`sidebar do up.${this.options.sidebarUpTip}`);
     } else {
       this.$toggleBtn.attr('title', this.options.sidebarDownTip);
-      log(`sidebar do up.${this.options.sidebarDownTip}`);
+      log(`sidebar do down.${this.options.sidebarDownTip}`);
     }
   }
 }

@@ -147,6 +147,15 @@ export class Store {
   }
 
   /**
+   * 根据sessionid获取session
+   * @param sessionId
+   * @return {{}}
+   */
+  getSessionBySessionId(sessionId) {
+    return this.sessionMap[sessionId];
+  }
+
+  /**
    * 获取所有的会话
    * @return {Array.<*>}
    */
