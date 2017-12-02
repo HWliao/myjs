@@ -3,6 +3,9 @@ const config = {
   thirdPartyDebug: false,
   appKey: '5ec5e1e55171f05a42483c5d33339691',
   className: '',
+  getUsers: (accids, cb) => {
+    cb([]);
+  },
   // 侧边栏提示配置
   sidebarTitle: '在线咨询',
   sidebarUpTip: '收起',

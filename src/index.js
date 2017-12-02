@@ -29,6 +29,9 @@ const options = {
   debug: true,
   thirdPartyDebug: false,
   appKey: '638aae803525df4d733c7703e0c3323f',
+  getUsers: (accids = [], cb) => {
+    cb(accids.map(accid => ({ accid, nick: 'lhwtest' })));
+  },
 };
 // 初始化
 $('#init').on('click', () => {

@@ -17,7 +17,7 @@ import {
   sdkSessionTime,
   sdkWillConnectInfo,
   userAccount,
-  sdkSyncDone,
+  sdkSyncDone, sdkUpdateUserTime, sdkCurrUpdateUsers,
 } from './reducer';
 import {
   IS_LAYOUT_SHOW,
@@ -31,7 +31,12 @@ import {
   SDK_WILL_CONNECT_INFO,
   SDK_LOGIN_PORTS,
   SDK_MY_INFO,
-  SDK_SESSION_TIME, SDK_SESSIONS, SDK_CURR_UPDATE_SESSIONS, SDK_SYNC_DONE,
+  SDK_SESSION_TIME,
+  SDK_SESSIONS,
+  SDK_CURR_UPDATE_SESSIONS,
+  SDK_SYNC_DONE,
+  SDK_UPDATE_USER_TIME,
+  SDK_CURR_UPDATE_SUERS,
 } from '../model/state';
 
 const log = createDebug('im:store');
@@ -51,6 +56,8 @@ export class Store {
   msgs = {};
   // 以idServer作为key
   msgMap = {};
+  // 以accid作为key
+  users = {};
 
   constructor() {
     log('store construct...');
@@ -71,6 +78,8 @@ export class Store {
       [SDK_CURR_UPDATE_SESSIONS]: sdkCurrUpdateSessions,
       [ERROR]: error,
       [SDK_SYNC_DONE]: sdkSyncDone,
+      [SDK_UPDATE_USER_TIME]: sdkUpdateUserTime,
+      [SDK_CURR_UPDATE_SUERS]: sdkCurrUpdateUsers,
     });
     log('rootRoducer %o', rootReducer);
     if (window.__REDUX_DEVTOOLS_EXTENSION__) {
@@ -178,5 +187,24 @@ export class Store {
    */
   getMsgByIdServer(idServer) {
     return this.msgMap[idServer];
+  }
+
+  /**
+   * 根据accid查询user
+   * @param accid
+   * @return {*}
+   */
+  getUserById(accid) {
+    return this.users[accid];
+  }
+
+  /**
+   * putusers
+   * @param users
+   */
+  putUsers(users = []) {
+    users.forEach((user) => {
+      this.users[user.accid] = user;
+    });
   }
 }

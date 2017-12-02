@@ -28,5 +28,10 @@ export const SDK_CURR_UPDATE_SESSIONS = 'sdkCurrUpdateSessions';
 // 同步完成
 export const SDK_SYNC_DONE = 'sdkSyncDone';
 
+// 更新用户信息的时间
+export const SDK_UPDATE_USER_TIME = 'sdkUpdateUserTime';
+// 当前更新的用户列表
+export const SDK_CURR_UPDATE_SUERS = 'sdkCurrUpdateUsers';
+
 // 错误数据
 export const ERROR = 'error';

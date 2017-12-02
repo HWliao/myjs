@@ -7,7 +7,7 @@ import {
   SDK_DISCONNECT,
   SDK_LOGIN_PORTS_CHANGE, SDK_SYNC_DONE,
   SDK_UPDATE_MY_INFO,
-  SDK_UPDATE_SESSIONS,
+  SDK_UPDATE_SESSIONS, SDK_UPDATE_USER,
   SDK_WILL_CONNECT,
 } from '../model/action';
 
@@ -104,4 +104,13 @@ export function error(e) {
  */
 export function sdkSyncDeon() {
   return createAction(SDK_SYNC_DONE, true);
+}
+
+/**
+ * 更新用户信息
+ * @param users
+ * @return {{type, payload, error, meta}|*}
+ */
+export function sdkUpdateUser(users = []) {
+  return createAction(SDK_UPDATE_USER, users, false, { updateTime: new Date().getTime() });
 }

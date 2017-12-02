@@ -10,7 +10,7 @@ import {
   sdkDisconnected,
   sdkLoginPortsChange, sdkSyncDeon,
   sdkUpdateMyInfo,
-  sdkUpdateSessions,
+  sdkUpdateSessions, sdkUpdateUser,
   sdkWillConnect,
 } from './store/action';
 import { SCENE_P2P } from './model/constant';
@@ -23,6 +23,8 @@ export class Sdk extends EventEmitter {
     log('sdk construct... options:%o', options);
     this.options = this.getOptions(options);
     this.store = store;
+
+    this.getUsersFromOptions = options.getUsers;
   }
 
   /**
@@ -217,6 +219,46 @@ export class Sdk extends EventEmitter {
    */
   getUsers(accids = []) {
     log('getUsers accids num %d', accids.length);
+    if (accids.length === 0) return Promise.resolve([]);
+
+    // 每50个调用一次,人员信息获取接口
+    const ps = [];
+    let tmp = null;
+    for (let i = 0; i < accids.length; i++) {
+      // eslint-disable-next-line no-continue
+      if (!accids[i]) continue;
+      // eslint-disable-next-line no-continue
+      if (this.store.getUserById(accids[i])) continue;
+      tmp = tmp || [];
+      if (tmp.length < 50) {
+        tmp.push(accids[i]);
+      } else {
+        tmp = [];
+        ps.push(this.wrapGetUsersPromise(tmp));
+      }
+    }
+    if (tmp && tmp.length > 0) ps.push(this.wrapGetUsersPromise(tmp));
+    return Promise.all(ps).then(data => data.reduce((result, users) => result.concat(users), []));
+  }
+
+  /**
+   * 包装getUsers方法
+   * @param accids
+   * @return {Promise}
+   */
+  wrapGetUsersPromise(accids) {
+    return new Promise((resolve) => {
+      this.getUsersFromOptions(accids, (users = []) => {
+        // 过滤出有accid和nick属性的对象,其他为无效对象
+        const tmpUsers = users.filter(user => user && user.accid && user.nick);
+        if (users.length !== tmpUsers) log('options.getUsers has invalide user object. %o', users);
+        if (users.length > 0) {
+          this.store.putUsers(tmpUsers);
+          this.store.dispatch(sdkUpdateUser(tmpUsers.map(tmpUser => tmpUser.accid)));
+        }
+        resolve(tmpUsers);
+      });
+    });
   }
 }
 
