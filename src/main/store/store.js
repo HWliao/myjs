@@ -44,7 +44,9 @@ const log = createDebug('im:store');
 const middlewares = [thunkMiddleware];
 if (process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line global-require
-  middlewares.push(require('redux-logger').logger);
+  middlewares.push(require('redux-logger').createLogger({
+    collapsed: (getState, action, logEntry) => !logEntry.error,
+  }));
 }
 
 export class Store {
@@ -152,7 +154,25 @@ export class Store {
    * @return {{}}
    */
   getSessionBySessionId(sessionId) {
-    return this.sessionMap[sessionId];
+    const session = this.sessionMap[sessionId];
+    if (!session) return null;
+    const {
+      id,
+      scene,
+      to,
+      unread,
+    } = session;
+    const { nick, avatar } = this.getUserById(to) || { accid: to, nick: to };
+    const text = 'lhwtest廖红卫';
+    return {
+      sessionId: id,
+      scene,
+      to,
+      unread,
+      nick,
+      avatar,
+      text,
+    };
   }
 
   /**

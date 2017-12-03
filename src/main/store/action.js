@@ -17,7 +17,7 @@ import {
  * @return {{type, payload, error, meta}|*}
  */
 export function login(userAccount) {
-  return createAction(LOGIN, userAccount);
+  return createAction(LOGIN, userAccount, false, { updateTime: new Date().getTime() });
 }
 
 /**
@@ -34,7 +34,7 @@ export function logout() {
  * @return {{type, payload, error, meta}|*}
  */
 export function sdkConnected(connectNum) {
-  return createAction(SDK_CONNECT, connectNum);
+  return createAction(SDK_CONNECT, connectNum, false, { updateTime: new Date().getTime() });
 }
 
 /**
@@ -103,7 +103,7 @@ export function error(e) {
  * @return {{type, payload, error, meta}|*}
  */
 export function sdkSyncDeon() {
-  return createAction(SDK_SYNC_DONE, true);
+  return createAction(SDK_SYNC_DONE, true, false, { updateTime: new Date().getTime() });
 }
 
 /**

@@ -1,7 +1,14 @@
 import {
-  LOGIN, LOGOUT, SDK_CONNECT, SDK_DISCONNECT, SDK_LOGIN_PORTS_CHANGE, SDK_SYNC_DONE, SDK_UPDATE_MY_INFO,
-  SDK_UPDATE_SESSIONS, SDK_UPDATE_USER,
-  SDK_WILL_CONNECT
+  LOGIN,
+  LOGOUT,
+  SDK_CONNECT,
+  SDK_DISCONNECT,
+  SDK_LOGIN_PORTS_CHANGE,
+  SDK_SYNC_DONE,
+  SDK_UPDATE_MY_INFO,
+  SDK_UPDATE_SESSIONS,
+  SDK_UPDATE_USER,
+  SDK_WILL_CONNECT,
 } from '../model/action';
 
 /**
@@ -92,6 +99,10 @@ export function sdkMyInfo(state = {}, action) {
 
 export function sdkSessionTime(state = 0, action) {
   if (action.type === SDK_UPDATE_SESSIONS) {
+    return action.meta.updateTime;
+  } else if (action.type === SDK_SYNC_DONE) {
+    return action.meta.updateTime;
+  } else if (action.type === LOGIN) {
     return action.meta.updateTime;
   }
   return state;

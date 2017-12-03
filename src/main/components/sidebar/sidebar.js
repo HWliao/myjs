@@ -1,17 +1,18 @@
 import EventEmitter from 'eventemitter3';
 import $ from 'jquery';
 import sidebarHtml from './sidebar.html';
+import defaultAvatar from '../../../resource/images/default.png';
 import { clearFlashing, flashing } from '../../utils/utils';
 import { createDebug } from '../../utils/log';
 import { SIDEBAR_HEADER_CLICK, SIDEBAR_LOGIN_BTN_CLICK } from '../../model/event';
-import { IS_LOGIN, IS_SIDEBAR_UP, SDK_SESSIONS } from '../../model/state';
+import { IS_LOGIN, IS_SIDEBAR_UP, SDK_SESSION_TIME, SDK_SESSIONS, SDK_UPDATE_USER_TIME } from '../../model/state';
 
 const log = createDebug('im:sidebar');
 
 // 未登入
 const SIDEBAR_CONTENT_NOLOGIN = 1;
 // 没有sessions
-const SIDEBAR_CONTENT_NOAGENT = 2;
+const SIDEBAR_CONTENT_NOSESSION = 2;
 // 有sessions
 const SIDEBAR_CONTENT_LIST = 3;
 
@@ -35,7 +36,6 @@ export class Sidebar extends EventEmitter {
     this.inited = true;
     // 监听状态变化
     this.store.subscribe(() => {
-      log('listening store change');
       this.update();
     });
   }
@@ -86,24 +86,102 @@ export class Sidebar extends EventEmitter {
     // 未读数量(闪烁)
     this.showUnreadMsgTotalNum();
 
-    this.switchSidebarContent(SIDEBAR_CONTENT_NOLOGIN);
+    // 内容体部分展示
+    this.renderSidebarContent();
   }
 
   /**
-   *
-   * @param type
+   * 渲染侧边栏内容区域
+   */
+  renderSidebarContent() {
+    const isLogin = this.store.get(IS_LOGIN);
+    const sessionTime = this.store.get(SDK_SESSION_TIME);
+    const userUpdateTime = this.store.get(SDK_UPDATE_USER_TIME);
+    const updateTime = sessionTime > userUpdateTime ? sessionTime : userUpdateTime;
+    const totalSessions = this.store.get(SDK_SESSIONS);
+    // todo
+    this.currSessionId = 'p2p-123106';
+    let type;
+    if (!isLogin) {
+      type = SIDEBAR_CONTENT_NOLOGIN;
+    } else if (totalSessions.length === 0) {
+      type = SIDEBAR_CONTENT_NOSESSION;
+    } else {
+      type = SIDEBAR_CONTENT_LIST;
+    }
+
+    // 已经处于未登入状态
+    if (this.sdiebarContentType === type && type === SIDEBAR_CONTENT_NOLOGIN) return;
+    // 未登入,显示登入页面
+    if (type === SIDEBAR_CONTENT_NOLOGIN) {
+      log('sidebar content to nologin.');
+      this.sidebarContentType = type;
+      this.switchSidebarContent(type);
+      return;
+    }
+
+    // 已经处于无session页面
+    if (this.sidebarContentType === type && type === SIDEBAR_CONTENT_NOSESSION) return;
+    // 登入,无sessions
+    if (type === SIDEBAR_CONTENT_NOSESSION) {
+      log('sidebar content to nocontent');
+      this.sidebarContentType = type;
+      this.switchSidebarContent(type);
+      return;
+    }
+
+    // sessions已经是最新的呢
+    if (this.sidebarSessionTime >= updateTime) return;
+    this.sidebarSessionTime = updateTime;
+    // 登入有sessions
+    log('sidebar content update sessions list');
+    this.sidebarContentType = type;
+    const lis = totalSessions
+    // 根据sessionId读取session(这里的session并不是云信session对象,而是ui展示用的session对象)
+      .map(sessionId => this.store.getSessionBySessionId(sessionId))
+      .filter(session => !!session)
+      // 根据session对象生成li html
+      .reduce((html, session) => html + this.createSessionLi(session), '');
+    this.$sessionList.html(lis);
+    this.switchSidebarContent(type);
+  }
+
+  createSessionLi(session) {
+    const {
+      sessionId,
+      scene,
+      to,
+      unread = 0,
+      nick = '',
+      avatar = `${this.options.imagesPath}/default.png`,
+      text = '',
+      time = '',
+    } = session;
+    return `
+      <li class="jjsim-bd-item ${this.currSessionId === sessionId ? 'current' : ' '}" data-scene="${scene}" data-to="${to}">
+        <div class="jjsim-item-img">
+          <img
+            src="${avatar}"
+            onerror="this.src='images/default.png';this.onError=null;">
+        </div>
+        <em class="num" title="${unread}" style="${unread ? 'visibility: visible;' : 'visibility: hidden;'}">${unread > 99 ? '...' : unread}</em>
+        <span class="name" title="${nick}">${nick}</span>
+        <span class="text" title="${text}">${text}</span>
+        <span class="time" title="${time}">${time}</span>
+      </li>`;
+  }
+
+  /**
+   * 切换别表区域
    */
   switchSidebarContent(type = SIDEBAR_CONTENT_NOLOGIN) {
-    if (this.sdiebarContentType === SIDEBAR_CONTENT_NOLOGIN) return;
-    log(`switchSidebarContent type ${type}`);
-    this.sdiebarContentType = type;
     switch (type) {
       case SIDEBAR_CONTENT_NOLOGIN:
         this.$nologin.show();
         this.$noagent.hide();
         this.$sessionList.hide();
         break;
-      case SIDEBAR_CONTENT_NOAGENT:
+      case SIDEBAR_CONTENT_NOSESSION:
         this.$nologin.hide();
         this.$noagent.show();
         this.$sessionList.hide();

@@ -6,6 +6,7 @@ const config = {
   getUsers: (accids, cb) => {
     cb([]);
   },
+  imagesPath: './resource/images',
   // 侧边栏提示配置
   sidebarTitle: '在线咨询',
   sidebarUpTip: '收起',
