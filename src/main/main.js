@@ -12,8 +12,11 @@ import { Layout } from './components/layout/layout';
 import { hideLayout, showLayout } from './components/layout/layoutAction';
 import { Sidebar } from './components/sidebar/sidebar';
 import {
-  IM_TO_CONSULTING, IM_TO_LOGIN, SIDEBAR_HEADER_CLICK, SIDEBAR_LOGIN_BTN_CLICK,
-  SIDEBAR_SESSION_CLICK
+  IM_TO_CONSULTING,
+  IM_TO_LOGIN,
+  SIDEBAR_HEADER_CLICK,
+  SIDEBAR_LOGIN_BTN_CLICK,
+  SIDEBAR_SESSION_CLICK,
 } from './model/event';
 import { sideUpOrDown } from './components/sidebar/sidebarAction';
 import { IS_LOGIN, IS_SIDEBAR_UP, SDK_CURR_SESSION_ID } from './model/state';
