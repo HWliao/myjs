@@ -1,3 +1,5 @@
+/* eslint-disable import/first */
+import './public-path';
 import EventEmiiter from 'eventemitter3';
 
 import '../resource/css/im.css';
@@ -9,10 +11,13 @@ import { Sdk } from './sdk';
 import { Layout } from './components/layout/layout';
 import { hideLayout, showLayout } from './components/layout/layoutAction';
 import { Sidebar } from './components/sidebar/sidebar';
-import { IM_TO_CONSULTING, IM_TO_LOGIN, SIDEBAR_HEADER_CLICK, SIDEBAR_LOGIN_BTN_CLICK } from './model/event';
+import {
+  IM_TO_CONSULTING, IM_TO_LOGIN, SIDEBAR_HEADER_CLICK, SIDEBAR_LOGIN_BTN_CLICK,
+  SIDEBAR_SESSION_CLICK
+} from './model/event';
 import { sideUpOrDown } from './components/sidebar/sidebarAction';
-import { IS_LOGIN, IS_SIDEBAR_UP } from './model/state';
-import { login, logout } from './store/action';
+import { IS_LOGIN, IS_SIDEBAR_UP, SDK_CURR_SESSION_ID } from './model/state';
+import { login, logout, sdkSetCurrSession } from './store/action';
 import { createError, IS_LOGINED, NOT_LOGIN } from './model/error';
 
 const log = createDebug('im:main');
@@ -40,13 +45,25 @@ export default class Im extends EventEmiiter {
     // 显示layout ui
     this.store.dispatch(showLayout());
 
+    // 初始化绑定事件相关
+    this.initEvent();
+  }
+
+  initEvent() {
     // 侧边栏头部被点击
     this.sidebar.on(SIDEBAR_HEADER_CLICK, () => {
       log('main on SIDEBAR_HEADER_CLICK');
       // 改变 收起/展开 状态
       const currIsUp = this.store.get(IS_SIDEBAR_UP);
+      const currSessionId = this.store.get(SDK_CURR_SESSION_ID);
       log(`main change size up/down. ${!currIsUp}`);
       this.store.dispatch(sideUpOrDown(!currIsUp));
+
+      if (currSessionId && !currIsUp) {
+        this.sdk.setCurrSession(currSessionId);
+      } else if (currSessionId && currIsUp) {
+        this.sdk.resetCurrSession(currSessionId);
+      }
 
       // 登入状态发起咨询
       if (this.store.get(IS_LOGIN)) {
@@ -61,6 +78,13 @@ export default class Im extends EventEmiiter {
       if (!this.store.get(IS_LOGIN)) {
         this.emit(IM_TO_LOGIN);
       }
+    });
+
+    // session被点击
+    this.sidebar.on(SIDEBAR_SESSION_CLICK, (sessionId) => {
+      if (sessionId === this.store.get(SDK_CURR_SESSION_ID)) return;
+      this.store.dispatch(sdkSetCurrSession(sessionId));
+      this.sdk.setCurrSession(sessionId);
     });
   }
 

@@ -19,6 +19,8 @@ export const SDK_LOGIN_PORTS = 'sdkLoginPorts';
 // 当前用户名片
 export const SDK_MY_INFO = 'sdkMyInfo';
 
+// 当前sessionId
+export const SDK_CURR_SESSION_ID = 'sdkCurrSessionId';
 // 当前session 时间戳
 export const SDK_SESSION_TIME = 'sdkSessionTime';
 // 当前sessions数组

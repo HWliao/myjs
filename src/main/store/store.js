@@ -17,7 +17,7 @@ import {
   sdkSessionTime,
   sdkWillConnectInfo,
   userAccount,
-  sdkSyncDone, sdkUpdateUserTime, sdkCurrUpdateUsers,
+  sdkSyncDone, sdkUpdateUserTime, sdkCurrUpdateUsers, sdkCurrSessionId,
 } from './reducer';
 import {
   IS_LAYOUT_SHOW,
@@ -36,8 +36,9 @@ import {
   SDK_CURR_UPDATE_SESSIONS,
   SDK_SYNC_DONE,
   SDK_UPDATE_USER_TIME,
-  SDK_CURR_UPDATE_SUERS,
+  SDK_CURR_UPDATE_SUERS, SDK_CURR_SESSION_ID,
 } from '../model/state';
+import { buildSessionMsg } from '../utils/utils';
 
 const log = createDebug('im:store');
 
@@ -82,6 +83,7 @@ export class Store {
       [SDK_SYNC_DONE]: sdkSyncDone,
       [SDK_UPDATE_USER_TIME]: sdkUpdateUserTime,
       [SDK_CURR_UPDATE_SUERS]: sdkCurrUpdateUsers,
+      [SDK_CURR_SESSION_ID]: sdkCurrSessionId,
     });
     log('rootRoducer %o', rootReducer);
     if (window.__REDUX_DEVTOOLS_EXTENSION__) {
@@ -151,7 +153,7 @@ export class Store {
   /**
    * 根据sessionid获取session
    * @param sessionId
-   * @return {{}}
+   * @return {*}
    */
   getSessionBySessionId(sessionId) {
     const session = this.sessionMap[sessionId];
@@ -161,9 +163,14 @@ export class Store {
       scene,
       to,
       unread,
+      updateTime,
+      lastMsg,
     } = session;
     const { nick, avatar } = this.getUserById(to) || { accid: to, nick: to };
-    const text = 'lhwtest廖红卫';
+    const user = lastMsg ? (
+      this.getUserById(lastMsg.from) || { accid: lastMsg.from, nick: lastMsg.from }
+    ) : null;
+    const text = lastMsg ? buildSessionMsg(lastMsg, this.get(USER_ACCOUNT).accid, user) : '';
     return {
       sessionId: id,
       scene,
@@ -172,6 +179,7 @@ export class Store {
       nick,
       avatar,
       text,
+      updateTime,
     };
   }
 

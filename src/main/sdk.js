@@ -204,10 +204,15 @@ export class Sdk extends EventEmitter {
     const sessions = this.store.getTotalSessions();
     log('sdk onsyncdone %o', this.store);
     this.store.dispatch(sdkSyncDeon());
-    // 获取所有单聊会话中涉及到的人员accid
+    // 获取所有会话中涉及到的人员accid
     const userAccids = sessions
-      .filter(session => session.scene === SCENE_P2P)
-      .map(session => session.to);
+      .map((session) => {
+        if (session.scene === SCENE_P2P) {
+          return session.to;
+        }
+        return session.lastMsg ? session.lastMsg.from : null;
+      })
+      .filter(accid => accid);
     userAccids.push(this.store.get(USER_ACCOUNT).accid);
     // 获取人员信息
     this.getUsers(userAccids);
@@ -259,6 +264,24 @@ export class Sdk extends EventEmitter {
         resolve(tmpUsers);
       });
     });
+  }
+
+  /**
+   * 设置当前session
+   * @param sessionId
+   */
+  setCurrSession(sessionId) {
+    log('sdk set curr session. sessionId:%s', sessionId);
+    this.nim.setCurrSession(sessionId);
+  }
+
+  /**
+   * 重置当前session
+   * @param sessionId
+   */
+  resetCurrSession(sessionId) {
+    log('sdk reset curr session. sessionId:%s', sessionId);
+    this.nim.resetCurrSession();
   }
 }
 

@@ -46,6 +46,8 @@ export const SDK_LOGIN_PORTS_CHANGE = 'sdkLoginPortschange';
 export const SDK_UPDATE_MY_INFO = 'sdkUpdateMyInfo';
 // 更新会话
 export const SDK_UPDATE_SESSIONS = 'sdkUpdateSessions';
+// 设置当前会话
+export const SDK_SET_CURR_SESSION = 'sdkSetCurrSession';
 // 更新用户信息
 export const SDK_UPDATE_USER = 'sdkUpdateUser';
 // 同步完成

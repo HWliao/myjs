@@ -30,7 +30,13 @@ const options = {
   thirdPartyDebug: false,
   appKey: '638aae803525df4d733c7703e0c3323f',
   getUsers: (accids = [], cb) => {
-    cb(accids.map(accid => ({ accid, nick: 'lhwnick' })));
+    setTimeout(() => {
+      cb(accids.map(accid => ({
+        accid,
+        nick: 'nick',
+        avatar: 'https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88',
+      })));
+    }, 1000);
   },
 };
 // 初始化
@@ -47,7 +53,7 @@ $('#hideLayout').on('click', () => {
 });
 // 登入
 $('#login').on('click', () => {
-  im.login('123106', '123456');
+  im.login('087387', '123456');
 });
 // 登出
 $('#logout').on('click', () => {

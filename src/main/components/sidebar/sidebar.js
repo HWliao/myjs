@@ -1,11 +1,18 @@
 import EventEmitter from 'eventemitter3';
 import $ from 'jquery';
 import sidebarHtml from './sidebar.html';
-import defaultAvatar from '../../../resource/images/default.png';
-import { clearFlashing, flashing } from '../../utils/utils';
+import defaultImage from '../../../resource/images/default.png';
+import { clearFlashing, flashing, sessionTime } from '../../utils/utils';
 import { createDebug } from '../../utils/log';
-import { SIDEBAR_HEADER_CLICK, SIDEBAR_LOGIN_BTN_CLICK } from '../../model/event';
-import { IS_LOGIN, IS_SIDEBAR_UP, SDK_SESSION_TIME, SDK_SESSIONS, SDK_UPDATE_USER_TIME } from '../../model/state';
+import { SIDEBAR_HEADER_CLICK, SIDEBAR_LOGIN_BTN_CLICK, SIDEBAR_SESSION_CLICK } from '../../model/event';
+import {
+  IS_LOGIN,
+  IS_SIDEBAR_UP,
+  SDK_CURR_SESSION_ID,
+  SDK_SESSION_TIME,
+  SDK_SESSIONS,
+  SDK_UPDATE_USER_TIME,
+} from '../../model/state';
 
 const log = createDebug('im:sidebar');
 
@@ -20,6 +27,9 @@ const SIDEBAR_CONTENT_LIST = 3;
 const SIDEBAR_TOTAL_MSG_NUM_ATTR = 'data-unread';
 // 侧边栏 未读总数 最大限制
 const SIDEBAR_TOTAL_NUM_MAX = 99;
+
+// li元素上的属性
+const DATA_SESSION_ID = 'data-session-id';
 
 export class Sidebar extends EventEmitter {
   constructor(options, layout, store) {
@@ -50,6 +60,13 @@ export class Sidebar extends EventEmitter {
     this.$loginBtn.on('click', () => {
       log('sidebar loginBtn emit click');
       this.emit(SIDEBAR_LOGIN_BTN_CLICK);
+    });
+    // 列表点击事件
+    this.$sessionList.on('click', 'li', (e) => {
+      const sessionId = $(e.currentTarget).attr(DATA_SESSION_ID);
+      log('sidebar session list item click,sessionId:%s', sessionId);
+      if (!sessionId) return;
+      this.emit(SIDEBAR_SESSION_CLICK, sessionId);
     });
   }
 
@@ -95,12 +112,11 @@ export class Sidebar extends EventEmitter {
    */
   renderSidebarContent() {
     const isLogin = this.store.get(IS_LOGIN);
-    const sessionTime = this.store.get(SDK_SESSION_TIME);
+    const currSessionTime = this.store.get(SDK_SESSION_TIME);
     const userUpdateTime = this.store.get(SDK_UPDATE_USER_TIME);
-    const updateTime = sessionTime > userUpdateTime ? sessionTime : userUpdateTime;
+    const updateTime = currSessionTime > userUpdateTime ? currSessionTime : userUpdateTime;
     const totalSessions = this.store.get(SDK_SESSIONS);
-    // todo
-    this.currSessionId = 'p2p-123106';
+    const currSessionId = this.store.get(SDK_CURR_SESSION_ID);
     let type;
     if (!isLogin) {
       type = SIDEBAR_CONTENT_NOLOGIN;
@@ -141,33 +157,40 @@ export class Sidebar extends EventEmitter {
       .map(sessionId => this.store.getSessionBySessionId(sessionId))
       .filter(session => !!session)
       // 根据session对象生成li html
-      .reduce((html, session) => html + this.createSessionLi(session), '');
+      .reduce((html, session) => html + Sidebar.createSessionLi(session, currSessionId), '');
     this.$sessionList.html(lis);
     this.switchSidebarContent(type);
   }
 
-  createSessionLi(session) {
+  /**
+   * 创建li元素
+   * @param session
+   * @param currentSessionId
+   * @return {string}
+   */
+  static createSessionLi(session, currentSessionId) {
     const {
       sessionId,
       scene,
       to,
       unread = 0,
       nick = '',
-      avatar = `${this.options.imagesPath}/default.png`,
+      avatar = defaultImage,
       text = '',
-      time = '',
+      updateTime,
     } = session;
     return `
-      <li class="jjsim-bd-item ${this.currSessionId === sessionId ? 'current' : ' '}" data-scene="${scene}" data-to="${to}">
+      <li class="jjsim-bd-item ${currentSessionId === sessionId ? 'current' : ' '}"
+        data-scene="${scene}" 
+        data-to="${to}" 
+        ${DATA_SESSION_ID}="${sessionId}">
         <div class="jjsim-item-img">
-          <img
-            src="${avatar}"
-            onerror="this.src='images/default.png';this.onError=null;">
+          <img src="${avatar}"/>
         </div>
         <em class="num" title="${unread}" style="${unread ? 'visibility: visible;' : 'visibility: hidden;'}">${unread > 99 ? '...' : unread}</em>
         <span class="name" title="${nick}">${nick}</span>
         <span class="text" title="${text}">${text}</span>
-        <span class="time" title="${time}">${time}</span>
+        <span class="time" title="${sessionTime(updateTime)}">${sessionTime(updateTime)}</span>
       </li>`;
   }
 

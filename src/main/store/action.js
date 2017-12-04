@@ -5,7 +5,7 @@ import {
   LOGOUT,
   SDK_CONNECT,
   SDK_DISCONNECT,
-  SDK_LOGIN_PORTS_CHANGE, SDK_SYNC_DONE,
+  SDK_LOGIN_PORTS_CHANGE, SDK_SET_CURR_SESSION, SDK_SYNC_DONE,
   SDK_UPDATE_MY_INFO,
   SDK_UPDATE_SESSIONS, SDK_UPDATE_USER,
   SDK_WILL_CONNECT,
@@ -113,4 +113,13 @@ export function sdkSyncDeon() {
  */
 export function sdkUpdateUser(users = []) {
   return createAction(SDK_UPDATE_USER, users, false, { updateTime: new Date().getTime() });
+}
+
+/**
+ * 设置当前会话
+ * @param sessionId
+ * @return {{type, payload, error, meta}|*}
+ */
+export function sdkSetCurrSession(sessionId) {
+  return createAction(SDK_SET_CURR_SESSION, sessionId, false, { updateTime: new Date().getTime() });
 }

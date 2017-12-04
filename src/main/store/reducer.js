@@ -4,6 +4,7 @@ import {
   SDK_CONNECT,
   SDK_DISCONNECT,
   SDK_LOGIN_PORTS_CHANGE,
+  SDK_SET_CURR_SESSION,
   SDK_SYNC_DONE,
   SDK_UPDATE_MY_INFO,
   SDK_UPDATE_SESSIONS,
@@ -146,6 +147,13 @@ export function sdkUpdateUserTime(state = 0, action) {
 export function sdkCurrUpdateUsers(state = [], action) {
   if (action.type === SDK_UPDATE_USER) {
     return [].concat(action.payload);
+  }
+  return state;
+}
+
+export function sdkCurrSessionId(state = null, action) {
+  if (action.type === SDK_SET_CURR_SESSION) {
+    return action.payload;
   }
   return state;
 }

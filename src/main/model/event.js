@@ -9,3 +9,6 @@ export const SIDEBAR_LOGIN_BTN_CLICK = 'sidebar_login_btn_click';
 export const IM_TO_CONSULTING = 'im_to_consulting';
 // 去登入
 export const IM_TO_LOGIN = 'im_to_login';
+
+// session点击事件
+export const SIDEBAR_SESSION_CLICK = 'sidebar_session_click';
