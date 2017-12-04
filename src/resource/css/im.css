@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS reset */
 .jjsim textarea{font-family: "Microsoft YaHei","Hiragino Sans GB","STHeiti","SimSun","Arial";}
-.jjsim *{margin:0;padding:0; border:none; }
+.jjsim *{margin:0;padding:0; border:none;-webkit-box-sizing: content-box;box-sizing:content-box; }
 .jjsim img {border:0;}
 .jjsim em,.jjsim i{font-style:normal;font-weight:normal;}
 .jjsim ol,.jjsim ul,.jjsim li {list-style:none;}
@@ -45,7 +45,7 @@
 /* 展开内容 */
 .jjsim-bd {width:100%; height: 400px; background: #fff; overflow-x: hidden; overflow-y: auto;}
 .jjsim-bd .jjsim-service{ padding-left:18px;}
-.jjsim-bd-item {display: block; position: relative; height: 64px; padding:12px 12px 12px 64px; overflow: hidden; cursor: pointer;background: #fff;}
+.jjsim-bd-item {display: block; position: relative; height: 40px; padding:12px 12px 12px 64px; overflow: hidden; cursor: pointer;background: #fff;}
 .jjsim-bd-item.current{background:#F6F6F6;}
 .jjsim-bd-item .jjsim-item-img{ position: absolute; width:40px; height:40px; overflow:hidden; left:11px; border-radius: 50%; }
 .jjsim-bd-item .jjsim-item-img img{ width: 100%;}
@@ -137,10 +137,6 @@
 .promp-btn a:hover{opacity: 0.8;filter:alpha(opacity=80);}
 .promp-btn .btn-confirm,.promp-btn .btn-confirm:hover{background: #E03236;border-color: #E03236;color: #fff;}
 .promp-btn .btn-cancel,.promp-btn .btn-cancel:hover{background: #fff;border-color: #DDDDDD;color: #4A4A4A;}
-
-.im-promp,
-.jjsim-window,
-.jjsim-list{display: none;}
 
 /*.shake{
 	-webkit-animation-name: shake;

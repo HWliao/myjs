@@ -11,7 +11,9 @@ import { Sdk } from './sdk';
 import { Layout } from './components/layout/layout';
 import { hideLayout, showLayout } from './components/layout/layoutAction';
 import { Sidebar } from './components/sidebar/sidebar';
+import { ChatPanel } from './components/chatPanel/chat-panel';
 import {
+  CHAT_PANEL_CLOSE_BTN_CLICK,
   IM_TO_CONSULTING,
   IM_TO_LOGIN,
   SIDEBAR_HEADER_CLICK,
@@ -20,7 +22,7 @@ import {
 } from './model/event';
 import { sideUpOrDown } from './components/sidebar/sidebarAction';
 import { IS_LOGIN, IS_SIDEBAR_UP, SDK_CURR_SESSION_ID } from './model/state';
-import { login, logout, sdkSetCurrSession } from './store/action';
+import { login, logout } from './store/action';
 import { createError, IS_LOGINED, NOT_LOGIN } from './model/error';
 
 const log = createDebug('im:main');
@@ -44,6 +46,7 @@ export default class Im extends EventEmiiter {
     // new sidebar
     this.sidebar = new Sidebar(this.options, this.layout, this.store);
     // new chatPanel
+    this.chatPanel = new ChatPanel(this.options, this.layout, this.store);
 
     // 显示layout ui
     this.store.dispatch(showLayout());
@@ -65,7 +68,7 @@ export default class Im extends EventEmiiter {
       if (currSessionId && !currIsUp) {
         this.sdk.setCurrSession(currSessionId);
       } else if (currSessionId && currIsUp) {
-        this.sdk.resetCurrSession(currSessionId);
+        this.sdk.resetCurrSessionJustNim(currSessionId);
       }
 
       // 登入状态发起咨询
@@ -86,8 +89,13 @@ export default class Im extends EventEmiiter {
     // session被点击
     this.sidebar.on(SIDEBAR_SESSION_CLICK, (sessionId) => {
       if (sessionId === this.store.get(SDK_CURR_SESSION_ID)) return;
-      this.store.dispatch(sdkSetCurrSession(sessionId));
       this.sdk.setCurrSession(sessionId);
+    });
+
+    // 聊天面板关闭按钮点击
+    this.chatPanel.on(CHAT_PANEL_CLOSE_BTN_CLICK, (sessionId) => {
+      if (sessionId !== this.store.get(SDK_CURR_SESSION_ID)) return;
+      this.sdk.resetCurrSession(sessionId);
     });
   }
 

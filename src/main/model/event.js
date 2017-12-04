@@ -12,3 +12,6 @@ export const IM_TO_LOGIN = 'im_to_login';
 
 // session点击事件
 export const SIDEBAR_SESSION_CLICK = 'sidebar_session_click';
+
+// 关闭聊天面板按钮 点击事件
+export const CHAT_PANEL_CLOSE_BTN_CLICK = 'chat_panel_close_btn_click';

@@ -8,7 +8,7 @@ import {
   error,
   sdkConnected,
   sdkDisconnected,
-  sdkLoginPortsChange, sdkSyncDeon,
+  sdkLoginPortsChange, sdkResetCurrSession, sdkSetCurrSession, sdkSyncDeon,
   sdkUpdateMyInfo,
   sdkUpdateSessions, sdkUpdateUser,
   sdkWillConnect,
@@ -272,6 +272,7 @@ export class Sdk extends EventEmitter {
    */
   setCurrSession(sessionId) {
     log('sdk set curr session. sessionId:%s', sessionId);
+    this.store.dispatch(sdkSetCurrSession(sessionId));
     this.nim.setCurrSession(sessionId);
   }
 
@@ -281,6 +282,16 @@ export class Sdk extends EventEmitter {
    */
   resetCurrSession(sessionId) {
     log('sdk reset curr session. sessionId:%s', sessionId);
+    this.store.dispatch(sdkResetCurrSession());
+    this.nim.resetCurrSession();
+  }
+
+  /**
+   * 仅仅是在云信中,重置当前会话
+   * @param sessionId
+   */
+  resetCurrSessionJustNim(sessionId) {
+    log('sdk resetCurrSessionJustNim. sessionId:%s', sessionId);
     this.nim.resetCurrSession();
   }
 }

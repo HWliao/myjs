@@ -48,6 +48,8 @@ export const SDK_UPDATE_MY_INFO = 'sdkUpdateMyInfo';
 export const SDK_UPDATE_SESSIONS = 'sdkUpdateSessions';
 // 设置当前会话
 export const SDK_SET_CURR_SESSION = 'sdkSetCurrSession';
+// 重置当前会话
+export const SDK_RESET_CURR_SESSION = 'sdkResetCurrSession';
 // 更新用户信息
 export const SDK_UPDATE_USER = 'sdkUpdateUser';
 // 同步完成

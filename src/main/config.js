@@ -15,6 +15,16 @@ const config = {
   loginBtnTitle: '登录',
   // 侧边栏列表 无
   noagentTitle: '暂无聊过天的经纪人',
+
+  // 输入框placeholder
+  inputPlaceHolder: '输入您要咨询的内容',
+
+  // inputFooter title
+  inputFooterTitle: '下载房源网App',
+  // inputFooter text
+  inputFooterText: '下载房源网App，随时随地找房',
+  // inputFooter href
+  inputFooterHref: 'https://shenzhen.leyoujia.com/common/app/download',
 };
 
 export function getConfig(options = {}) {

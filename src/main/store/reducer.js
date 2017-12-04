@@ -3,7 +3,7 @@ import {
   LOGOUT,
   SDK_CONNECT,
   SDK_DISCONNECT,
-  SDK_LOGIN_PORTS_CHANGE,
+  SDK_LOGIN_PORTS_CHANGE, SDK_RESET_CURR_SESSION,
   SDK_SET_CURR_SESSION,
   SDK_SYNC_DONE,
   SDK_UPDATE_MY_INFO,
@@ -105,6 +105,8 @@ export function sdkSessionTime(state = 0, action) {
     return action.meta.updateTime;
   } else if (action.type === LOGIN) {
     return action.meta.updateTime;
+  } else if (action.type === SDK_RESET_CURR_SESSION) {
+    return action.meta.updateTime;
   }
   return state;
 }
@@ -154,6 +156,8 @@ export function sdkCurrUpdateUsers(state = [], action) {
 export function sdkCurrSessionId(state = null, action) {
   if (action.type === SDK_SET_CURR_SESSION) {
     return action.payload;
+  } else if (action.type === SDK_RESET_CURR_SESSION) {
+    return null;
   }
   return state;
 }
