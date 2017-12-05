@@ -17,7 +17,7 @@ import {
   sdkSessionTime,
   sdkWillConnectInfo,
   userAccount,
-  sdkSyncDone, sdkUpdateUserTime, sdkCurrUpdateUsers, sdkCurrSessionId,
+  sdkSyncDone, sdkUpdateUserTime, sdkCurrUpdateUsers, sdkCurrSessionId, sdkCurrMsgIdClient, sdkCurrMsgTime,
 } from './reducer';
 import {
   IS_LAYOUT_SHOW,
@@ -36,7 +36,7 @@ import {
   SDK_CURR_UPDATE_SESSIONS,
   SDK_SYNC_DONE,
   SDK_UPDATE_USER_TIME,
-  SDK_CURR_UPDATE_SUERS, SDK_CURR_SESSION_ID,
+  SDK_CURR_UPDATE_SUERS, SDK_CURR_SESSION_ID, SDK_CURR_MSG_ID_CLIENT, SDK_CURR_MSG_TIME,
 } from '../model/state';
 import { buildSessionMsg } from '../utils/utils';
 
@@ -59,8 +59,12 @@ export class Store {
   msgs = {};
   // 以idServer作为key
   msgMap = {};
+  // 以idClient作为key
+  msgMapIdClient = {};
   // 以accid作为key
   users = {};
+  // 草稿 以sessionId为key
+  drafts = {};
 
   constructor() {
     log('store construct...');
@@ -84,6 +88,8 @@ export class Store {
       [SDK_UPDATE_USER_TIME]: sdkUpdateUserTime,
       [SDK_CURR_UPDATE_SUERS]: sdkCurrUpdateUsers,
       [SDK_CURR_SESSION_ID]: sdkCurrSessionId,
+      [SDK_CURR_MSG_ID_CLIENT]: sdkCurrMsgIdClient,
+      [SDK_CURR_MSG_TIME]: sdkCurrMsgTime,
     });
     log('rootRoducer %o', rootReducer);
     if (window.__REDUX_DEVTOOLS_EXTENSION__) {
@@ -199,9 +205,9 @@ export class Store {
     NIM.util.mergeObjArray([], [], msgs, {
       keyPath: 'idClient',
       sortPath: 'time',
-      desc: true,
     }).forEach((msg) => {
       this.msgMap[msg.idServer] = msg;
+      this.msgMapIdClient[msg.idClient] = msg;
       const sessionMsgs = this.msgs[msg.sessionId] || [];
       sessionMsgs.push(msg);
       this.msgs[msg.sessionId] = sessionMsgs;
@@ -227,6 +233,15 @@ export class Store {
   }
 
   /**
+   * 根据idClient获取msg
+   * @param idClient
+   * @return {*}
+   */
+  getMsgByIdClient(idClient) {
+    return this.msgMapIdClient[idClient];
+  }
+
+  /**
    * 根据accid查询user
    * @param accid
    * @return {*}
@@ -243,5 +258,23 @@ export class Store {
     users.forEach((user) => {
       this.users[user.accid] = user;
     });
+  }
+
+  /**
+   * 保存草稿
+   * @param sessionId
+   * @param text
+   */
+  putDraft(sessionId, text) {
+    this.drafts[sessionId] = text;
+  }
+
+  /**
+   * 获取草稿
+   * @param sessionId
+   * @return {*|string}
+   */
+  getDraft(sessionId) {
+    return this.drafts[sessionId];
   }
 }

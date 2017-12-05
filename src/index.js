@@ -33,7 +33,7 @@ const options = {
     setTimeout(() => {
       cb(accids.map(accid => ({
         accid,
-        nick: 'nick',
+        nick: `nick${accid}`,
         avatar: 'https://imgcloud.jjshome.com/pic/fang/2016-11/24/FrWAfxshNWeuW3k8QFBiWM6g8rTT.jpg?imageView2/1/w/66/h/88',
       })));
     }, 1000);

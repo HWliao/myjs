@@ -3,7 +3,7 @@ import {
   LOGOUT,
   SDK_CONNECT,
   SDK_DISCONNECT,
-  SDK_LOGIN_PORTS_CHANGE, SDK_RESET_CURR_SESSION,
+  SDK_LOGIN_PORTS_CHANGE, SDK_ONE_NEW_MSG, SDK_RESET_CURR_SESSION,
   SDK_SET_CURR_SESSION,
   SDK_SYNC_DONE,
   SDK_UPDATE_MY_INFO,
@@ -158,6 +158,20 @@ export function sdkCurrSessionId(state = null, action) {
     return action.payload;
   } else if (action.type === SDK_RESET_CURR_SESSION) {
     return null;
+  }
+  return state;
+}
+
+export function sdkCurrMsgIdClient(state = null, action) {
+  if (action.type === SDK_ONE_NEW_MSG) {
+    return action.payload;
+  }
+  return state;
+}
+
+export function sdkCurrMsgTime(state = 0, action) {
+  if (action.type === SDK_ONE_NEW_MSG) {
+    return action.meta.updateTime;
   }
   return state;
 }

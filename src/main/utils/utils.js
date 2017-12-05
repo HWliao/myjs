@@ -78,7 +78,7 @@ function _$encode(_map, content) {
  * @return {*}
  * @private
  */
-function _$escape(content, flag) {
+export function _$escape(content, flag) {
   const _map = {
     r: /<|>|&|\r|\n|\s|'|"/g,
     '<': '&lt;',
@@ -235,4 +235,70 @@ export function buildSessionMsg(msg, userUID, user) {
     text += '[未知消息类型]';
   }
   return text;
+}
+
+/**
+ * 连续触发max次,每次时间间隔不操作time,则调用一次fn
+ * @param fn
+ * @param time
+ * @param max
+ * @return {function()}
+ */
+export function threshold(fn, time, max) {
+  let currTime = 0;
+  let count = 0;
+
+  return (...args) => {
+    const curr = +new Date();
+    if (currTime === 0 || curr - currTime < time) {
+      currTime = curr;
+      count += 1;
+    } else {
+      currTime = 0;
+      count = 0;
+    }
+    if (count > max) {
+      currTime = 0;
+      count = 0;
+      fn(...args);
+    }
+  };
+}
+
+export function debounce(func, wait, immediate) {
+  // immediate默认为false
+  let [timeout, args, context, timestamp, result] = [];
+  const later = () => {
+    // 当wait指定的时间间隔期间多次调用_.debounce返回的函数，则会不断更新timestamp的值，
+    // 导致last < wait && last >= 0一直为true，从而不断启动新的计时器延时执行func
+    const last = +new Date() - timestamp;
+
+    if (last < wait && last >= 0) {
+      timeout = setTimeout(later, wait - last);
+    } else {
+      timeout = null;
+      if (!immediate) {
+        result = func.apply(context, args);
+        if (!timeout) {
+          context = null;
+          args = null;
+        }
+      }
+    }
+  };
+  return function (...argts) {
+    context = this;
+    args = argts;
+    timestamp = +new Date();
+    // 第一次调用该方法时，且immediate为true，则调用func函数
+    const callNow = immediate && !timeout;
+    // 在wait指定的时间间隔内首次调用该方法，则启动计时器定时调用func函数
+    if (!timeout) timeout = setTimeout(later, wait);
+    if (callNow) {
+      result = func.apply(context, args);
+      context = null;
+      args = null;
+    }
+    return result;
+  };
 }

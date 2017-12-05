@@ -25,6 +25,8 @@ const config = {
   inputFooterText: '下载房源网App，随时随地找房',
   // inputFooter href
   inputFooterHref: 'https://shenzhen.leyoujia.com/common/app/download',
+  // 消息列表头部title
+  chatContentHeader: '聊天中经纪人无法知道您的手机号',
 };
 
 export function getConfig(options = {}) {

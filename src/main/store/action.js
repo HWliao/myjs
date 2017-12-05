@@ -5,7 +5,11 @@ import {
   LOGOUT,
   SDK_CONNECT,
   SDK_DISCONNECT,
-  SDK_LOGIN_PORTS_CHANGE, SDK_RESET_CURR_SESSION, SDK_SET_CURR_SESSION, SDK_SYNC_DONE,
+  SDK_LOGIN_PORTS_CHANGE,
+  SDK_ONE_NEW_MSG,
+  SDK_RESET_CURR_SESSION,
+  SDK_SET_CURR_SESSION,
+  SDK_SYNC_DONE,
   SDK_UPDATE_MY_INFO,
   SDK_UPDATE_SESSIONS, SDK_UPDATE_USER,
   SDK_WILL_CONNECT,
@@ -130,4 +134,8 @@ export function sdkSetCurrSession(sessionId) {
  */
 export function sdkResetCurrSession() {
   return createAction(SDK_RESET_CURR_SESSION, false, false, { updateTime: new Date().getTime() });
+}
+
+export function sdkOnNewMsg(idClient) {
+  return createAction(SDK_ONE_NEW_MSG, idClient, false, { updateTime: +new Date() });
 }

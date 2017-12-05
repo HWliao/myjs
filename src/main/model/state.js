@@ -27,6 +27,10 @@ export const SDK_SESSION_TIME = 'sdkSessionTime';
 export const SDK_SESSIONS = 'sdkSessions';
 // 当前修改的sessions数组
 export const SDK_CURR_UPDATE_SESSIONS = 'sdkCurrUpdateSessions';
+// 当前更新的msgidclient
+export const SDK_CURR_MSG_ID_CLIENT = 'sdkCurrMsgIdClient';
+// 当前更新时间
+export const SDK_CURR_MSG_TIME = 'sdkCurrMsgTime';
 // 同步完成
 export const SDK_SYNC_DONE = 'sdkSyncDone';
 

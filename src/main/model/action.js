@@ -50,6 +50,8 @@ export const SDK_UPDATE_SESSIONS = 'sdkUpdateSessions';
 export const SDK_SET_CURR_SESSION = 'sdkSetCurrSession';
 // 重置当前会话
 export const SDK_RESET_CURR_SESSION = 'sdkResetCurrSession';
+// 一条新消息
+export const SDK_ONE_NEW_MSG = 'sdkOneNewMsg';
 // 更新用户信息
 export const SDK_UPDATE_USER = 'sdkUpdateUser';
 // 同步完成

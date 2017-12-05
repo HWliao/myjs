@@ -8,7 +8,7 @@ import {
   error,
   sdkConnected,
   sdkDisconnected,
-  sdkLoginPortsChange, sdkResetCurrSession, sdkSetCurrSession, sdkSyncDeon,
+  sdkLoginPortsChange, sdkOnNewMsg, sdkResetCurrSession, sdkSetCurrSession, sdkSyncDeon,
   sdkUpdateMyInfo,
   sdkUpdateSessions, sdkUpdateUser,
   sdkWillConnect,
@@ -195,6 +195,7 @@ export class Sdk extends EventEmitter {
   onmsg(msg) {
     log('sdk onmsg %o', msg);
     this.store.putMsgs([msg]);
+    this.store.dispatch(sdkOnNewMsg(msg.idClient));
   }
 
   /**
