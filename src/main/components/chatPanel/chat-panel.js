@@ -12,7 +12,7 @@ import {
   USER_ACCOUNT,
 } from '../../model/state';
 import { CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_GET_MORE_MSG } from '../../model/event';
-import { _$escape } from '../../utils/utils';
+import { _$escape, buildSessionMsg } from '../../utils/utils';
 
 const log = createDebug('im:chat-panel');
 
@@ -59,6 +59,7 @@ export class ChatPanel extends EventEmitter {
     this.$imMsgContent = this.$chatPanel.find('#im-msg-content');
     this.$applink = this.$chatPanel.find('.im-btn-container .applink');
     this.$send = this.$chatPanel.find('.im-btn-container .send');
+    this.$imMsgNew = this.$chatPanel.find('.im-msg-new');
 
     this.$chatPanel.find('.chat-tophint .txt').text(this.options.chatContentHeader);
     this.$imMsgContent.attr('placeholder', this.options.inputPlaceHolder);
@@ -87,6 +88,14 @@ export class ChatPanel extends EventEmitter {
         log('chat panel emit CHAT_PANEL_GET_MORE_MSG');
         this.emit(CHAT_PANEL_GET_MORE_MSG, this.currSessionId);
       }
+      if (this.isScrollBarInBottom()) {
+        this.hideImMsgNew();
+      }
+    });
+
+    // 新消息提示点击
+    this.$imMsgNew.on('click', () => {
+      this.scrollToBottom();
     });
   }
 
@@ -121,7 +130,7 @@ export class ChatPanel extends EventEmitter {
     if (this.isScrollBarInBottom()) {
       this.scrollToBottom();
     } else {
-      // todo
+      this.showImMsgNew(currMsg);
     }
   }
 
@@ -148,6 +157,7 @@ export class ChatPanel extends EventEmitter {
   closeChatPanel() {
     this.currSessionId = null;
     this.$chatPanel.hide();
+    this.hideImMsgNew();
   }
 
   /**
@@ -229,6 +239,7 @@ export class ChatPanel extends EventEmitter {
     log('scroll to bottom');
     this.$imWcChat.get(0).scrollTop = this.$imWcChat.get(0).scrollHeight;
     this.setScrollBar();
+    this.hideImMsgNew();
   }
 
   /**
@@ -262,5 +273,22 @@ export class ChatPanel extends EventEmitter {
     this.scrollbar.height = this.$imWcChat.get(0).scrollHeight;
     this.scrollbar.top = this.$imWcChat.get(0).scrollTop;
     this.scrollbar.clientHeight = this.$imWcChat.get(0).clientHeight;
+  }
+
+  /**
+   * 显示新消息提示
+   * @param msg
+   */
+  showImMsgNew(msg) {
+    log('chat panel show im new msg in bottom');
+    const { accid } = this.store.get(USER_ACCOUNT);
+    const user = this.store.getUserById(msg.from);
+    const text = buildSessionMsg(msg, accid, user);
+    this.$imMsgNew.text(text);
+    this.$imMsgNew.show();
+  }
+
+  hideImMsgNew() {
+    this.$imMsgNew.hide();
   }
 }
