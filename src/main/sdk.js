@@ -27,6 +27,7 @@ export class Sdk extends EventEmitter {
     this.store = store;
 
     this.getUsersFromOptions = options.getUsers;
+    this.fromClientType = options.fromClientType;
   }
 
   /**
@@ -315,10 +316,11 @@ export class Sdk extends EventEmitter {
         text,
         needPushNick: false,
         pushContent: createPushContent(user, scene, to, text),
+        custom: this.getCustom(),
         done: (err, msg) => {
           if (err) {
             log('sdk send text msg err:%o', err);
-            this.store.disconnect(createError({ code: SEND_MSG_ERROR, error: err.message }));
+            this.store.dispatch(error(createError({ code: SEND_MSG_ERROR, error: err.message })));
             reject(err);
           } else {
             this.store.putMsgs([msg]);
@@ -328,6 +330,49 @@ export class Sdk extends EventEmitter {
         },
       });
     });
+  }
+
+  /**
+   * 发送图片
+   * @param file
+   * @param scene
+   * @param to
+   * @return {Promise.<T>}
+   */
+  sendImage(file, scene, to) {
+    return new Promise((resolve, reject) => {
+      this.nim.sendFile({
+        scene,
+        to,
+        blob: file,
+        type: 'image',
+        custom: this.getCustom(),
+        pushContent: createPushContent(this.store.getUserById(this.store.get(USER_ACCOUNT).accid), scene, to, '图片'),
+        needPushNick: false,
+        beginupload: () => {
+        },
+        uploadprogress: (progress) => {
+          console.log(JSON.stringify(progress));
+        },
+        uploaddone: () => {
+        },
+        done: (err, msg) => {
+          if (err) {
+            log('sdk send image msg err:%o', err);
+            this.store.dispatch(error(createError({ code: SEND_MSG_ERROR, error: err.message })));
+            reject(err);
+          } else {
+            this.store.putMsgs([msg]);
+            this.store.dispatch(sdkOnNewMsg(msg.idClient));
+            resolve(msg);
+          }
+        },
+      });
+    });
+  }
+
+  getCustom() {
+    return JSON.stringify({ fromClientType: this.fromClientType });
   }
 }
 

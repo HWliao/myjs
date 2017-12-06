@@ -3,6 +3,7 @@ const config = {
   thirdPartyDebug: false,
   appKey: '5ec5e1e55171f05a42483c5d33339691',
   className: '',
+  fromClientType: 'WEB_IM_PLUGIN',
   getUsers: (accids, cb) => {
     cb([]);
   },

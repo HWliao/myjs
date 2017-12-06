@@ -11,13 +11,19 @@ import {
   SDK_CURR_SESSION_ID,
   USER_ACCOUNT,
 } from '../../model/state';
-import { CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_GET_MORE_MSG, CHAT_PANEL_SEND_BTN_CLICK } from '../../model/event';
-import { _$escape, buildSessionMsg, showDelayToHide } from '../../utils/utils';
+import {
+  CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_GET_MORE_MSG, CHAT_PANEL_IMAGE_SEND,
+  CHAT_PANEL_SEND_BTN_CLICK
+} from '../../model/event';
+import { _$escape, buildSessionMsg, showDelayToHide, openFileDialogFactory, countBytesToSize } from '../../utils/utils';
 
 const log = createDebug('im:chat-panel');
+const fileDialog = openFileDialogFactory();
 
 // 滚动条上下间隔因子
 const SCROLL_BAR_FACTOR = 5;
+// 最大图片大小
+const MAX_IMAGE_SIZE = 5 * 1024;
 
 export class ChatPanel extends EventEmitter {
   // 滚动条监听
@@ -103,6 +109,7 @@ export class ChatPanel extends EventEmitter {
 
     // 发送按钮点击
     this.$send.on('click', () => {
+      this.$imMsgContent.focus();
       const text = this.$imMsgContent.val();
       if (!text) {
         this.showContentNullTip();
@@ -113,6 +120,25 @@ export class ChatPanel extends EventEmitter {
       log('chat panel emit CHAT_PANEL_SEND_BTN_CLICK,text:%s', text);
       this.emit(CHAT_PANEL_SEND_BTN_CLICK, text, this.currSessionId);
       this.scrollToBottom();
+    });
+
+    // 发起选择图片
+    this.$image.on('click', () => {
+      fileDialog().then((el) => {
+        if (el && el.files && el.files.length === 1) {
+          const file = el.files[0];
+          log('selected file.%o', file);
+          if (file.size < MAX_IMAGE_SIZE) {
+            this.emit(CHAT_PANEL_IMAGE_SEND, file, this.currSessionId);
+          } else {
+            alert(`图片打大小不能超过${countBytesToSize(MAX_IMAGE_SIZE)}`);
+          }
+        } else {
+          alert('不支持发送图片');
+        }
+      }).catch(() => {
+        log('fileDalog cancel.');
+      });
     });
   }
 

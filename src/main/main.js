@@ -13,7 +13,7 @@ import { hideLayout, showLayout } from './components/layout/layoutAction';
 import { Sidebar } from './components/sidebar/sidebar';
 import { ChatPanel } from './components/chatPanel/chat-panel';
 import {
-  CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_SEND_BTN_CLICK,
+  CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_IMAGE_SEND, CHAT_PANEL_SEND_BTN_CLICK,
   IM_TO_CONSULTING,
   IM_TO_LOGIN,
   SIDEBAR_HEADER_CLICK,
@@ -98,10 +98,18 @@ export default class Im extends EventEmiiter {
       this.sdk.resetCurrSession(sessionId);
     });
 
+    // 发送按钮点击
     this.chatPanel.on(CHAT_PANEL_SEND_BTN_CLICK, (text, sessionId) => {
       const session = this.store.getSessionBySessionId(sessionId);
       if (!session) return;
       this.sdk.sendTextMsg(text, session.scene, session.to);
+    });
+
+    // 发送图片
+    this.chatPanel.on(CHAT_PANEL_IMAGE_SEND, (file, sessionId) => {
+      const session = this.store.getSessionBySessionId(sessionId);
+      if (!session) return;
+      this.sdk.sendImage(file, session.scene, session.to);
     });
   }
 

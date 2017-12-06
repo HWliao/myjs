@@ -635,13 +635,15 @@
   text-overflow: ellipsis;
   cursor: pointer;
 }
-.im-input-content-null-tip{
+
+.im-input-content-null-tip {
   position: absolute;
   top: 332px;
   right: 10px;
   line-height: 25px;
   border: solid 1px;
 }
+
 /* 发消息控制面板 */
 .im-wc-input {
   border-top: 1px solid #eeeeee;
@@ -715,7 +717,8 @@
   color: #fff;
   text-align: center;
   background: #E03236;
-  cursor: pointer
+  cursor: pointer;
+  border-radius: 0;
 }
 
 .im-btn-container .btn:hover {

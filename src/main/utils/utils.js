@@ -1,11 +1,12 @@
+import $ from 'jquery';
+import { SCENE_P2P } from '../model/constant';
+
 /**
  * 闪动某个元素
  * @param $el
  * @param ms
  * @return {Object}
  */
-import { SCENE_P2P } from '../model/constant';
-
 export function flashing($el, ms) {
   let i = 0;
   return {
@@ -313,4 +314,54 @@ export function showDelayToHide(el, delay) {
     el.style.display = 'none';
   };
   return delayTo(show, delay, hide);
+}
+
+/**
+ * 文件选择器 工厂函数
+ * @return {function()}
+ */
+export function openFileDialogFactory() {
+  let $input = null;
+  let selected = false;
+  let promise = null;
+
+  return () => {
+    if (promise && !selected) {
+      promise.reject();
+    }
+    if ($input) $input.remove();
+
+    selected = false;
+    const rP = new Promise((resolve, reject) => {
+      promise = { resolve, reject };
+    });
+
+    $input = null;
+    $input = $('<input type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" style="width: 0;"/>');
+    $(document.body).append($input);
+    $input.on('change', (e) => {
+      if (e && e.target) {
+        selected = true;
+        promise.resolve(e.target);
+      } else {
+        promise.reject();
+      }
+    });
+    $input.click();
+    return rP;
+  };
+}
+
+/**
+ * 格式化大小
+ * @param bytes
+ * @return {*}
+ */
+export function countBytesToSize(bytes) {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const i = Math.floor(Math.log2(bytes) / Math.log2(k));
+  // eslint-disable-next-line no-restricted-properties
+  return `${(bytes / Math.pow(k, i)).toPrecision(3)} ${sizes[i]}`;
 }
