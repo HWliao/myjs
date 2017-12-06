@@ -14,6 +14,8 @@ import {
   sdkWillConnect,
 } from './store/action';
 import { SCENE_P2P } from './model/constant';
+import { createPushContent } from './utils/utils';
+import { createError, SEND_MSG_ERROR } from './model/error';
 
 const log = createDebug('im:sdk');
 
@@ -294,6 +296,38 @@ export class Sdk extends EventEmitter {
   resetCurrSessionJustNim(sessionId) {
     log('sdk resetCurrSessionJustNim. sessionId:%s', sessionId);
     this.nim.resetCurrSession();
+  }
+
+  /**
+   * 发送文本消息
+   * @param text
+   * @param scene
+   * @param to
+   * @return {Promise.<T>}
+   */
+  sendTextMsg(text, scene, to) {
+    log('sdk send text msg. scene:%s,to:%s', scene, to);
+    const user = this.store.getUserById(this.store.get(USER_ACCOUNT).accid);
+    return new Promise((resolve, reject) => {
+      this.nim.sendText({
+        scene,
+        to,
+        text,
+        needPushNick: false,
+        pushContent: createPushContent(user, scene, to, text),
+        done: (err, msg) => {
+          if (err) {
+            log('sdk send text msg err:%o', err);
+            this.store.disconnect(createError({ code: SEND_MSG_ERROR, error: err.message }));
+            reject(err);
+          } else {
+            this.store.putMsgs([msg]);
+            this.store.dispatch(sdkOnNewMsg(msg.idClient));
+            resolve(msg);
+          }
+        },
+      });
+    });
   }
 }
 

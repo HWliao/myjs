@@ -11,8 +11,8 @@ import {
   SDK_CURR_SESSION_ID,
   USER_ACCOUNT,
 } from '../../model/state';
-import { CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_GET_MORE_MSG } from '../../model/event';
-import { _$escape, buildSessionMsg } from '../../utils/utils';
+import { CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_GET_MORE_MSG, CHAT_PANEL_SEND_BTN_CLICK } from '../../model/event';
+import { _$escape, buildSessionMsg, showDelayToHide } from '../../utils/utils';
 
 const log = createDebug('im:chat-panel');
 
@@ -61,6 +61,9 @@ export class ChatPanel extends EventEmitter {
     this.$send = this.$chatPanel.find('.im-btn-container .send');
     this.$imMsgNew = this.$chatPanel.find('.im-msg-new');
 
+    this.$imMsgContentNullTip = this.$chatPanel.find('.im-input-content-null-tip');
+    this.showContentNullTip = showDelayToHide(this.$imMsgContentNullTip.get(0), 1200);
+
     this.$chatPanel.find('.chat-tophint .txt').text(this.options.chatContentHeader);
     this.$imMsgContent.attr('placeholder', this.options.inputPlaceHolder);
 
@@ -95,6 +98,20 @@ export class ChatPanel extends EventEmitter {
 
     // 新消息提示点击
     this.$imMsgNew.on('click', () => {
+      this.scrollToBottom();
+    });
+
+    // 发送按钮点击
+    this.$send.on('click', () => {
+      const text = this.$imMsgContent.val();
+      if (!text) {
+        this.showContentNullTip();
+        return;
+      }
+      this.$imMsgContent.val('');
+      this.store.putDraft(this.currSessionId, '');
+      log('chat panel emit CHAT_PANEL_SEND_BTN_CLICK,text:%s', text);
+      this.emit(CHAT_PANEL_SEND_BTN_CLICK, text, this.currSessionId);
       this.scrollToBottom();
     });
   }
@@ -147,6 +164,7 @@ export class ChatPanel extends EventEmitter {
     this.updateMsg(currSessionId);
     if (this.currSessionId !== currSessionId) {
       this.scrollToBottom();
+      this.hideContentNullTip();
     }
     this.currSessionId = currSessionId;
   }
@@ -290,5 +308,9 @@ export class ChatPanel extends EventEmitter {
 
   hideImMsgNew() {
     this.$imMsgNew.hide();
+  }
+
+  hideContentNullTip() {
+    this.$imMsgContentNullTip.hide();
   }
 }

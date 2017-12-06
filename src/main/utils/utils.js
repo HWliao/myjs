@@ -265,40 +265,52 @@ export function threshold(fn, time, max) {
   };
 }
 
-export function debounce(func, wait, immediate) {
-  // immediate默认为false
-  let [timeout, args, context, timestamp, result] = [];
-  const later = () => {
-    // 当wait指定的时间间隔期间多次调用_.debounce返回的函数，则会不断更新timestamp的值，
-    // 导致last < wait && last >= 0一直为true，从而不断启动新的计时器延时执行func
-    const last = +new Date() - timestamp;
+/**
+ * 创建一个推送内容
+ * @param user
+ * @param scene
+ * @param to
+ * @param pushContent
+ */
+export function createPushContent(user, scene, to, pushContent) {
+  return `${user.nick}:${pushContent}`;
+}
 
-    if (last < wait && last >= 0) {
-      timeout = setTimeout(later, wait - last);
-    } else {
-      timeout = null;
-      if (!immediate) {
-        result = func.apply(context, args);
-        if (!timeout) {
-          context = null;
-          args = null;
-        }
+/**
+ * 包装fn,返回一个fnc,每次调用fnc立即执行fn, 当在delay延时内未调用fnc时,调用callback
+ * @param fn
+ * @param delay
+ * @param callback
+ * @return {function()}
+ */
+export function delayTo(fn, delay, callback) {
+  let last = +new Date();
+  return (...args) => {
+    fn(...args);
+    last = +new Date();
+    setTimeout(() => {
+      const curr = +new Date();
+      if (curr - last >= delay) {
+        callback();
       }
-    }
+    }, delay);
   };
-  return function (...argts) {
-    context = this;
-    args = argts;
-    timestamp = +new Date();
-    // 第一次调用该方法时，且immediate为true，则调用func函数
-    const callNow = immediate && !timeout;
-    // 在wait指定的时间间隔内首次调用该方法，则启动计时器定时调用func函数
-    if (!timeout) timeout = setTimeout(later, wait);
-    if (callNow) {
-      result = func.apply(context, args);
-      context = null;
-      args = null;
-    }
-    return result;
+}
+
+/**
+ * 显示元素,延迟隐藏
+ * @param el
+ * @param delay
+ * @return {function()}
+ */
+export function showDelayToHide(el, delay) {
+  const show = () => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'block';
   };
+  const hide = () => {
+    // eslint-disable-next-line no-param-reassign
+    el.style.display = 'none';
+  };
+  return delayTo(show, delay, hide);
 }

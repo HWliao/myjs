@@ -17,3 +17,5 @@ export const SIDEBAR_SESSION_CLICK = 'sidebar_session_click';
 export const CHAT_PANEL_CLOSE_BTN_CLICK = 'chat_panel_close_btn_click';
 // 查看更多消息
 export const CHAT_PANEL_GET_MORE_MSG = 'chat_panel_get_more_msg';
+// 发送按钮点击
+export const CHAT_PANEL_SEND_BTN_CLICK = 'chat_panel_send_btn_click';

@@ -13,7 +13,7 @@ import { hideLayout, showLayout } from './components/layout/layoutAction';
 import { Sidebar } from './components/sidebar/sidebar';
 import { ChatPanel } from './components/chatPanel/chat-panel';
 import {
-  CHAT_PANEL_CLOSE_BTN_CLICK,
+  CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_SEND_BTN_CLICK,
   IM_TO_CONSULTING,
   IM_TO_LOGIN,
   SIDEBAR_HEADER_CLICK,
@@ -96,6 +96,12 @@ export default class Im extends EventEmiiter {
     this.chatPanel.on(CHAT_PANEL_CLOSE_BTN_CLICK, (sessionId) => {
       if (sessionId !== this.store.get(SDK_CURR_SESSION_ID)) return;
       this.sdk.resetCurrSession(sessionId);
+    });
+
+    this.chatPanel.on(CHAT_PANEL_SEND_BTN_CLICK, (text, sessionId) => {
+      const session = this.store.getSessionBySessionId(sessionId);
+      if (!session) return;
+      this.sdk.sendTextMsg(text, session.scene, session.to);
     });
   }
 

@@ -635,7 +635,13 @@
   text-overflow: ellipsis;
   cursor: pointer;
 }
-
+.im-input-content-null-tip{
+  position: absolute;
+  top: 332px;
+  right: 10px;
+  line-height: 25px;
+  border: solid 1px;
+}
 /* 发消息控制面板 */
 .im-wc-input {
   border-top: 1px solid #eeeeee;
