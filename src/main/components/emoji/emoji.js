@@ -276,6 +276,9 @@ class CEmojiEngine {
     this.__initXGui(emNode, emConfig);
     // 渲染表情选择栏
     this.__renderChangeCol();
+    // 初始化当前默认表情选择
+    this._curEmojiType = 'emoji-jjs_emoji';
+    this._curEmojiNode = document.getElementById('chn-emoji-jjs_emoji');
     // 渲染表情图片栏
     this.__renderPictureCol();
 
@@ -322,8 +325,7 @@ class CEmojiEngine {
   }
 
   __renderChangeCol() {
-    for (let i = 0; i < this._emojiList.length; i++) {
-      const item = this._emojiList[i];
+    this._emojiList.forEach((item) => {
       const span = document.createElement('span');
       span.id = `chn-emoji-${item.itemName}`;
       const img = new Image();
@@ -338,11 +340,26 @@ class CEmojiEngine {
       }
       span.appendChild(img);
       this._changeColumn.appendChild(span);
-    }
+    });
+    this._pinupList.forEach((item) => {
+      const span = document.createElement('span');
+      span.id = `chn-pinup-${item.itemName}`;
+      const img = new Image();
+      img.src = `${this._imgpath}/${item.itemName}/${item.itemName}.png`;
+      if (item.itemName === 'jjs') {
+        img.style.height = '58%';
+        img.style.position = 'relative';
+        img.style.top = '50%';
+        img.style.left = '50%';
+        img.style['margin-left'] = '-15px';
+        img.style['margin-top'] = '-15px';
+      }
+      span.appendChild(img);
+      this._changeColumn.appendChild(span);
+    });
   }
 
   __renderPictureCol() {
-
   }
 
   __bindEvent() {
@@ -361,7 +378,7 @@ export function createEmoji(emNode) {
     ],
     width: 472,
     height: 250,
-    imgpath: '/resorce/emoji',
+    imgpath: '/emoji',
     callback: () => {
     },
   });

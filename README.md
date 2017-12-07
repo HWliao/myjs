@@ -13,6 +13,7 @@ im-web-plugin
 ├── .editorconfig   现代ide配置
 ├── .eslintrc.json  es代码检查器配置
 ├── build           构建完成
+├── config          构建配置先关
 ├── scripts         构建脚本
 └── src             项目目录
     ├── vender      手动引入的第三方依赖库
@@ -32,7 +33,6 @@ eslint
 ES6
 redux
 redux devtool
-redux-immutable
 redux-thunk
 jquery
 NIM_WEB_SDK
