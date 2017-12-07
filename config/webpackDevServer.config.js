@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies,comma-dangle */
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
 const path = require('path');
@@ -71,7 +71,7 @@ module.exports = function (proxy, allowedHost) {
         `^(?!${path
           .normalize(`${paths.appSrc}/`)
           .replace(/[\\]+/g, '\\\\')}).+[\\\\/]node_modules[\\\\/]`,
-        'g',
+        'g'
       ),
     },
     // Enable HTTPS if the HTTPS environment variable is set to 'true'

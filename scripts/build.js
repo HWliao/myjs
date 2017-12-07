@@ -26,8 +26,8 @@ const printHostingInstructions = require('react-dev-utils/printHostingInstructio
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 const printBuildError = require('react-dev-utils/printBuildError');
 
-const { measureFileSizesBeforeBuild } = FileSizeReporter.measureFileSizesBeforeBuild;
-const { printFileSizesAfterBuild } = FileSizeReporter.printFileSizesAfterBuild;
+const { measureFileSizesBeforeBuild } = FileSizeReporter;
+const { printFileSizesAfterBuild } = FileSizeReporter;
 const useYarn = fs.existsSync(paths.yarnLockFile);
 
 // These sizes are pretty large. We'll warn for bundles exceeding them.
@@ -62,26 +62,15 @@ measureFileSizesBeforeBuild(paths.appBuild)
     }
 
     console.log('File sizes after gzip:\n');
-    printFileSizesAfterBuild(
-      stats,
-      previousFileSizes,
-      paths.appBuild,
-      WARN_AFTER_BUNDLE_GZIP_SIZE,
-      WARN_AFTER_CHUNK_GZIP_SIZE,
-    );
+    // eslint-disable-next-line max-len
+    printFileSizesAfterBuild(stats, previousFileSizes, paths.appBuild, WARN_AFTER_BUNDLE_GZIP_SIZE, WARN_AFTER_CHUNK_GZIP_SIZE);
     console.log();
 
     const appPackage = require(paths.appPackageJson);
-    const { publicUrl } = paths.publicUrl;
-    const { publicPath } = config.output.publicPath;
+    const { publicUrl } = paths;
+    const { publicPath } = config.output;
     const buildFolder = path.relative(process.cwd(), paths.appBuild);
-    printHostingInstructions(
-      appPackage,
-      publicUrl,
-      publicPath,
-      buildFolder,
-      useYarn,
-    );
+    printHostingInstructions(appPackage, publicUrl, publicPath, buildFolder, useYarn);
   }, (err) => {
     console.log(chalk.red('Failed to compile.\n'));
     printBuildError(err);
