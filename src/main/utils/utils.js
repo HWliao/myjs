@@ -365,3 +365,12 @@ export function countBytesToSize(bytes) {
   // eslint-disable-next-line no-restricted-properties
   return `${(bytes / Math.pow(k, i)).toPrecision(3)} ${sizes[i]}`;
 }
+
+/**
+ * 数字高位补0
+ * @param num
+ * @param length
+ */
+export function prefixInteger(num, length) {
+  return (new Array(length).join('0') + num).slice(-length);
+}

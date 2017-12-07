@@ -12,18 +12,19 @@ import {
   USER_ACCOUNT,
 } from '../../model/state';
 import {
-  CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_GET_MORE_MSG, CHAT_PANEL_IMAGE_SEND,
-  CHAT_PANEL_SEND_BTN_CLICK
+  CHAT_PANEL_CLOSE_BTN_CLICK,
+  CHAT_PANEL_GET_MORE_MSG,
+  CHAT_PANEL_IMAGE_SEND,
+  CHAT_PANEL_SEND_BTN_CLICK,
 } from '../../model/event';
 import { _$escape, buildSessionMsg, showDelayToHide, openFileDialogFactory, countBytesToSize } from '../../utils/utils';
+import { createEmoji } from '../emoji/emoji';
 
 const log = createDebug('im:chat-panel');
 const fileDialog = openFileDialogFactory();
 
 // 滚动条上下间隔因子
 const SCROLL_BAR_FACTOR = 5;
-// 最大图片大小
-const MAX_IMAGE_SIZE = 5 * 1024;
 
 export class ChatPanel extends EventEmitter {
   // 滚动条监听
@@ -66,6 +67,9 @@ export class ChatPanel extends EventEmitter {
     this.$applink = this.$chatPanel.find('.im-btn-container .applink');
     this.$send = this.$chatPanel.find('.im-btn-container .send');
     this.$imMsgNew = this.$chatPanel.find('.im-msg-new');
+    this.$imEmojiContainer = this.$chatPanel.find('.im-emoji-container');
+
+    this.$emojiCompnent = createEmoji(this.$imEmojiContainer.get(0));
 
     this.$imMsgContentNullTip = this.$chatPanel.find('.im-input-content-null-tip');
     this.showContentNullTip = showDelayToHide(this.$imMsgContentNullTip.get(0), 1200);
@@ -128,10 +132,10 @@ export class ChatPanel extends EventEmitter {
         if (el && el.files && el.files.length === 1) {
           const file = el.files[0];
           log('selected file.%o', file);
-          if (file.size < MAX_IMAGE_SIZE) {
+          if (file.size < this.options.imageUploadMaxLimit) {
             this.emit(CHAT_PANEL_IMAGE_SEND, file, this.currSessionId);
           } else {
-            alert(`图片打大小不能超过${countBytesToSize(MAX_IMAGE_SIZE)}`);
+            alert(`图片打大小不能超过${countBytesToSize(this.options.imageUploadMaxLimit)}`);
           }
         } else {
           alert('不支持发送图片');
@@ -139,6 +143,11 @@ export class ChatPanel extends EventEmitter {
       }).catch(() => {
         log('fileDalog cancel.');
       });
+    });
+
+    // emoji
+    this.$emoji.on('click', () => {
+
     });
   }
 
