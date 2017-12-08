@@ -133,6 +133,7 @@ export class ChatPanel extends EventEmitter {
           const file = el.files[0];
           log('selected file.%o', file);
           if (file.size < this.options.imageUploadMaxLimit) {
+            this.scrollToBottom();
             this.emit(CHAT_PANEL_IMAGE_SEND, file, this.currSessionId);
           } else {
             alert(`图片打大小不能超过${countBytesToSize(this.options.imageUploadMaxLimit)}`);
@@ -355,8 +356,10 @@ export class ChatPanel extends EventEmitter {
   sendEmoji({ category, emoji, type }) {
     log('chat panel send emoji category:%s,emoji:%s,type:%s', category, emoji, type);
     if (type === 'emoji') {
+      this.scrollToBottom();
       this.emit(CHAT_PANEL_SEND_BTN_CLICK, emoji, this.currSessionId);
     } else if (type === 'pinup') {
+      this.scrollToBottom();
       this.emit(CHAT_PANEL_STICKERS, { category, emoji, type }, this.currSessionId);
     } else {
       log('error emoji choosen.');
