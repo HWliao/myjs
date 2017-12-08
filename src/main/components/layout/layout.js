@@ -66,4 +66,8 @@ export class Layout {
   addUI($e) {
     this.$layout.find('#im-content').append($e);
   }
+
+  addAdditionalUI($e) {
+    this.$layout.append($e);
+  }
 }

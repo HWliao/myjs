@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 import EventEmitter from 'eventemitter3';
 import $ from 'jquery';
 
@@ -347,7 +348,7 @@ export class Sdk extends EventEmitter {
         blob: file,
         type: 'image',
         custom: this.getCustom(),
-        pushContent: createPushContent(this.store.getUserById(this.store.get(USER_ACCOUNT).accid), scene, to, '图片'),
+        pushContent: createPushContent(this.store.getUserById(this.store.get(USER_ACCOUNT).accid), scene, to, '[图片]'),
         needPushNick: false,
         beginupload: () => {
         },
@@ -359,6 +360,55 @@ export class Sdk extends EventEmitter {
         done: (err, msg) => {
           if (err) {
             log('sdk send image msg err:%o', err);
+            this.store.dispatch(error(createError({ code: SEND_MSG_ERROR, error: err.message })));
+            reject(err);
+          } else {
+            this.store.putMsgs([msg]);
+            this.store.dispatch(sdkOnNewMsg(msg.idClient));
+            resolve(msg);
+          }
+        },
+      });
+    });
+  }
+
+  /**
+   * 发送贴图
+   * @param content
+   * @param scene
+   * @param to
+   * @return {*}
+   */
+  sendStickers(content, scene, to) {
+    log('sdk send stickers %o', content);
+    return this.sendCustomMessage(content, scene, to, '[贴图]');
+  }
+
+  /**
+   * 发送自定义消息
+   * @param content
+   * @param scene
+   * @param to
+   * @param pushContent
+   * @return {Promise}
+   */
+  sendCustomMessage(content, scene, to, pushContent) {
+    log('sdk send custon message %s', pushContent);
+    return new Promise((resolve, reject) => {
+      this.nim.sendCustomMsg({
+        scene,
+        to,
+        content: JSON.stringify(content),
+        needPushNick: false,
+        pushContent: createPushContent(
+          this.store.getUserById(this.store.get(USER_ACCOUNT).accid),
+          scene,
+          to,
+          pushContent
+        ),
+        done: (err, msg) => {
+          if (err) {
+            log('sdk send custom msg err:%o', err);
             this.store.dispatch(error(createError({ code: SEND_MSG_ERROR, error: err.message })));
             reject(err);
           } else {

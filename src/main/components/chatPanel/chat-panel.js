@@ -15,7 +15,7 @@ import {
   CHAT_PANEL_CLOSE_BTN_CLICK,
   CHAT_PANEL_GET_MORE_MSG,
   CHAT_PANEL_IMAGE_SEND,
-  CHAT_PANEL_SEND_BTN_CLICK,
+  CHAT_PANEL_SEND_BTN_CLICK, CHAT_PANEL_STICKERS,
 } from '../../model/event';
 import { _$escape, buildSessionMsg, showDelayToHide, openFileDialogFactory, countBytesToSize } from '../../utils/utils';
 import { createEmoji } from '../emoji/emoji';
@@ -67,9 +67,9 @@ export class ChatPanel extends EventEmitter {
     this.$applink = this.$chatPanel.find('.im-btn-container .applink');
     this.$send = this.$chatPanel.find('.im-btn-container .send');
     this.$imMsgNew = this.$chatPanel.find('.im-msg-new');
-    this.$imEmojiContainer = this.$chatPanel.find('.im-emoji-container');
 
-    this.$emojiCompnent = createEmoji(this.$imEmojiContainer.get(0));
+    this.$emojiCompnent =
+      createEmoji(this.layout, this.options.emojiPath, this.sendEmoji.bind(this));
 
     this.$imMsgContentNullTip = this.$chatPanel.find('.im-input-content-null-tip');
     this.showContentNullTip = showDelayToHide(this.$imMsgContentNullTip.get(0), 1200);
@@ -146,8 +146,9 @@ export class ChatPanel extends EventEmitter {
     });
 
     // emoji
-    this.$emoji.on('click', () => {
-
+    this.$emoji.on('click', (e) => {
+      e.stopPropagation();
+      this.$emojiCompnent._$show();
     });
   }
 
@@ -200,6 +201,7 @@ export class ChatPanel extends EventEmitter {
     if (this.currSessionId !== currSessionId) {
       this.scrollToBottom();
       this.hideContentNullTip();
+      this.$emojiCompnent._$hide();
     }
     this.currSessionId = currSessionId;
   }
@@ -211,6 +213,7 @@ export class ChatPanel extends EventEmitter {
     this.currSessionId = null;
     this.$chatPanel.hide();
     this.hideImMsgNew();
+    this.$emojiCompnent._$hide();
   }
 
   /**
@@ -347,5 +350,16 @@ export class ChatPanel extends EventEmitter {
 
   hideContentNullTip() {
     this.$imMsgContentNullTip.hide();
+  }
+
+  sendEmoji({ category, emoji, type }) {
+    log('chat panel send emoji category:%s,emoji:%s,type:%s', category, emoji, type);
+    if (type === 'emoji') {
+      this.emit(CHAT_PANEL_SEND_BTN_CLICK, emoji, this.currSessionId);
+    } else if (type === 'pinup') {
+      this.emit(CHAT_PANEL_STICKERS, { category, emoji, type }, this.currSessionId);
+    } else {
+      log('error emoji choosen.');
+    }
   }
 }

@@ -29,6 +29,9 @@ const config = {
   inputFooterHref: 'https://shenzhen.leyoujia.com/common/app/download',
   // 消息列表头部title
   chatContentHeader: '聊天中经纪人无法知道您的手机号',
+
+  // emoji路径
+  emojiPath: '/emoji',
 };
 
 export function getConfig(options = {}) {

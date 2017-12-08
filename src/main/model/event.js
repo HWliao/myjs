@@ -21,3 +21,5 @@ export const CHAT_PANEL_GET_MORE_MSG = 'chat_panel_get_more_msg';
 export const CHAT_PANEL_SEND_BTN_CLICK = 'chat_panel_send_btn_click';
 // 发送图片
 export const CHAT_PANEL_IMAGE_SEND = 'chat_panel_image_send';
+// 贴图
+export const CHAT_PANEL_STICKERS = 'chat_panel_stickers';

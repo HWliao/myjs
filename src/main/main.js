@@ -13,7 +13,7 @@ import { hideLayout, showLayout } from './components/layout/layoutAction';
 import { Sidebar } from './components/sidebar/sidebar';
 import { ChatPanel } from './components/chatPanel/chat-panel';
 import {
-  CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_IMAGE_SEND, CHAT_PANEL_SEND_BTN_CLICK,
+  CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_IMAGE_SEND, CHAT_PANEL_SEND_BTN_CLICK, CHAT_PANEL_STICKERS,
   IM_TO_CONSULTING,
   IM_TO_LOGIN,
   SIDEBAR_HEADER_CLICK,
@@ -24,6 +24,7 @@ import { sideUpOrDown } from './components/sidebar/sidebarAction';
 import { IS_LOGIN, IS_SIDEBAR_UP, SDK_CURR_SESSION_ID } from './model/state';
 import { login, logout } from './store/action';
 import { createError, IS_LOGINED, NOT_LOGIN } from './model/error';
+import { prefixInteger } from './utils/utils';
 
 const log = createDebug('im:main');
 
@@ -110,6 +111,21 @@ export default class Im extends EventEmiiter {
       const session = this.store.getSessionBySessionId(sessionId);
       if (!session) return;
       this.sdk.sendImage(file, session.scene, session.to);
+    });
+
+    // 发送贴图
+    this.chatPanel.on(CHAT_PANEL_STICKERS, ({ category, emoji }, sessionId) => {
+      if (!sessionId || !category || !emoji) return;
+      const session = this.store.getSessionBySessionId(sessionId);
+      if (!session) return;
+
+      this.sdk.sendCustomMessage({
+        type: 3,
+        data: {
+          catalog: category,
+          chartlet: `${category}${prefixInteger(Number(emoji), 3)}`,
+        },
+      }, session.scene, session.to);
     });
   }
 

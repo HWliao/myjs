@@ -1,6 +1,9 @@
+/* eslint-disable class-methods-use-this */
+import './emoji.css';
+
 import { prefixInteger } from '../../utils/utils';
 
-const jjs_emoji = [
+const jjsEmoji = [
   { text: '[乐乐微笑]', file: 'jjs1.png' },
   { text: '[乐乐大笑]', file: 'jjs2.png' },
   { text: '[乐乐噢耶]', file: 'jjs3.png' },
@@ -252,7 +255,7 @@ const pluginComputers = [
 for (let i = 0; i < pluginComputers.length; i++) {
   const plugin = pluginComputers[i];
   for (let j = 1; j <= plugin.num; j++) {
-    plugin.plugin.push(`${plugin.text}${prefixInteger(j, 3)}${plugin.ext}`);
+    plugin.plugin.push(`${plugin.text}${prefixInteger(j, 3)}.${plugin.ext}`);
   }
 }
 
@@ -269,8 +272,8 @@ class CEmojiEngine {
     // 图片根目录
     this._imgpath = emConfig.imgpath;
     // 回调函数
-    this._callback = emConfig.callback || function () {
-    };
+    this._callback = emConfig.callback || (() => {
+    });
 
     // 控件初始化
     this.__initXGui(emNode, emConfig);
@@ -283,6 +286,7 @@ class CEmojiEngine {
     this.__renderPictureCol();
 
     this.__bindEvent();
+    this._$hide();
   }
 
   __initXGui(emNode, emConfig) {
@@ -335,9 +339,6 @@ class CEmojiEngine {
         img.style.width = 'auto';
         img.style.margin = '20%';
       }
-      if (item.itemName === 'emoji') {
-        span.className = 'f-sel';
-      }
       span.appendChild(img);
       this._changeColumn.appendChild(span);
     });
@@ -360,16 +361,155 @@ class CEmojiEngine {
   }
 
   __renderPictureCol() {
+    this._pictureColumn.innerHTML = '';
+    this._curEmojiNode.className = 'f-sel';
+    const isEmoji = /^emoji-/.test(this._curEmojiType);
+    const itemName = this._curEmojiType.replace('emoji-', '').replace('pinup-', '');
+    const { items } = []
+      .concat(this._emojiList, this._pinupList)
+      .find(item => item.itemName === itemName);
+    if (isEmoji) {
+      for (let i = 0; i < items.length; i++) {
+        const span = document.createElement('span');
+        span.id = `pic-emoji-${items[i].text}`;
+        span.style.width = `${this._lWidth}px`;
+        span.style.height = 'auto';
+        const img = new Image();
+        img.src = `${this._imgpath}/${itemName}/${items[i].file}`;
+        img.title = items[i].text;
+        span.appendChild(img);
+        this._pictureColumn.appendChild(span);
+      }
+    } else {
+      for (let i = 0; i < items.length; i++) {
+        const span = document.createElement('span');
+        span.id = `pic-pinup-${i + 1}`;
+        span.style.width = `${this._hWidth}px`;
+        span.style.height = `${this._hWidth}px`;
+        const img = new Image();
+        img.src = `${this._imgpath}/${itemName}/${items[i]}`;
+        span.appendChild(img);
+        this._pictureColumn.appendChild(span);
+      }
+    }
   }
 
   __bindEvent() {
+    // 切换表情
+    this._$addEvent(this._changeColumn, 'click', (e) => {
+      let target = this._$getElement(e);
+      this._$stop(e);
+      if (target.tagName.toLowerCase() === 'img') {
+        target = target.parentNode;
+      } else if (target.tagName.toLowerCase() !== 'span') {
+        return;
+      }
+      this._curEmojiNode.className = '';
+      let { id } = target;
+      id = /^chn-(\w+)-(.+)/.exec(id);
+      const [, type] = id;
+      if (type === 'emoji') {
+        this._curEmojiType = `emoji-${id[2]}`;
+        this._curEmojiNode = target;
+      } else if (type === 'pinup') {
+        this._curEmojiType = `pinup-${id[2]}`;
+        this._curEmojiNode = target;
+      }
+      this.__renderPictureCol();
+    });
+    // 选择表情
+    this._$addEvent(this._pictureColumn, 'click', (e) => {
+      let target = this._$getElement(e);
+      this._$stop(e);
+      if (target.tagName.toLowerCase() === 'img') {
+        target = target.parentNode;
+      } else if (target.tagName.toLowerCase() !== 'span') {
+        return;
+      }
+      const { id } = target;
+      let type = /^pic-(\w+)-(.+)$/.exec(id);
+      const [, , itemName] = type;
+      [, type] = type;
+      let category = this._curEmojiType;
+      if (type === 'emoji') {
+        category = category.replace('emoji-', '');
+      } else if (type === 'pinup') {
+        category = category.replace('pinup-', '');
+      }
+      const result = {
+        type,
+        category,
+        emoji: itemName,
+      };
+      if (this._callback instanceof Function) {
+        this._callback.call(this, result);
+        this._$hide();
+      }
+    });
 
+    this._$addEvent(document, 'click', () => {
+      this._$hide();
+    });
+  }
+
+  /**
+   * 绑定事件
+   * @param element
+   * @param type
+   * @param callback
+   */
+  _$addEvent(element, type, callback) {
+    if (element.addEventListener) {
+      element.addEventListener(type, callback, false);
+    } else if (element.attachEvent) {
+      element.attachEvent(`on${type}`, callback);
+    }
+  }
+
+  /**
+   * 获取目标对象
+   * @param event
+   * @return {EventTarget|Object}
+   */
+  _$getElement(event = window.event) {
+    return event.target || event.srcElement;
+  }
+
+  /**
+   * 阻止异常
+   * @param event
+   */
+  _$stop(event = window.event) {
+    if (event.stopPropogation) {
+      event.stopPropogation();
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      event.cancelBubble = true;
+    }
+  }
+
+  _$hide() {
+    this._parentNode.style.display = 'none';
+  }
+
+  _$show() {
+    if (this._curEmojiNode) this._curEmojiNode.className = '';
+    this._curEmojiType = 'emoji-jjs_emoji';
+    this._curEmojiNode = document.getElementById('chn-emoji-jjs_emoji');
+    this.__renderPictureCol();
+    this._parentNode.style.display = 'block';
+  }
+
+  isHide() {
+    return this._parentNode.style.display === 'none';
   }
 }
 
-export function createEmoji(emNode) {
-  return new CEmojiEngine(emNode, {
-    emojiList: [{ itemName: 'jjs_emoji', items: jjs_emoji }, { itemName: 'emoji', items: emoji }],
+export function createEmoji(layout, emojiPath, cb) {
+  const div = document.createElement('div');
+  layout.addAdditionalUI(div);
+  return new CEmojiEngine(div, {
+    emojiList: [{ itemName: 'jjs_emoji', items: jjsEmoji }, { itemName: 'emoji', items: emoji }],
     pinupList: [
       { itemName: 'jjs', items: jjs },
       { itemName: 'ajmd', items: ajmd },
@@ -378,8 +518,8 @@ export function createEmoji(emNode) {
     ],
     width: 472,
     height: 250,
-    imgpath: '/emoji',
-    callback: () => {
-    },
+    imgpath: emojiPath,
+    callback: cb || (() => {
+    }),
   });
 }
