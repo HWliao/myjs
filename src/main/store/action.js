@@ -3,7 +3,7 @@ import {
   ERROR,
   LOGIN,
   LOGOUT,
-  SDK_CONNECT,
+  SDK_CONNECT, SDK_CONSULTATIVE, SDK_CONSULTATIVE_FAIL,
   SDK_DISCONNECT,
   SDK_LOGIN_PORTS_CHANGE,
   SDK_ONE_NEW_MSG,
@@ -14,6 +14,7 @@ import {
   SDK_UPDATE_SESSIONS, SDK_UPDATE_USER,
   SDK_WILL_CONNECT,
 } from '../model/action';
+import { CONSULTATIVE, CONSULTATIVE_FAIL } from '../model/constant';
 
 /**
  * 登入
@@ -136,6 +137,39 @@ export function sdkResetCurrSession() {
   return createAction(SDK_RESET_CURR_SESSION, false, false, { updateTime: new Date().getTime() });
 }
 
+/**
+ * 一条新消息
+ * @param idClient
+ * @return {{type, payload, error, meta}|*}
+ */
 export function sdkOnNewMsg(idClient) {
   return createAction(SDK_ONE_NEW_MSG, idClient, false, { updateTime: +new Date() });
+}
+
+/**
+ * 进入咨询页
+ * @param data
+ * @return {{type, payload, error, meta}|*}
+ */
+export function sdkGotoConsultative(data) {
+  return createAction(...[
+    SDK_CONSULTATIVE,
+    { type: CONSULTATIVE, data },
+    false,
+    { updateTime: +new Date() },
+  ]);
+}
+
+/**
+ * 进入咨询失败页
+ * @param data
+ * @return {{type, payload, error, meta}|*}
+ */
+export function sdkGotoConsultativeFail(data) {
+  return createAction(...[
+    SDK_CONSULTATIVE_FAIL,
+    { type: CONSULTATIVE_FAIL, data },
+    false,
+    { updateTime: +new Date() },
+  ]);
 }

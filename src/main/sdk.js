@@ -274,10 +274,11 @@ export class Sdk extends EventEmitter {
   /**
    * 设置当前session
    * @param sessionId
+   * @param notDispatch
    */
-  setCurrSession(sessionId) {
+  setCurrSession(sessionId, notDispatch) {
     log('sdk set curr session. sessionId:%s', sessionId);
-    this.store.dispatch(sdkSetCurrSession(sessionId));
+    if (!notDispatch) this.store.dispatch(sdkSetCurrSession(sessionId));
     this.nim.setCurrSession(sessionId);
   }
 

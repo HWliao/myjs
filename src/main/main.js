@@ -22,7 +22,7 @@ import {
 } from './model/event';
 import { sideUpOrDown } from './components/sidebar/sidebarAction';
 import { IS_LOGIN, IS_SIDEBAR_UP, SDK_CURR_SESSION_ID } from './model/state';
-import { login, logout } from './store/action';
+import { login, logout, sdkGotoConsultative, sdkGotoConsultativeFail } from './store/action';
 import { createError, IS_LOGINED, NOT_LOGIN } from './model/error';
 import { prefixInteger } from './utils/utils';
 
@@ -67,7 +67,7 @@ export default class Im extends EventEmiiter {
       this.store.dispatch(sideUpOrDown(!currIsUp));
 
       if (currSessionId && !currIsUp) {
-        this.sdk.setCurrSession(currSessionId);
+        this.sdk.setCurrSession(currSessionId, true);
       } else if (currSessionId && currIsUp) {
         this.sdk.resetCurrSessionJustNim(currSessionId);
       }
@@ -164,6 +164,16 @@ export default class Im extends EventEmiiter {
     log('isLogin state set false');
     this.store.dispatch(logout());
     return Promise.resolve();
+  }
+
+  gotoConsultative(data) {
+    log('go to consultative state %o', data);
+    this.store.dispatch(sdkGotoConsultative(data));
+  }
+
+  gotoConsultativeFail(data) {
+    log('go to consultative fail state %o', data);
+    this.store.dispatch(sdkGotoConsultativeFail(data));
   }
 
   // 事件类型

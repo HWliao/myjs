@@ -1,7 +1,7 @@
 import {
   LOGIN,
   LOGOUT,
-  SDK_CONNECT,
+  SDK_CONNECT, SDK_CONSULTATIVE, SDK_CONSULTATIVE_FAIL,
   SDK_DISCONNECT,
   SDK_LOGIN_PORTS_CHANGE, SDK_ONE_NEW_MSG, SDK_RESET_CURR_SESSION,
   SDK_SET_CURR_SESSION,
@@ -107,6 +107,8 @@ export function sdkSessionTime(state = 0, action) {
     return action.meta.updateTime;
   } else if (action.type === SDK_RESET_CURR_SESSION) {
     return action.meta.updateTime;
+  } else if (action.type === SDK_CONSULTATIVE || action.type === SDK_CONSULTATIVE) {
+    return action.meta.updateTime;
   }
   return state;
 }
@@ -158,6 +160,8 @@ export function sdkCurrSessionId(state = null, action) {
     return action.payload;
   } else if (action.type === SDK_RESET_CURR_SESSION) {
     return null;
+  } else if (action.type === SDK_CONSULTATIVE || action.type === SDK_CONSULTATIVE_FAIL) {
+    return null;
   }
   return state;
 }
@@ -172,6 +176,17 @@ export function sdkCurrMsgIdClient(state = null, action) {
 export function sdkCurrMsgTime(state = 0, action) {
   if (action.type === SDK_ONE_NEW_MSG) {
     return action.meta.updateTime;
+  }
+  return state;
+}
+
+export function sdkCurrConsultativeData(state = null, action) {
+  if (action.type === SDK_CONSULTATIVE) {
+    return Object.assign({}, action.payload);
+  } else if (action.type === SDK_CONSULTATIVE_FAIL) {
+    return Object.assign({}, action.payload);
+  } else if (action.type === SDK_RESET_CURR_SESSION || action.type === SDK_SET_CURR_SESSION) {
+    return null;
   }
   return state;
 }

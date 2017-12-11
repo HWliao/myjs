@@ -39,5 +39,8 @@ export const SDK_UPDATE_USER_TIME = 'sdkUpdateUserTime';
 // 当前更新的用户列表
 export const SDK_CURR_UPDATE_SUERS = 'sdkCurrUpdateUsers';
 
+// 咨询页面数据
+export const SDK_CURR_CONSULTATIVE_DATA = 'sdkCurrConsultativeData';
+
 // 错误数据
 export const ERROR = 'error';

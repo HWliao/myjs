@@ -59,3 +59,8 @@ export const SDK_SYNC_DONE = 'sdkSyncDone';
 
 // error
 export const ERROR = 'error';
+
+// 咨询
+export const SDK_CONSULTATIVE = 'sdkConsultative';
+// 咨询失败
+export const SDK_CONSULTATIVE_FAIL = 'sdkConsultativeFail';

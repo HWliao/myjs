@@ -17,7 +17,13 @@ import {
   sdkSessionTime,
   sdkWillConnectInfo,
   userAccount,
-  sdkSyncDone, sdkUpdateUserTime, sdkCurrUpdateUsers, sdkCurrSessionId, sdkCurrMsgIdClient, sdkCurrMsgTime,
+  sdkSyncDone,
+  sdkUpdateUserTime,
+  sdkCurrUpdateUsers,
+  sdkCurrSessionId,
+  sdkCurrMsgIdClient,
+  sdkCurrMsgTime,
+  sdkCurrConsultativeData,
 } from './reducer';
 import {
   IS_LAYOUT_SHOW,
@@ -36,7 +42,11 @@ import {
   SDK_CURR_UPDATE_SESSIONS,
   SDK_SYNC_DONE,
   SDK_UPDATE_USER_TIME,
-  SDK_CURR_UPDATE_SUERS, SDK_CURR_SESSION_ID, SDK_CURR_MSG_ID_CLIENT, SDK_CURR_MSG_TIME,
+  SDK_CURR_UPDATE_SUERS,
+  SDK_CURR_SESSION_ID,
+  SDK_CURR_MSG_ID_CLIENT,
+  SDK_CURR_MSG_TIME,
+  SDK_CURR_CONSULTATIVE_DATA,
 } from '../model/state';
 import { buildSessionMsg } from '../utils/utils';
 
@@ -90,6 +100,7 @@ export class Store {
       [SDK_CURR_SESSION_ID]: sdkCurrSessionId,
       [SDK_CURR_MSG_ID_CLIENT]: sdkCurrMsgIdClient,
       [SDK_CURR_MSG_TIME]: sdkCurrMsgTime,
+      [SDK_CURR_CONSULTATIVE_DATA]: sdkCurrConsultativeData,
     });
     log('rootRoducer %o', rootReducer);
     if (window.__REDUX_DEVTOOLS_EXTENSION__) {

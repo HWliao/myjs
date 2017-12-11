@@ -59,3 +59,23 @@ $('#login').on('click', () => {
 $('#logout').on('click', () => {
   im.logout();
 });
+$('#consultative').on('click', () => {
+  im.gotoConsultative({
+    toUrl: 'https://www.baidu.com',
+    img: 'https://imgcloud.jjshome.com/pic/hsl/2017-09/19/929354be-3202-4b83-bd71-9755a82aa8fe.jpg?imageView2/2/w/160/h/120',
+    title: '旭飞花园 一房一厅一室一卫',
+    attr: '1室1厅1卫  108m²',
+    price: '155万',
+    tip: '正在为您安排置业顾问，请稍等...',
+  });
+});
+$('#consultativeFail').on('click', () => {
+  im.gotoConsultativeFail({
+    toUrl: 'https://www.baidu.com',
+    img: 'https://imgcloud.jjshome.com/pic/hsl/2017-09/19/929354be-3202-4b83-bd71-9755a82aa8fe.jpg?imageView2/2/w/160/h/120',
+    title: '旭飞花园 一房一厅一室一卫',
+    attr: '1室1厅1卫  108m²',
+    price: '155万',
+    tip: '置业顾问正忙，您可致电客服',
+  });
+});
