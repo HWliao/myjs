@@ -11,21 +11,64 @@
 <body>
 <div class="container">
   <div>
-    <p>初始化包括以下步骤:</p>
-    <ul>
-      <li>引入js</li>
-      <li>new Im()</li>
-      <li>im.login()</li>
-    </ul>
     <p>
-      <button id="init" class="btn btn-primary">初始化</button>
-      <button id="hideLayout" class="btn btn-default ">隐藏/显示</button>
+      <h4>脚本引入</h4>
+      <pre>
+          // 按顺序引入一下三个js
+          &lt;script src=&quot;http(s)://cdn.com/path/to/static/js/runtime.js&quot;/&gt;
+          &lt;script src=&quot;http(s)://cdn.com/path/to/static/js/vender.js&quot;/&gt;
+          &lt;script src=&quot;http(s)://cdn.com/path/to/static/js/main.js&quot;/&gt;
+      </pre>
     </p>
     <p>
+      <pre>
+        // 初始化
+        var im = new JjsIm({
+
+        });
+      </pre>
+      <button id="init" class="btn btn-primary">初始化</button>
+    </p>
+    <p>
+      <pre>
+        // 显示
+        im.show(true);
+        // 隐藏
+        im.show(false);
+      </pre>
+      <button id="hideLayout" class="btn btn-primary">隐藏/显示</button>
+    </p>
+    <p>
+      <pre>
+        // 登入
+        im.login('123106','123456');
+        // 登出
+        im.logout();
+      </pre>
       <button id="login" class="btn btn-primary">登入</button>
       <button id="logout" class="btn btn-default">登出</button>
     </p>
     <p>
+      <pre>
+        // 咨询中
+        im.gotoConsultative({
+          toUrl: 'https://www.baidu.com',
+          img: 'https://imgcloud.jjshome.com/pic/hsl/2017-09/19/929354be-3202-4b83-bd71-9755a82aa8fe.jpg?imageView2/2/w/160/h/120',
+          title: '旭飞花园 一房一厅一室一卫',
+          attr: '1室1厅1卫  108m²',
+          price: '155万',
+          tip: '正在为您安排置业顾问，请稍等...',
+        });
+        // 咨询--无人抢单
+        im.gotoConsultativeFail({
+          toUrl: 'https://www.baidu.com',
+          img: 'https://imgcloud.jjshome.com/pic/hsl/2017-09/19/929354be-3202-4b83-bd71-9755a82aa8fe.jpg?imageView2/2/w/160/h/120',
+          title: '旭飞花园 一房一厅一室一卫',
+          attr: '1室1厅1卫  108m²',
+          price: '155万',
+          tip: '置业顾问正忙，您可致电客服',
+        });
+      </pre>
       <button id="consultative" class="btn btn-primary">咨询中</button>
       <button id="consultativeFail" class="btn btn-default">咨询失败</button>
     </p>

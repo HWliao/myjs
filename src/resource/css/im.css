@@ -162,6 +162,7 @@
   text-rendering: optimizeLegibility;
   text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
+  background: #fff;
 }
 
 .jjsim-shandow {
@@ -440,6 +441,11 @@
   width: 100%;
   padding: 8px 8px 7px 8px;
   float: left;
+}
+
+.im-msg-item .im-emoji {
+  width: 25px;
+  height: 25px;
 }
 
 .im-msg-time {

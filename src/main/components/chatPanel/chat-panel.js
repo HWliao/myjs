@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import $ from 'jquery';
 import EventEmitter from 'eventemitter3';
 import { createDebug } from '../../utils/log';
@@ -17,8 +18,11 @@ import {
   CHAT_PANEL_IMAGE_SEND,
   CHAT_PANEL_SEND_BTN_CLICK, CHAT_PANEL_STICKERS,
 } from '../../model/event';
-import { _$escape, buildSessionMsg, showDelayToHide, openFileDialogFactory, countBytesToSize } from '../../utils/utils';
-import { createEmoji } from '../emoji/emoji';
+import {
+  _$escape, buildSessionMsg, showDelayToHide, openFileDialogFactory, countBytesToSize,
+  computeImgSize, getBaiduGeo
+} from '../../utils/utils';
+import { buildEmoji, createEmoji } from '../emoji/emoji';
 import { CONSULTATIVE, CONSULTATIVE_FAIL } from '../../model/constant';
 
 const log = createDebug('im:chat-panel');
@@ -63,7 +67,10 @@ export class ChatPanel extends EventEmitter {
     this.$imWtLoading = this.$chatPanel.find('.im-wt-loading');
 
     this.$imWtCloseBtn = this.$chatPanel.find('.im-wt-closebtn');
+
     this.$imWcChat = this.$chatPanel.find('.im-wc-chat');
+    this.$imWcInput = this.$chatPanel.find('.im-wc-input');
+
     this.$imChatContent = this.$chatPanel.find('.im-chat-content');
     this.$emoji = this.$chatPanel.find('.im-tool .emoji');
     this.$image = this.$chatPanel.find('.im-tool .image');
@@ -76,6 +83,7 @@ export class ChatPanel extends EventEmitter {
       createEmoji(this.layout, this.options.emojiPath, this.sendEmoji.bind(this));
 
     this.$imMsgContentNullTip = this.$chatPanel.find('.im-input-content-null-tip');
+    this.$imMsgContentNullTip.hide();
     this.showContentNullTip = showDelayToHide(this.$imMsgContentNullTip.get(0), 1200);
 
     this.$chatPanel.find('.chat-tophint .txt').text(this.options.chatContentHeader);
@@ -117,6 +125,7 @@ export class ChatPanel extends EventEmitter {
 
     // 发送按钮点击
     this.$send.on('click', () => {
+      if (this.isConsultative) return;
       this.$imMsgContent.focus();
       const text = this.$imMsgContent.val();
       if (!text) {
@@ -132,6 +141,7 @@ export class ChatPanel extends EventEmitter {
 
     // 发起选择图片
     this.$image.on('click', () => {
+      if (this.isConsultative) return;
       fileDialog().then((el) => {
         if (el && el.files && el.files.length === 1) {
           const file = el.files[0];
@@ -152,6 +162,7 @@ export class ChatPanel extends EventEmitter {
 
     // emoji
     this.$emoji.on('click', (e) => {
+      if (this.isConsultative) return;
       e.stopPropagation();
       this.$emojiCompnent._$show();
     });
@@ -258,8 +269,18 @@ export class ChatPanel extends EventEmitter {
   /**
    * 初始化输入款
    * @param currSessionId
+   * @param currConsultative
    */
-  showInputContent(currSessionId) {
+  showInputContent(currSessionId, currConsultative) {
+    if (currConsultative) {
+      this.$imWcInput.addClass('disabled');
+      this.$imMsgContent.prop('disabled', true);
+      this.isConsultative = true;
+    } else {
+      this.$imWcInput.removeClass('disabled');
+      this.$imMsgContent.prop('disabled', false);
+      this.isConsultative = false;
+    }
     if (!currSessionId || (this.currSessionId === currSessionId)) return;
     log('chat panel input conten focus');
     const content = this.store.getDraft(currSessionId) || '';
@@ -270,14 +291,47 @@ export class ChatPanel extends EventEmitter {
   /**
    * 显示初始消息
    * @param currSessionId
+   * @param currConsultative
    */
-  showInitMsgs(currSessionId) {
+  showInitMsgs(currSessionId, currConsultative) {
+    if (currConsultative) {
+      const lis = this.buildConsultativeHtml(currConsultative);
+      this.$imChatContent.html(lis);
+      return;
+    }
     if (!currSessionId || (this.currSessionId === currSessionId)) return;
     log('chat panel show init msgs');
     const msgs = this.store.getMsgsBySessionId(currSessionId);
     const lis = msgs.reduce((li, msg) => (li + this.buildMsgHtml(msg)), '');
     this.$imChatContent.html(lis);
     this.msgUpdateTime = +new Date();
+  }
+
+  buildConsultativeHtml(currConsultative) {
+    const { data } = currConsultative;
+    const userAccount = this.store.get(USER_ACCOUNT);
+    const user = this.store.getUserById(userAccount.accid) || { avatar: defaultImage };
+    return `
+    <li class="im-msg-item im-msg-right im-msg-link">
+      <div class="msg-img">
+        <img src="${user.avatar}">
+      </div>
+      <div class="msg-text">
+        <div class="text">
+          <a class="msg-link clearfix" href="${data.toUrl}" target="_blank">
+            <div class="link-item-img">
+              <img src="${data.img}">
+            </div>
+            <span class="link-span link-title" title="${data.title}">${data.title}</span>
+            <span class="link-span  link-attr" title="${data.attr}">${data.attr}</span>
+            <span class="link-span link-price" title="${data.price}">${data.price}</span>
+          </a>
+        </div>
+      </div>
+    </li>
+    <li class="im-msg-item im-msg-tip">
+      <span class="msg-tip">${data.tip}</span>
+    </li>`;
   }
 
   /**
@@ -295,13 +349,39 @@ export class ChatPanel extends EventEmitter {
     let text = '';
     switch (type) {
       case 'text':
-        text += msg.text;
+        // 文本类型消息
+        text += buildEmoji(_$escape(msg.text, true), this.options.emojiPath);
+        break;
+      case 'image':
+        // 图片类型消息
+        const size = computeImgSize(msg.file, 290);
+        text += `<img src="${size.url}" style="width: ${size.width}px;height: ${size.height}px;"/>`;
+        break;
+      case 'file':
+        text += `<a href="${msg.file.url}" target="_blank" download="${msg.file.name}">收到一个文件,点击下载</a>`;
+        break;
+      case 'tip':
+        text += msg.tip;
+        break;
+      case 'video':
+        text += '这是一段视频,在手机端查看';
+        break;
+      case 'audio':
+        text += '这是一段音频,在手机端查看';
+        break;
+      case 'geo':
+        text += getBaiduGeo(msg.geo, 200);
         break;
       default:
         text += type;
         break;
     }
-
+    if (msg.type === 'tip') {
+      return `
+      <li class="im-msg-item im-msg-tip">
+        <span class="msg-tip">${text}</span>
+      </li>`;
+    }
     return `
       <li class="im-msg-item ${leftOrRightClass}">
         <div class="msg-img">
@@ -309,7 +389,7 @@ export class ChatPanel extends EventEmitter {
         </div>
         <div class="msg-text">
           <div class="text">
-            ${_$escape(text, true)}
+            ${text}
           </div>
           ${isError ? '<i class="sprite sprite-warning msg-warning" title="发送失败"></i>' : ''}
         </div>

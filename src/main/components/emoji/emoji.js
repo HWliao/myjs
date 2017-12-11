@@ -259,6 +259,15 @@ for (let i = 0; i < pluginComputers.length; i++) {
   }
 }
 
+const jjsEmojiMap = {};
+const emojiMap = {};
+for (let i = 0; i < jjsEmoji.length; i++) {
+  jjsEmojiMap[jjsEmoji[i].text] = jjsEmoji[i].file;
+}
+for (let i = 0; i < emoji.length; i++) {
+  emojiMap[emoji[i].text] = emoji[i].file;
+}
+
 class CEmojiEngine {
   constructor(emNode, emConfig = {}) {
     this.__init(emNode, emConfig);
@@ -522,4 +531,36 @@ export function createEmoji(layout, emojiPath, cb) {
     callback: cb || (() => {
     }),
   });
+}
+
+/**
+ * 通过emoji替换创img
+ * @param text
+ * @param imagePath
+ * @return {string}
+ */
+export function buildEmoji(text, imagePath) {
+  let result = text;
+  const re = /\[([^\]\[]*)\]/g;
+  const matches = text.match(re) || [];
+  const map = {};
+  for (let i = 0; i < matches.length; ++i) {
+    // eslint-disable-next-line no-continue
+    if (map[matches[i]]) continue;
+
+    map[matches[i]] = matches[i];
+    if (emojiMap[matches[i]]) {
+      let m = matches[i];
+      m = m.substring(0, m.length - 1);
+      m = `\\${m}\\]`;
+      result = text.replace(new RegExp(m, 'g'), `<img class="im-emoji emoji" data-text="${matches[i]}" src="${imagePath}/emoji/${emoji[matches[i]]}" />`);
+    }
+    if (jjsEmojiMap[matches[i]]) {
+      let m = matches[i];
+      m = m.substring(0, m.length - 1);
+      m = `\\${m}\\]`;
+      result = text.replace(new RegExp(m, 'g'), `<img class="im-emoji emoji" data-text="${matches[i]}" src="${imagePath}/jjs_emoji/${jjsEmojiMap[matches[i]]}" />`);
+    }
+  }
+  return result;
 }

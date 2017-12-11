@@ -169,11 +169,13 @@ export default class Im extends EventEmiiter {
   gotoConsultative(data) {
     log('go to consultative state %o', data);
     this.store.dispatch(sdkGotoConsultative(data));
+    this.sdk.resetCurrSessionJustNim(this.store.get(SDK_CURR_SESSION_ID));
   }
 
   gotoConsultativeFail(data) {
     log('go to consultative fail state %o', data);
     this.store.dispatch(sdkGotoConsultativeFail(data));
+    this.sdk.resetCurrSessionJustNim(this.store.get(SDK_CURR_SESSION_ID));
   }
 
   // 事件类型

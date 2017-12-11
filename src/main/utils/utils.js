@@ -374,3 +374,81 @@ export function countBytesToSize(bytes) {
 export function prefixInteger(num, length) {
   return (new Array(length).join('0') + num).slice(-length);
 }
+
+/**
+ * 计算需要获取的图片尺寸
+ * @param url
+ * @param w
+ * @param h
+ * @param md5
+ * @param ext
+ * @return {{url: string}}
+ */
+// eslint-disable-next-line object-curly-newline
+export function computeImgSize({ url, w, h, ext }, limitW) {
+  let et;
+  let width;
+  let height;
+  let tmpUrl;
+
+  if (ext.indexOf('/') > -1) {
+    [, et = 'png'] = ext.split('/');
+  } else {
+    et = ext;
+  }
+
+  if (w && h) {
+    if (w > limitW) {
+      width = limitW;
+      height = parseInt(h * (limitW / w), 10);
+    } else {
+      width = w;
+      height = h;
+    }
+  }
+
+  if (et &&
+    et.indexOf('gif') === -1 &&
+    et.indexOf('jpeg') === -1 &&
+    url.indexOf('base64') === -1) {
+    tmpUrl = `${url}?imageView&stripmeta=1&quality=80&interlace=1&thumbnail=${width}z${height}`;
+  }
+
+  return {
+    url: tmpUrl,
+    width,
+    height,
+    ext: et,
+  };
+}
+
+/**
+ * gep消息百度地图解析
+ * @param lng
+ * @param lat
+ * @param title
+ * @param limitW
+ * @return {string}
+ */
+export function getBaiduGeo({ lng, lat, title }, limitW) {
+  const ahref = [
+    'http://api.map.baidu.com/marker?',
+    `location=${lat},${lng}`,
+    '&title=我在这里',
+    `&content=${title}`,
+    '&output=html',
+    '&zoom=16',
+    '&src=im.jjshome.com',
+  ].join('');
+  const imgSrc = [
+    'http://api.map.baidu.com/staticimage/v2?',
+    'ak=rCLqzeOiDUi7jA9ddqaejk65',
+    `&center=${lng},${lat}`,
+    `&width=${limitW}&height=${limitW * 0.75}&zoom=16`,
+    `&markers=${lng},${lat}`,
+    '&markerStyles=m,,0xFF0000',
+  ].join('');
+  return `<a href="${ahref}" target="_blank" title="在百度地图中查看">
+    <img src="${imgSrc}"  style="width: ${limitW}px;height: ${limitW * 0.75}px;"/>
+  </a>`;
+}
