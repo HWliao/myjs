@@ -1,6 +1,7 @@
 /* eslint-disable import/first */
 import './public-path';
 import EventEmiiter from 'eventemitter3';
+import $ from 'jquery';
 
 import '../resource/css/im.css';
 
@@ -13,18 +14,32 @@ import { hideLayout, showLayout } from './components/layout/layoutAction';
 import { Sidebar } from './components/sidebar/sidebar';
 import { ChatPanel } from './components/chatPanel/chat-panel';
 import {
-  CHAT_PANEL_CLOSE_BTN_CLICK, CHAT_PANEL_IMAGE_SEND, CHAT_PANEL_SEND_BTN_CLICK, CHAT_PANEL_STICKERS,
-  IM_TO_CONSULTING,
+  CHAT_PANEL_CLOSE_BTN_CLICK,
+  CHAT_PANEL_IMAGE_SEND,
+  CHAT_PANEL_SEND_BTN_CLICK,
+  CHAT_PANEL_STICKERS,
+  IM_MSG,
+  IM_TO_UP,
   IM_TO_LOGIN,
   SIDEBAR_HEADER_CLICK,
   SIDEBAR_LOGIN_BTN_CLICK,
-  SIDEBAR_SESSION_CLICK,
+  SIDEBAR_SESSION_CLICK, IM_ERROR,
 } from './model/event';
 import { sideUpOrDown } from './components/sidebar/sidebarAction';
-import { IS_LOGIN, IS_SIDEBAR_UP, SDK_CURR_SESSION_ID } from './model/state';
+import {
+  ERROR, IS_LAYOUT_SHOW,
+  IS_LOGIN,
+  IS_SDK_CONNECTED,
+  IS_SIDEBAR_UP,
+  SDK_CURR_MSG_ID_CLIENT,
+  SDK_CURR_MSG_TIME,
+  SDK_CURR_SESSION_ID,
+  USER_ACCOUNT,
+} from './model/state';
 import { login, logout, sdkGotoConsultative, sdkGotoConsultativeFail } from './store/action';
 import { createError, IS_LOGINED, NOT_LOGIN } from './model/error';
 import { prefixInteger } from './utils/utils';
+import { SCENE_P2P, SCENE_TEAM } from './model/constant';
 
 const log = createDebug('im:main');
 
@@ -75,7 +90,7 @@ export default class Im extends EventEmiiter {
       // 登入状态发起咨询
       if (this.store.get(IS_LOGIN)) {
         log('main emit IM_TO_CONSULTING');
-        this.emit(IM_TO_CONSULTING);
+        this.emit(IM_TO_UP);
       }
     });
 
@@ -127,6 +142,34 @@ export default class Im extends EventEmiiter {
         },
       }, session.scene, session.to);
     });
+
+    // 监听store变化
+    let msgUpdateTime = +new Date();
+    let errorTime = +new Date();
+    this.store.subscribe(() => {
+      const currMsgTime = this.store.get(SDK_CURR_MSG_TIME);
+      const msgIdClient = this.store.get(SDK_CURR_MSG_ID_CLIENT);
+      if (currMsgTime > msgUpdateTime) {
+        msgUpdateTime = currMsgTime;
+        const msg = this.store.getMsgByIdClient(msgIdClient);
+        let custom;
+        try {
+          custom = JSON.parse(msg);
+        } catch (e) {
+          console.error(e);
+          custom = {};
+        }
+        log('emit IM_MSG custom:%o,msg:%o', custom, msg);
+        this.emit(IM_MSG, custom, Object.assign({}, msg));
+      }
+
+      const error = this.store.get(ERROR);
+      if (error && error.time > errorTime) {
+        log('emit IM_ERROR %o', error);
+        errorTime = error.time;
+        this.emit(IM_ERROR, error);
+      }
+    });
   }
 
   /**
@@ -150,11 +193,13 @@ export default class Im extends EventEmiiter {
   login(accid, password) {
     log('im login accid:%s,pasword:%s', accid, password);
     if (this.store.get(IS_LOGIN)) return;
+
+    const userAccount = this.store.get(USER_ACCOUNT) || {};
     // im login
     log('isLogin state set to true');
-    this.store.dispatch(login({ accid, password }));
+    if (!userAccount.accid) this.store.dispatch(login({ accid, password }));
     // sdk connect
-    this.sdk.connect(accid, password);
+    this.sdk.connect();
   }
 
   logout() {
@@ -167,25 +212,99 @@ export default class Im extends EventEmiiter {
   }
 
   gotoConsultative(data) {
+    if (!this.isLogin()) return;
     log('go to consultative state %o', data);
     this.store.dispatch(sdkGotoConsultative(data));
     this.sdk.resetCurrSessionJustNim(this.store.get(SDK_CURR_SESSION_ID));
   }
 
   gotoConsultativeFail(data) {
+    if (!this.isLogin()) return;
     log('go to consultative fail state %o', data);
     this.store.dispatch(sdkGotoConsultativeFail(data));
     this.sdk.resetCurrSessionJustNim(this.store.get(SDK_CURR_SESSION_ID));
   }
 
+  isLogin() {
+    return this.store.get(IS_LOGIN);
+  }
+
+  isConnect() {
+    return this.store.get(IS_SDK_CONNECTED);
+  }
+
+  isShow() {
+    return this.store.get(IS_LAYOUT_SHOW);
+  }
+
+  isUp() {
+    return this.store.get(IS_SIDEBAR_UP);
+  }
+
+  /**
+   * 发送文本消息
+   * @param scene 场景
+   * @param to 发给谁
+   * @param text 文本
+   * @return {Promise.<T>}
+   */
+  sendTextMessage(scene, to, text) {
+    if (!this.isConnect()) {
+      return Promise.reject(new Error('连接未建立'));
+    }
+    if (scene !== SCENE_P2P || scene !== SCENE_TEAM) {
+      return Promise.reject(new Error('scene 只能是p2p/team'));
+    }
+    if (!to) {
+      return Promise.reject(new Error('to 不能为空'));
+    }
+    if (typeof text !== 'string') {
+      return Promise.reject(new Error('text 只能是String'));
+    }
+    return this.sdk.sendTextMsg(scene, to, text);
+  }
+
+  /**
+   * 发送自定义消息
+   * @param scene 场景
+   * @param to 发给谁
+   * @param content 内容
+   * @param pushContent 推送内容 字符串,一般为 [房源] [贴图] 这种格式
+   * @return {Promise}
+   */
+  sendCustomMessage(scene, to, content, pushContent) {
+    if (!this.isConnect()) {
+      return Promise.reject(new Error('连接未建立'));
+    }
+    if (scene !== SCENE_P2P || scene !== SCENE_TEAM) {
+      return Promise.reject(new Error('scene 只能是p2p/team'));
+    }
+    if (!to) {
+      return Promise.reject(new Error('to 不能为空'));
+    }
+    if (typeof pushContent !== 'string') {
+      return Promise.reject(new Error('text 只能是String'));
+    }
+    if ($.isEmptyObject(content)) {
+      return Promise.reject(new Error('content 只能是普通对象,且不能为空'));
+    }
+    return this.sdk.sendCustomMessage(content, scene, to, pushContent);
+  }
+
   // 事件类型
   static event = {
     IM_TO_LOGIN,
-    IM_TO_CONSULTING,
+    IM_TO_UP,
+    IM_MSG,
   };
 
   static errorCode = {
     IS_LOGINED,
     NOT_LOGIN,
+  };
+
+  static constant = {
+    SCENE_TEAM,
+    SCENE_P2P,
   };
 }

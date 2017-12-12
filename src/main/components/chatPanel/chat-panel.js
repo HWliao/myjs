@@ -403,7 +403,7 @@ export class ChatPanel extends EventEmitter {
           if (catalog === 'jjs') {
             suffix = '.gif';
           }
-          text += `<img data-ignore class="chartlet" src="${this.options.emojiPath}/${catalog}/${chartlet}.${suffix}">`;
+          text += `<img data-ignore style="width: 150px;height: 150px;" src="${this.options.emojiPath}/${catalog}/${chartlet}${suffix}">`;
         } else if (content.type === 4) {
           text += '一条[白板]消息,请到手机或电脑客户端查看';
         } else if (content.type === 5) {

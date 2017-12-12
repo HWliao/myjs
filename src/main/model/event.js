@@ -6,9 +6,13 @@ export const SIDEBAR_HEADER_CLICK = 'sidebar_header_click';
 export const SIDEBAR_LOGIN_BTN_CLICK = 'sidebar_login_btn_click';
 
 // 发起咨询
-export const IM_TO_CONSULTING = 'im_to_consulting';
+export const IM_TO_UP = 'im_to_up';
 // 去登入
 export const IM_TO_LOGIN = 'im_to_login';
+// 消息事件
+export const IM_MSG = 'im_msg';
+// 错误
+export const IM_ERROR = 'im_error';
 
 // session点击事件
 export const SIDEBAR_SESSION_CLICK = 'sidebar_session_click';
@@ -23,3 +27,4 @@ export const CHAT_PANEL_SEND_BTN_CLICK = 'chat_panel_send_btn_click';
 export const CHAT_PANEL_IMAGE_SEND = 'chat_panel_image_send';
 // 贴图
 export const CHAT_PANEL_STICKERS = 'chat_panel_stickers';
+

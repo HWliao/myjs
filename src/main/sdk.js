@@ -29,6 +29,8 @@ export class Sdk extends EventEmitter {
 
     this.getUsersFromOptions = options.getUsers;
     this.fromClientType = options.fromClientType;
+    this.sessionFilter = options.sessionFilter;
+    this.msgFilter = options.msgFilter;
   }
 
   /**
@@ -157,9 +159,12 @@ export class Sdk extends EventEmitter {
    */
   onsessions(sessions = []) {
     log('sdk sessions %o', sessions);
-    this.store.putSessions(sessions);
 
-    const updateSessions = sessions.map(session => session.id);
+    // 过滤掉不需要处理的session
+    const filterSessions = sessions.filter(({ scene, to }) => this.sessionFilter(scene, to));
+    this.store.putSessions(filterSessions);
+
+    const updateSessions = filterSessions.map(session => session.id);
     const totalSessions = this.store.getTotalSessionIds();
     this.store.dispatch(sdkUpdateSessions(updateSessions, totalSessions));
   }

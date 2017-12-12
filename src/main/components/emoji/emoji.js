@@ -553,7 +553,7 @@ export function buildEmoji(text, imagePath) {
       let m = matches[i];
       m = m.substring(0, m.length - 1);
       m = `\\${m}\\]`;
-      result = text.replace(new RegExp(m, 'g'), `<img class="im-emoji emoji" data-text="${matches[i]}" src="${imagePath}/emoji/${emoji[matches[i]]}" />`);
+      result = text.replace(new RegExp(m, 'g'), `<img class="im-emoji emoji" data-text="${matches[i]}" src="${imagePath}/emoji/${emojiMap[matches[i]]}" />`);
     }
     if (jjsEmojiMap[matches[i]]) {
       let m = matches[i];
