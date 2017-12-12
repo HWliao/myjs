@@ -31,7 +31,7 @@ const config = {
   chatContentHeader: '聊天中经纪人无法知道您的手机号',
 
   // emoji路径
-  emojiPath: '/emoji',
+  emojiPath: `${process.env.PUBLIC_URL}emoji`,
 };
 
 export function getConfig(options = {}) {

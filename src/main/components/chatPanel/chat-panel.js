@@ -19,8 +19,14 @@ import {
   CHAT_PANEL_SEND_BTN_CLICK, CHAT_PANEL_STICKERS,
 } from '../../model/event';
 import {
-  _$escape, buildSessionMsg, showDelayToHide, openFileDialogFactory, countBytesToSize,
-  computeImgSize, getBaiduGeo
+  _$escape,
+  buildSessionMsg,
+  showDelayToHide,
+  openFileDialogFactory,
+  countBytesToSize,
+  computeImgSize,
+  getBaiduGeo,
+  judgePrice,
 } from '../../utils/utils';
 import { buildEmoji, createEmoji } from '../emoji/emoji';
 import { CONSULTATIVE, CONSULTATIVE_FAIL } from '../../model/constant';
@@ -354,26 +360,84 @@ export class ChatPanel extends EventEmitter {
         break;
       case 'image':
         // 图片类型消息
-        const size = computeImgSize(msg.file, 290);
+        const size = computeImgSize(msg.file, 250);
         text += `<img src="${size.url}" style="width: ${size.width}px;height: ${size.height}px;"/>`;
         break;
       case 'file':
-        text += `<a href="${msg.file.url}" target="_blank" download="${msg.file.name}">收到一个文件,点击下载</a>`;
+        text += `<a href="${msg.file.url}" target="_blank" download="${msg.file.name}">[文件] 点击下载</a>`;
         break;
       case 'tip':
         text += msg.tip;
         break;
       case 'video':
-        text += '这是一段视频,在手机端查看';
+        text += '[视频] 在手机端查看';
         break;
       case 'audio':
-        text += '这是一段音频,在手机端查看';
+        text += '[音频] 在手机端查看';
         break;
       case 'geo':
         text += getBaiduGeo(msg.geo, 200);
         break;
+      case 'notification':
+        text += '[群通知]';
+        break;
+      case 'custom':
+        let content;
+        try {
+          content = JSON.parse(msg.content);
+        } catch (e) {
+          console.error('msg:%o,err:%o', msg, e);
+        }
+
+        if (content === null || content === undefined) {
+          text += '一条[自定义]消息，请到手机或电脑客户端查看';
+        } else if (content.type === 1) {
+          text += '一条[猜拳]消息,请到手机端查看';
+        } else if (content.type === 2) {
+          text += '一条[阅后即焚]消息,请到手机端查看';
+        } else if (content.type === 3) {
+          // 贴图
+          const catalog = _$escape(content.data.catalog);
+          const chartlet = _$escape(content.data.chartlet);
+          let suffix = '.png';
+          if (catalog === 'jjs') {
+            suffix = '.gif';
+          }
+          text += `<img data-ignore class="chartlet" src="${this.options.emojiPath}/${catalog}/${chartlet}.${suffix}">`;
+        } else if (content.type === 4) {
+          text += '一条[白板]消息,请到手机或电脑客户端查看';
+        } else if (content.type === 5) {
+          // 房源消息
+          text = `
+            <a class="msg-link clearfix" href="${content.data.url}" target="_blank">
+            <div class="link-item-img">
+            <img src="${content.data.houseImage}">
+            </div>
+            <span class="link-span link-title" title="${_$escape(content.data.title)}">${_$escape(content.data.title)}</span>
+            <span class="link-span  link-attr" title="${content.data.room}室${content.data.hall}厅  ${content.data.area}m²">${content.data.room}室${content.data.hall}厅&nbsp;&nbsp;${content.data.area}m²</span>
+            <span class="link-span link-price" title="${judgePrice(content.data.houseType, content.data.price)}">${judgePrice(content.data.houseType, content.data.price)}</span>
+            </a>`;
+        } else if (content.type === 'multi' && content.msgs && content.msgs.length > -1) {
+          // 图文混合消息
+          const { msgs } = content;
+          for (let i = 0; i < msgs.length; i++) {
+            if (msgs[i].type === 'text') {
+              let theMsgText = msgs[i].text || '';
+              theMsgText = _$escape(theMsgText, true);
+              text += buildEmoji(theMsgText, this.options.emojiPath);
+            } else if (msgs[i].type === 'image') {
+              if (msgs[i] && msgs[i].file && msgs[i].file.url) {
+                const tmpsize = computeImgSize(msgs[i].file, 250);
+                text += `<img src="${tmpsize.url}" style="width: ${tmpsize.width}px;height: ${tmpsize.height}px;"/>`;
+              }
+            }
+          }
+        } else {
+          text += '一条[自定义]消息，请到手机端查看';
+        }
+        break;
       default:
-        text += type;
+        text += '一条[未知消息类型]消息';
         break;
     }
     if (msg.type === 'tip') {

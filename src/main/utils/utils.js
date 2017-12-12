@@ -452,3 +452,17 @@ export function getBaiduGeo({ lng, lat, title }, limitW) {
     <img src="${imgSrc}"  style="width: ${limitW}px;height: ${limitW * 0.75}px;"/>
   </a>`;
 }
+
+/**
+ *  计算价格单位
+ */
+export function judgePrice(houseType, price) {
+  if (houseType === '1') {
+    return `${price}元/月`;
+  } else if (houseType === '2') {
+    return `${price}万`;
+  } else if (houseType === '3') {
+    return `${price}元/m²`;
+  }
+  return price;
+}
