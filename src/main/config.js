@@ -12,7 +12,7 @@ const config = {
   // 图片上传最大阈值
   imageUploadMaxLimit: 1024 * 1024,
   // emoji资源路径
-  emojiPath: `${process.env.PUBLIC_URL}emoji`,
+  emojiPath: `${process.env.PUBLIC_URL}/emoji`,
 
   // 用户信息获取接口
   getUsers: (accids, cb) => {
