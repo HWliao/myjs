@@ -353,6 +353,7 @@ export class ChatPanel extends EventEmitter {
     const leftOrRightClass = from === userUID ? 'im-msg-right' : 'im-msg-left';
     const isError = status !== 'success';
     let text = '';
+    let isFangyuan = false;
     switch (type) {
       case 'text':
         // 文本类型消息
@@ -408,6 +409,7 @@ export class ChatPanel extends EventEmitter {
           text += '一条[白板]消息,请到手机或电脑客户端查看';
         } else if (content.type === 5) {
           // 房源消息
+          isFangyuan = true;
           text = `
             <a class="msg-link clearfix" href="${content.data.url}" target="_blank">
             <div class="link-item-img">
@@ -447,7 +449,7 @@ export class ChatPanel extends EventEmitter {
       </li>`;
     }
     return `
-      <li class="im-msg-item ${leftOrRightClass}">
+      <li class="im-msg-item ${leftOrRightClass} ${isFangyuan ? 'im-msg-link' : ''}">
         <div class="msg-img">
           <img src="${avatar}">
         </div>

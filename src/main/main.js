@@ -152,12 +152,13 @@ export default class Im extends EventEmiiter {
       if (currMsgTime > msgUpdateTime) {
         msgUpdateTime = currMsgTime;
         const msg = this.store.getMsgByIdClient(msgIdClient);
-        let custom;
-        try {
-          custom = JSON.parse(msg);
-        } catch (e) {
-          console.error(e);
-          custom = {};
+        let custom = {};
+        if (msg.type === 'custom') {
+          try {
+            custom = JSON.parse(msg.content);
+          } catch (e) {
+            console.error(e);
+          }
         }
         log('emit IM_MSG custom:%o,msg:%o', custom, msg);
         this.emit(IM_MSG, custom, Object.assign({}, msg));
@@ -252,7 +253,7 @@ export default class Im extends EventEmiiter {
     if (!this.isConnect()) {
       return Promise.reject(new Error('连接未建立'));
     }
-    if (scene !== SCENE_P2P || scene !== SCENE_TEAM) {
+    if (scene !== SCENE_P2P && scene !== SCENE_TEAM) {
       return Promise.reject(new Error('scene 只能是p2p/team'));
     }
     if (!to) {
@@ -261,7 +262,7 @@ export default class Im extends EventEmiiter {
     if (typeof text !== 'string') {
       return Promise.reject(new Error('text 只能是String'));
     }
-    return this.sdk.sendTextMsg(scene, to, text);
+    return this.sdk.sendTextMsg(text, scene, to);
   }
 
   /**
@@ -276,7 +277,7 @@ export default class Im extends EventEmiiter {
     if (!this.isConnect()) {
       return Promise.reject(new Error('连接未建立'));
     }
-    if (scene !== SCENE_P2P || scene !== SCENE_TEAM) {
+    if (scene !== SCENE_P2P && scene !== SCENE_TEAM) {
       return Promise.reject(new Error('scene 只能是p2p/team'));
     }
     if (!to) {

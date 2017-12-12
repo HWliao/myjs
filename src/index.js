@@ -121,6 +121,19 @@ $('#hideLayout').on('click', () => {
   im.show(i % 2 === 0);
   i += 1;
 });
+$('#isLogin').on('click', () => {
+  alert(im.isLogin());
+});
+$('#isConnect').on('click', () => {
+  alert(im.isConnect());
+});
+$('#isShow').on('click', () => {
+  alert(im.isShow());
+});
+$('#isUp').on('click', () => {
+  alert(im.isUp());
+});
+
 // 登入 087387
 $('#login').on('click', () => {
   im.login('087387', '123456');
@@ -148,4 +161,49 @@ $('#consultativeFail').on('click', () => {
     price: '155万',
     tip: '置业顾问正忙，您可致电客服：400-8869-200',
   });
+});
+
+$('#sendTextMessage').on('click', () => {
+  im.sendTextMessage(Im.constant.SCENE_P2P, '123106', 'text')
+    .then((msg) => {
+      console.log(msg);
+      alert('发送成功');
+    })
+    .catch((error) => {
+      console.log(error);
+      alert('发送失败');
+    });
+});
+$('#sendCustomMessage').on('click', () => {
+  im.sendCustomMessage(
+    Im.constant.SCENE_P2P,
+    '123106',
+    {
+      type: 5,
+      data: {
+        houseId: '7984366',
+        orientation: '西南',
+        fitment: '简单装修',
+        hall: '2',
+        url: 'https://wap.jjshome.com/wap/esf/detail/7984366',
+        area: '80.68',
+        addr: '淡水镇长安南路与熊猫大道交汇',
+        title: '靓房诚心出售',
+        price: '68',
+        room: '2',
+        houseType: '2',
+        houseImage: 'https://imgcloud.jjshome.com/pic/hsl/2017-03/04/ff029ae8-de83-4ded-bcb2-6468f25762be.jpg',
+        forward: '西南',
+        lpName: '惠阳左岸春天',
+      },
+    }, '[房源]',
+  )
+    .then((msg) => {
+      console.log(msg);
+      alert('发送成功');
+    })
+    .catch((error) => {
+      console.log(error);
+      alert('发送失败');
+    });
 });
