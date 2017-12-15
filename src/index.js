@@ -205,3 +205,9 @@ $('#sendCustomMessage').on('click', () => {
       alert('发送失败');
     });
 });
+$('#setCurrSession').on('click', () => {
+  im.setCurrSession(Im.constant.SCENE_P2P, '123106');
+});
+$('#destroy').on('click', () => {
+  im.destroy();
+});

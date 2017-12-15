@@ -11,16 +11,39 @@
 <body>
 <div class="container">
   <div>
-    <p>
-      <h4>脚本引入</h4>
-      <pre>
-          // css
-          &lt;link rel=&quot;stylesheet&quot; href=&quot;http(s)://cdn.com/path/to/static/css/main.css&quot;/&gt;
-          // js
-          &lt;script src=&quot;http(s)://cdn.com/path/to/static/js/vender.js&quot;/&gt;
-          &lt;script src=&quot;http(s)://cdn.com/path/to/static/js/main.js&quot;/&gt;
-      </pre>
-    </p>
+    <h4>脚本引入</h4>
+    <pre>
+      // css
+      &lt;link rel=&quot;stylesheet&quot; href=&quot;http(s)://cdn.com/path/to/static/css/main.css&quot;/&gt;
+      // js
+      &lt;script src=&quot;http(s)://cdn.com/path/to/static/js/vender.js&quot;/&gt;
+      &lt;script src=&quot;http(s)://cdn.com/path/to/static/js/main.js&quot;/&gt;
+    </pre>
+    <h4>常量</h4>
+    <pre>
+      // 基本常量
+      // 群
+      Im.constant.SCENE_TEAM = 'team';
+      // 单聊
+      Im.constant.SCENE_P2P = 'p2p';
+
+      // 事件名称
+      // 登入按钮点击事件
+      Im.event.IM_TO_LOGIN = 'im_to_login';
+      // 登入状态下 展开 事件
+      Im.event.IM_TO_UP = 'im_to_login';
+      // 收到消息 根据配置中msgFilter过滤后的消息
+      Im.event.IM_MSG = 'im_msg';
+      // 错误事件
+      Im.event.IM_ERROR = 'im_error';
+
+      // 错误代码
+      // 已经登入
+      Im.error.IS_LOGINED = 'isLogined',
+      // 未登入
+      Im.error.NOT_LOGIN = 'notLogin',
+    </pre>
+    <h4>基本功能</h4>
     <p>
       <pre class="pre-scrollable">
         // 初始化
@@ -204,7 +227,23 @@
         .then(function(msg){/* 成功回调 */})
         .catch(function(error){/* 失败回调 */});
       </pre>
-    <button id="sendCustomMessage" class="btn btn-primary">发送自定义消息</button>
+      <button id="sendCustomMessage" class="btn btn-primary">发送自定义消息</button>
+    </p>
+    <p>
+      <pre>
+        // 设置当前会话
+        // 参数1: scene 场景 p2p/team
+        // 参数2: to    聊天对象 accid/tid
+        im.setCurrSession(Im.constant.SCENE_P2P,'123106');
+      </pre>
+      <button id="setCurrSession" class="btn btn-primary">设置当前会话</button>
+    </p>
+    <p>
+      <pre>
+        // 销毁
+        im.destroy();
+      </pre>
+      <button id="destroy" class="btn btn-primary">销毁</button>
     </p>
   </div>
 </div>

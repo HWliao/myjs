@@ -292,11 +292,36 @@ export default class Im extends EventEmiiter {
     return this.sdk.sendCustomMessage(content, scene, to, pushContent);
   }
 
+  setCurrSession(scene, to) {
+    if (!this.isConnect()) {
+      return Promise.reject(new Error('连接未建立'));
+    }
+    if (scene !== SCENE_P2P && scene !== SCENE_TEAM) {
+      return Promise.reject(new Error('scene 只能是p2p/team'));
+    }
+    if (!to) {
+      return Promise.reject(new Error('to 不能为空'));
+    }
+    this.sdk.setCurrSession(`${scene}-${to}`, false);
+    return Promise.resolve();
+  }
+
+  destroy() {
+    this.sdk.disconnect();
+    this.layout.remove();
+    this.sdk = null;
+    this.store = null;
+    this.layout = null;
+    this.sidebar = null;
+    this.chatPanel = null;
+  }
+
   // 事件类型
   static event = {
     IM_TO_LOGIN,
     IM_TO_UP,
     IM_MSG,
+    IM_ERROR,
   };
 
   static errorCode = {

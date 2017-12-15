@@ -70,4 +70,8 @@ export class Layout {
   addAdditionalUI($e) {
     this.$layout.append($e);
   }
+
+  remove() {
+    this.$layout.remove();
+  }
 }
