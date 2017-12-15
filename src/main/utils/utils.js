@@ -412,6 +412,8 @@ export function computeImgSize({ url, w, h, ext }, limitW) {
     et.indexOf('jpeg') === -1 &&
     url.indexOf('base64') === -1) {
     tmpUrl = `${url}?imageView&stripmeta=1&quality=80&interlace=1&thumbnail=${width}z${height}`;
+  } else {
+    tmpUrl = url;
   }
 
   return {
