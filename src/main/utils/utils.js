@@ -98,7 +98,7 @@ export function _$escape(content, flag) {
  * 日期格式化
  * @return string
  */
-function dateFormat(_timeL, _format, _12time) {
+export function dateFormat(_timeL, _format, _12time) {
   const _map = { i: !0, r: /\byyyy|yy|MM|cM|eM|M|dd|d|HH|H|mm|ms|ss|m|s|w|ct|et\b/g };
   const _12cc = ['上午', '下午'];
   const _12ec = ['A.M.', 'P.M.'];

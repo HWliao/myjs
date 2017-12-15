@@ -28,3 +28,8 @@ export const CHAT_PANEL_IMAGE_SEND = 'chat_panel_image_send';
 // 贴图
 export const CHAT_PANEL_STICKERS = 'chat_panel_stickers';
 
+// 提示框重新登入按钮点击
+export const LAYOUT_RE_LOGIN_BTN = 'layout_re_login_btn';
+// 被踢
+export const SDK_EVENT_KICKED = 'sdkEventKicked';
+

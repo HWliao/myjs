@@ -24,7 +24,7 @@ import {
   IM_TO_LOGIN,
   SIDEBAR_HEADER_CLICK,
   SIDEBAR_LOGIN_BTN_CLICK,
-  SIDEBAR_SESSION_CLICK, IM_ERROR,
+  SIDEBAR_SESSION_CLICK, IM_ERROR, LAYOUT_RE_LOGIN_BTN, SDK_EVENT_KICKED,
 } from './model/event';
 import { sideUpOrDown } from './components/sidebar/sidebarAction';
 import {
@@ -73,6 +73,21 @@ export default class Im extends EventEmiiter {
   }
 
   initEvent() {
+    // 被踢
+    this.sdk.on(SDK_EVENT_KICKED, () => {
+      const isSidebarUp = this.store.get(IS_SIDEBAR_UP);
+      log('on SDK_EVENT_KICKED now isSidebarUp %s', isSidebarUp);
+      if (!isSidebarUp) {
+        // 被踢,展开
+        this.store.dispatch(sideUpOrDown(!isSidebarUp));
+      }
+    });
+    // 重新登入
+    this.layout.on(LAYOUT_RE_LOGIN_BTN, () => {
+      const isConnected = this.store.get(IS_SDK_CONNECTED);
+      log('need re connect if isConnected is false, isConnected:%s', isConnected);
+      if (!isConnected) this.sdk.connect();
+    });
     // 侧边栏头部被点击
     this.sidebar.on(SIDEBAR_HEADER_CLICK, () => {
       log('main on SIDEBAR_HEADER_CLICK');

@@ -16,7 +16,8 @@ import {
 } from './store/action';
 import { SCENE_P2P } from './model/constant';
 import { createPushContent } from './utils/utils';
-import { createError, SEND_MSG_ERROR } from './model/error';
+import { createError, SDK_KICKED, SEND_MSG_ERROR } from './model/error';
+import { SDK_EVENT_KICKED } from './model/event';
 
 const log = createDebug('im:sdk');
 
@@ -115,6 +116,7 @@ export class Sdk extends EventEmitter {
     if (obj && obj.code) {
       log('sdk disconnect with error %o', obj);
       this.store.dispatch(error({ code: obj.code, message: obj.message }));
+      if (obj && obj.code === SDK_KICKED) this.emit(SDK_EVENT_KICKED);
     }
   }
 

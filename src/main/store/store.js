@@ -23,7 +23,7 @@ import {
   sdkCurrSessionId,
   sdkCurrMsgIdClient,
   sdkCurrMsgTime,
-  sdkCurrConsultativeData,
+  sdkCurrConsultativeData, isSdkKicked,
 } from './reducer';
 import {
   IS_LAYOUT_SHOW,
@@ -46,7 +46,7 @@ import {
   SDK_CURR_SESSION_ID,
   SDK_CURR_MSG_ID_CLIENT,
   SDK_CURR_MSG_TIME,
-  SDK_CURR_CONSULTATIVE_DATA,
+  SDK_CURR_CONSULTATIVE_DATA, IS_SDK_KICKED,
 } from '../model/state';
 import { buildSessionMsg } from '../utils/utils';
 
@@ -101,6 +101,7 @@ export class Store {
       [SDK_CURR_MSG_ID_CLIENT]: sdkCurrMsgIdClient,
       [SDK_CURR_MSG_TIME]: sdkCurrMsgTime,
       [SDK_CURR_CONSULTATIVE_DATA]: sdkCurrConsultativeData,
+      [IS_SDK_KICKED]: isSdkKicked,
     });
     log('rootRoducer %o', rootReducer);
     if (window.__REDUX_DEVTOOLS_EXTENSION__) {

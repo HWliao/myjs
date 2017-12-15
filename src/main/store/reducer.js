@@ -1,4 +1,5 @@
 import {
+  ERROR,
   LOGIN,
   LOGOUT,
   SDK_CONNECT, SDK_CONSULTATIVE, SDK_CONSULTATIVE_FAIL,
@@ -11,6 +12,7 @@ import {
   SDK_UPDATE_USER,
   SDK_WILL_CONNECT,
 } from '../model/action';
+import { SDK_KICKED } from '../model/error';
 
 /**
  * 登入状态变化处理
@@ -187,6 +189,15 @@ export function sdkCurrConsultativeData(state = null, action) {
     return Object.assign({}, action.payload);
   } else if (action.type === SDK_RESET_CURR_SESSION || action.type === SDK_SET_CURR_SESSION) {
     return null;
+  }
+  return state;
+}
+
+export function isSdkKicked(state = false, action) {
+  if (action.type === ERROR && action.payload && action.payload.code === SDK_KICKED) {
+    return true;
+  } else if (action.type === SDK_CONNECT) {
+    return false;
   }
   return state;
 }

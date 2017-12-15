@@ -10,6 +10,8 @@ export const USER_ACCOUNT = 'userAccount';
 export const SDK_CONNECT_COUNT = 'sdkConnectCount';
 // sdk连接状态
 export const IS_SDK_CONNECTED = 'isSdkConnected';
+// 是否被踢
+export const IS_SDK_KICKED = 'isSdkKicked';
 // sdk重新连接数据
 export const SDK_WILL_CONNECT_INFO = 'sdkWillConnectInfo';
 // sdk登入设备信息

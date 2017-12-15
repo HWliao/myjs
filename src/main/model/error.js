@@ -4,6 +4,8 @@ export const IS_LOGINED = 'isLogined';
 export const NOT_LOGIN = 'notLogin';
 // 发送消息错误
 export const SEND_MSG_ERROR = 'send_msg_error';
+// 被踢
+export const SDK_KICKED = 'kicked';
 
 export function createError(code, error) {
   return {
