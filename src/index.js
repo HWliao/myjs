@@ -211,3 +211,6 @@ $('#setCurrSession').on('click', () => {
 $('#destroy').on('click', () => {
   im.destroy();
 });
+$('#getPlatform').on('click', () => {
+  alert(JSON.stringify(Im.getPlatform()));
+});

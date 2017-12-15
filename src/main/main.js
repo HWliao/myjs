@@ -2,6 +2,7 @@
 import './public-path';
 import EventEmiiter from 'eventemitter3';
 import $ from 'jquery';
+import Nim from '../vender/nim-sdk/NIM_Web_NIM_v3.8.0';
 
 import '../resource/css/im.css';
 
@@ -152,16 +153,16 @@ export default class Im extends EventEmiiter {
       if (currMsgTime > msgUpdateTime) {
         msgUpdateTime = currMsgTime;
         const msg = this.store.getMsgByIdClient(msgIdClient);
-        let custom = {};
+        let content = {};
         if (msg.type === 'custom') {
           try {
-            custom = JSON.parse(msg.content);
+            content = JSON.parse(msg.content);
           } catch (e) {
             console.error(e);
           }
         }
-        log('emit IM_MSG custom:%o,msg:%o', custom, msg);
-        this.emit(IM_MSG, custom, Object.assign({}, msg));
+        log('emit IM_MSG custom:%o,msg:%o', content, msg);
+        this.emit(IM_MSG, content, Object.assign({}, msg));
       }
 
       const error = this.store.get(ERROR);
@@ -333,4 +334,8 @@ export default class Im extends EventEmiiter {
     SCENE_TEAM,
     SCENE_P2P,
   };
+
+  static getPlatform() {
+    return Object.assign({}, Nim.platform);
+  }
 }
