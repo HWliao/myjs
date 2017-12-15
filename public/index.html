@@ -266,13 +266,13 @@
       });
       im.on(Im.event.IM_ERROR, (error) => {
         // 错误对象
-        // 包含 code,error字段
+        // 包含 code,message字段
 
         // 可以根据 code进行错误判断
         // 目前的code除了自己定义的  已经登入,未登入  两种之外还有一堆云信定义
         // 其中比较特殊(需要关注)的是'kicked',被其他人踢掉
 
-        // error属性大部分时候是字符串,也有是一个对象的
+        // message属性错误说明
       });
     </pre>
   </div>
