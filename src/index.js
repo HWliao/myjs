@@ -5,7 +5,7 @@ import $ from 'jquery';
 import Im from './main/main';
 
 let im = null;
-
+window.Im = Im;
 // 打印
 function println(str) {
   const $c = $('#console');
@@ -134,7 +134,7 @@ $('#isUp').on('click', () => {
 
 // 登入 087387
 $('#login').on('click', () => {
-  im.login('123106', '123456');
+  im.login('087387', '123456');
 });
 // 登出
 $('#logout').on('click', () => {

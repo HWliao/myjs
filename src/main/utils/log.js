@@ -19,6 +19,8 @@ while (length--) {
     console[methods[length]] = noop;
   }
 }
+// 解决ie9 console log对象并非es对象的问题
+const log = Function.prototype.bind.call(console.log, console);
 
 // colors
 const colors = [
@@ -71,6 +73,6 @@ export function createDebug(namespace) {
       msgTmp = `%c[IM] %s ${args.shift()}  %s`;
       params = [`color:${color};`, namespace, ...args, `+${diff}ms`];
     }
-    console.log(msgTmp, ...params);
+    log(msgTmp, ...params);
   };
 }
