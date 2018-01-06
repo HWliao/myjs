@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import '~@angular/material/theming';
+
+// Define a custom typography config that overrides the font-family
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif'
+);
+// Override the typography in the core CSS.
+@include mat-core($custom-typography);
