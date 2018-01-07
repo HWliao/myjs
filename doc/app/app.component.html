@@ -1,6 +1,10 @@
-<div class="im-doc-nav">
-  <im-doc-nav></im-doc-nav>
-</div>
-<div class="im-doc-content">
-  <router-outlet></router-outlet>
-</div>
+<td-layout class="mat-typography">
+  <td-layout-nav-list navigationRoute="/" opened="true" mode="side">
+    <div td-toolbar-content>
+      <button mat-button tdLayoutNavListToggle>
+        Toggle
+      </button>
+    </div>
+    Content goes here
+  </td-layout-nav-list>
+</td-layout>

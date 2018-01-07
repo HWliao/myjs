@@ -1,11 +1,65 @@
-@import "~reset-css/_reset.scss";
-/* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import '~@angular/material/theming';
+@import '~@covalent/core/theming/all-theme';
+// (optional) Additional themes
+@import '~@covalent/markdown/markdown-theme';
+@import '~@covalent/highlight/highlight-theme';
 
 // Define a custom typography config that overrides the font-family
-$custom-typography: mat-typography-config(
-  $font-family: 'Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif'
+// or any typography level.
+$typography: mat-typography-config(
+  $font-family: 'Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif',
+  $headline: mat-typography-level(32px, 48px, 700)
 );
-// Override the typography in the core CSS.
-@include mat-core($custom-typography);
+
+@include mat-core($typography); // $typography is an **optional** argument for the mat-core
+
+$primary: mat-palette($mat-blue, 700);
+$accent: mat-palette($mat-orange, 800, A100, A400);
+$warn: mat-palette($mat-red, 600);
+
+$theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($theme);
+@include covalent-theme($theme, $typography); // $typography is an **optional** argument for the covalent-theme
+
+// (optional) Additional themes
+@include covalent-markdown-theme($theme);
+@include covalent-highlight-theme();
+
+// Include the core styles for Covalent
+@include covalent-core();
+
+// Include pre-bundled material-icons
+$mat-font-url: '../node_modules/@covalent/core/common/styles/font/';
+@include covalent-material-icons();
+// Alternative way to include material-icons
+// @import '../node_modules/@covalent/core/common/material-icons.css';
+
+// Include covalent utility classes
+@include covalent-utilities();
+
+// Include flex layout classes
+@include covalent-layout();
+
+// Include covalent typography classes
+@include covalent-typography();
+
+// Include covalent color classes
+@include covalent-colors();
+
+.blue-grey-deep-orange {
+  @import "~@covalent/core/theming/prebuilt/blue-grey-deep-orange";
+}
+
+.indigo-pink {
+  @import "~@covalent/core/theming/prebuilt/indigo-pink";
+}
+
+.orange-light-blue {
+  @import "~@covalent/core/theming/prebuilt/orange-light-blue";
+}
+
+.teal-orange {
+  @import "~@covalent/core/theming/prebuilt/teal-orange";
+}
+

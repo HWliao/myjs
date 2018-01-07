@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MatButtonModule, MatCheckboxModule, MatGridListModule, MatIconModule,
+  MatButtonModule, MatCheckboxModule, MatGridListModule, MatIconModule, MatListModule,
   MatToolbarModule
 } from '@angular/material';
+import { CovalentLayoutModule } from '@covalent/core';
 
 @NgModule({
   imports: [
@@ -12,7 +13,9 @@ import {
     MatCheckboxModule,
     MatToolbarModule,
     MatIconModule,
-    MatGridListModule
+    MatGridListModule,
+    CovalentLayoutModule,
+    MatListModule,
   ],
   exports: [
     CommonModule,
@@ -20,7 +23,9 @@ import {
     MatCheckboxModule,
     MatToolbarModule,
     MatIconModule,
-    MatGridListModule
+    MatGridListModule,
+    CovalentLayoutModule,
+    MatListModule
   ],
   declarations: []
 })
