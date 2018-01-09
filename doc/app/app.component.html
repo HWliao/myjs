@@ -1,32 +1,8 @@
-<mat-sidenav-container class="" fullscreen>
-  <mat-sidenav #start>
-    <mat-nav-list>
-      <a>xxxxxx</a>
-      <hr>
-    </mat-nav-list>
-    <button mat-button tabindex="-1">CLOSE</button>
-  </mat-sidenav>
-  <div>
-    <mat-toolbar color="primary">
-      <button mat-icon-button>
-        <mat-icon>menu</mat-icon>
-      </button>
-      <div class="demo-toolbar">
-        <h1>Angular Material Demos</h1>
-        <div>
-          <button mat-icon-button title="Toggle fullscreen">
-            <mat-icon>fullscreen</mat-icon>
-          </button>
-          <button mat-button > theme</button>
-          <button mat-button title="Toggle between RTL and LTR">
-            lhw
-          </button>
-        </div>
-      </div>
-    </mat-toolbar>
-
-    <div #root="dir" dir="ltr" class="demo-content">
+<mat-sidenav-container fullscreen>
+  <mat-sidenav-content role="main" class="doc-im-container">
+    <im-doc-nav class="doc-im-navigation"></im-doc-nav>
+    <div class="doc-im-content">
       <router-outlet></router-outlet>
     </div>
-  </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
