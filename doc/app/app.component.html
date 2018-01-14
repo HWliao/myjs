@@ -1,6 +1,6 @@
 <mat-sidenav-container fullscreen>
   <mat-sidenav-content role="main" class="doc-im-container">
-    <im-doc-nav class="doc-im-navigation"></im-doc-nav>
+    <im-doc-nav [isDark]="false" (themeChange)="changeTheme($event)"></im-doc-nav>
     <div class="doc-im-content">
       <router-outlet></router-outlet>
     </div>

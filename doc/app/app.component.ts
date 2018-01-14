@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'im-doc-root',
@@ -6,4 +6,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  constructor(private elementRef: ElementRef) {
+  }
+
+  /**
+   * 改变主题
+   * @param isDark
+   */
+  changeTheme(isDark) {
+    const darkThemeClass = 'unicorn-dark-theme';
+    if (isDark) {
+      this.elementRef.nativeElement.classList.add(darkThemeClass);
+    } else {
+      this.elementRef.nativeElement.classList.remove(darkThemeClass);
+    }
+  }
 }
