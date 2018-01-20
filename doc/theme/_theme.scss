@@ -1,0 +1,15 @@
+@import "~@angular/material/theming";
+
+@mixin doc-im-background-color($theme) {
+  $primary: map_get($theme, primary);
+  $accent: map_get($theme, accent);
+  $warn: map_get($theme, warn);
+
+  @each $selector, $color in ('primary', mat-color($primary)),
+    ('accent', mat-color($accent)),
+    ('warn', mat-color($warn)) {
+    .doc-im-background-color-#{$selector} {
+      background-color: #{$color};
+    }
+  }
+}

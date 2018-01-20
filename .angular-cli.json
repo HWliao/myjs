@@ -20,7 +20,6 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "im-doc",
       "styles": [
-        "styles-bootstrap.scss",
         "styles.scss"
       ],
       "scripts": [],
