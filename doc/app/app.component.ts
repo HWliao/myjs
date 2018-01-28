@@ -7,6 +7,12 @@ import { Component, ElementRef } from '@angular/core';
 })
 export class AppComponent {
 
+  /**
+   * 暗主题的class名
+   * @type {string}
+   */
+  public static DARK_THEME_CLASS = 'unicorn-dark-theme';
+
   constructor(private elementRef: ElementRef) {
   }
 
@@ -15,7 +21,7 @@ export class AppComponent {
    * @param isDark
    */
   changeTheme(isDark) {
-    const darkThemeClass = 'unicorn-dark-theme';
+    const darkThemeClass = AppComponent.DARK_THEME_CLASS;
     if (isDark) {
       this.elementRef.nativeElement.classList.add(darkThemeClass);
     } else {
