@@ -1,9 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { AppModule } from './app.module';
-import { APP_BASE_HREF } from '@angular/common';
-import { forEach } from '@angular/router/src/utils/collection';
-import { DebugContext } from '@angular/core/src/view';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
