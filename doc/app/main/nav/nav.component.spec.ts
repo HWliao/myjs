@@ -45,7 +45,7 @@ describe('NavComponent', () => {
 
   }));
 
-  fit('should has a toggle btn to toggle dark state', fakeAsync(() => {
+  it('should has a toggle btn to toggle dark state', fakeAsync(() => {
     component.isDark = false;
     fixture.detectChanges();
     const toggleBtnDe = fixture.debugElement.query(By.css('mat-slide-toggle'));
