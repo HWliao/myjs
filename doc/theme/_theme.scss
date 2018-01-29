@@ -4,7 +4,7 @@
   $primary: map_get($theme, primary);
   $accent: map_get($theme, accent);
   $warn: map_get($theme, warn);
-
+  $isDark: map_get($theme, is-dark);
   @each $selector, $color in ('primary', mat-color($primary)),
     ('accent', mat-color($accent)),
     ('warn', mat-color($warn)) {
@@ -12,4 +12,15 @@
       background-color: #{$color};
     }
   }
+
+  @if ($isDark) {
+    .doc-im-button-color {
+      color: #ffffff !important;
+    }
+  } @else {
+    .doc-im-button-color {
+      color: mat-color($primary) !important;
+    }
+  }
+
 }
