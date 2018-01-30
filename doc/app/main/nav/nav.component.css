@@ -1,3 +1,7 @@
+:host {
+  z-index: 10;
+}
+
 :host .mat-toolbar-single-row {
   height: 56px;
 }

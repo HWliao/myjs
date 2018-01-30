@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { SharedModule } from '../shared/shared.module';
+import { StartComponent } from './start/start.component';
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent }
+  { path: '', component: StartComponent }
 ];
 
 @NgModule({
@@ -14,5 +13,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class HomeRoutingModule {
+export class StartRoutingModule {
+
 }
