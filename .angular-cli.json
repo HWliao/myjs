@@ -20,7 +20,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "im-doc",
       "styles": [
-        "theme/theme-mdc.scss"
+        "styles.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
