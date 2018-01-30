@@ -1,4 +1,8 @@
-$mdc-theme-primary: #1565c0; // change primary color
-$mdc-theme-secondary: #388e3c; // change secondary color
+@import "~normalize.css";
+// 设置字体
+$mdc-typography-font-family: 'Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif';
+
+$mdc-theme-primary: #3f51b5; // change primary color
+$mdc-theme-secondary: #ff4081; // change secondary color
 
 @import "~@angular-mdc/theme";

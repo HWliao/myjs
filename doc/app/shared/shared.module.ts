@@ -4,6 +4,10 @@ import {
   MatButtonModule, MatCheckboxModule, MatGridListModule, MatIconModule, MatListModule, MatSidenavModule,
   MatSlideToggleModule, MatToolbarModule
 } from '@angular/material';
+import {
+  MdcButtonModule, MdcDrawerModule, MdcFormFieldModule, MdcSwitchModule, MdcThemeModule,
+  MdcToolbarModule
+} from '@angular-mdc/web';
 
 @NgModule({
   imports: [
@@ -15,7 +19,13 @@ import {
     MatGridListModule,
     MatListModule,
     MatSidenavModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MdcButtonModule,
+    MdcThemeModule,
+    MdcToolbarModule,
+    MdcDrawerModule,
+    MdcSwitchModule,
+    MdcFormFieldModule
   ],
   exports: [
     CommonModule,
@@ -26,7 +36,13 @@ import {
     MatGridListModule,
     MatListModule,
     MatSidenavModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MdcButtonModule,
+    MdcThemeModule,
+    MdcToolbarModule,
+    MdcDrawerModule,
+    MdcSwitchModule,
+    MdcFormFieldModule
   ],
   declarations: []
 })
