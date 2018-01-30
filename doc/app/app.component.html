@@ -1,25 +1,8 @@
-<!--<mat-sidenav-container fullscreen>-->
-<!--<mat-sidenav-content role="main">-->
-<!--<div class="doc-im-constainer">-->
-<!--<im-doc-nav [isDark]="false" (themeChange)="changeTheme($event)"></im-doc-nav>-->
-<!--<router-outlet></router-outlet>-->
-<!--</div>-->
-<!--</mat-sidenav-content>-->
-<!--</mat-sidenav-container>-->
-<div class="mdc-theme--dark">
-  <mdc-toolbar [fixed]="true">
-    <mdc-toolbar-row>
-      <mdc-toolbar-section [alignStart]="true">
-        <button mdc-button [primary]="true">IM PLUGIN</button>
-        <button mdc-button [primary]="true">快速开始</button>
-        <button mdc-button [primary]="true">文档</button>
-      </mdc-toolbar-section>
-      <mdc-toolbar-section [alignEnd]="true">
-        <mdc-form-field>
-          <mdc-switch id="toggleDark"></mdc-switch>
-          <label class="mdc-theme--text-primary-on-primary">Dark</label>
-        </mdc-form-field>
-      </mdc-toolbar-section>
-    </mdc-toolbar-row>
-  </mdc-toolbar>
-</div>
+<mat-sidenav-container fullscreen>
+  <mat-sidenav-content role="main">
+    <div class="doc-im-constainer">
+      <im-doc-nav [isDark]="false" (themeChange)="changeTheme($event)"></im-doc-nav>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
