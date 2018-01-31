@@ -45,7 +45,7 @@ describe('HomeComponent', () => {
     expect(img.nativeElement.src.endsWith('/assets/images/im.png')).toBeTruthy();
   });
 
-  fit('shoul has a link to /doc', () => {
+  it('shoul has a link to /doc', () => {
     const starterDe = fixture.debugElement.query(By.css('.header-starter'));
     const linkDe = starterDe.query(By.directive(RouterLinkStubDirective));
     const testDe = starterDe.query(By.css('span'));
