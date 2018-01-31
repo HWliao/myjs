@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
 import { By } from '@angular/platform-browser';
+import { RouterLinkStubDirective } from '../../../../testing/stub/router-stub';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -9,7 +11,8 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeComponent]
+      declarations: [HomeComponent, RouterLinkStubDirective],
+      schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   }));
@@ -40,5 +43,18 @@ describe('HomeComponent', () => {
     const img = fixture.debugElement.query(By.css('section div img'));
     expect(img).toBeTruthy();
     expect(img.nativeElement.src.endsWith('/assets/images/im.png')).toBeTruthy();
+  });
+
+  fit('shoul has a link to /doc', () => {
+    const starterDe = fixture.debugElement.query(By.css('.header-starter'));
+    const linkDe = starterDe.query(By.directive(RouterLinkStubDirective));
+    const testDe = starterDe.query(By.css('span'));
+
+    expect(linkDe).toBeTruthy();
+    expect(linkDe.componentInstance).toBeTruthy();
+    const linkComponent: RouterLinkStubDirective = linkDe.injector.get(RouterLinkStubDirective);
+    expect(linkComponent.routerLink).toBe('/doc', 'the link should to be /doc');
+    expect(testDe).toBeTruthy();
+    expect(testDe.nativeElement.innerText).toBe('立即开始');
   });
 });

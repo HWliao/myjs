@@ -32,10 +32,9 @@ describe('NavComponent', () => {
     const linkDes = fixture.debugElement.queryAll(By.directive(RouterLinkStubDirective));
     const links = linkDes.map(de => de.injector.get(RouterLinkStubDirective) as RouterLinkStubDirective);
 
-    expect(links.length).toBe(3, 'there are 3 links');
+    expect(links.length).toBe(2, 'there are 2 links');
     expect(links[0].routerLink).toBe('/');
-    expect(links[1].routerLink).toBe('/start');
-    expect(links[2].routerLink).toBe('/doc');
+    expect(links[1].routerLink).toBe('/doc');
 
     linkDes.forEach((de, index) => {
       de.triggerEventHandler('click', null);
