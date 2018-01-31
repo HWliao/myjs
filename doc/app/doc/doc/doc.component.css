@@ -1,0 +1,28 @@
+:host {
+  flex: 1 1 auto;
+}
+
+mat-drawer {
+  width: 240px;
+}
+
+mat-drawer-content {
+}
+
+mat-drawer-content header {
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+mat-drawer-content header h1 {
+  font-weight: 300;
+  margin: 0;
+  padding: 28px 8px;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+mat-drawer-content section {
+  padding: 20px 70px 50px;
+}

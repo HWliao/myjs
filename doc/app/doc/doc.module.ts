@@ -8,7 +8,9 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     DocRoutingModule
   ],
-  declarations: [DocComponent]
+  declarations: [
+    DocComponent
+  ]
 })
 export class DocModule {
 }

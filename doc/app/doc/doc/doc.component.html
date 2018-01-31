@@ -1,3 +1,31 @@
-<p>
-  doc works!
-</p>
+<mat-drawer-container fullscreen>
+  <mat-drawer
+    class="mat-elevation-z10"
+    [disableClose]="true"
+    [opened]="true"
+    mode="side"
+  >
+    <mat-nav-list>
+      <ng-container *ngFor="let item of items;">
+        <h3 matSubheader *ngIf="!!item.subHeader">{{item.subHeader}}</h3>
+        <mat-list-item
+          class="doc-im-list"
+          [ngClass]="{curr:item.id===currItem.id}"
+          (click)="onClickItem(item)"
+        >
+          <mat-icon matListIcon>{{item.icon}}</mat-icon>
+          <h4 matLine>{{item.content}}</h4>
+        </mat-list-item>
+        <mat-divider *ngIf="item.needDivider"></mat-divider>
+      </ng-container>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <header class="doc-im-background-color-primary">
+      <h1>{{currItem.content}}</h1>
+    </header>
+    <section>
+      {{currItem.desc}}
+    </section>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -22,5 +22,29 @@
       color: mat-color($primary) !important;
     }
   }
+}
 
+@mixin doc-im-content-list($theme) {
+  $primary: map_get($theme, primary);
+  $accent: map_get($theme, accent);
+  $warn: map_get($theme, warn);
+  $background: map_get($theme, background);
+  $isDark: map_get($theme, is-dark);
+
+  .doc-im-list {
+    cursor: pointer;
+    &:hover, &.curr {
+      color: mat-color($primary);
+      h4 {
+        font-weight: bold !important;
+      }
+    }
+    &:hover {
+      background-color: mat-color($background, hover);
+
+    }
+    &.curr {
+      border-right: solid 3px mat-color($primary);
+    }
+  }
 }
