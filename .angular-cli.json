@@ -20,7 +20,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "im-doc",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/prismjs/themes/prism-okaidia.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

@@ -25,7 +25,11 @@
       <h1>{{currItem.content}}</h1>
     </header>
     <section>
-      {{currItem.desc}}
+      <ngx-prism
+        [language]="'javascript'"
+        [cd]="{code:true}"
+        [code]="currItem.desc||'// no thing to show'"
+      ></ngx-prism>
     </section>
   </mat-drawer-content>
 </mat-drawer-container>
