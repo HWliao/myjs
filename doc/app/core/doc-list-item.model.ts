@@ -3,12 +3,13 @@
  * @author lhw
  */
 export class DocListItemModel {
-  constructor(id: number, icon: string, content: string, subHeader: string = null, needDivider = false) {
+  constructor(id: number, icon: string, content: string, desc: string, subHeader: string = null, needDivider = false) {
     this.id = id;
     this.needDivider = needDivider;
     this.subHeader = subHeader;
     this.icon = icon;
     this.content = content;
+    this.desc = desc;
   }
 
   id: number;

@@ -22,13 +22,13 @@
   </mat-drawer>
   <mat-drawer-content>
     <header class="doc-im-background-color-primary">
-      <h1>{{currItem.content}}</h1>
+      <h1>{{currItem?.content}}</h1>
     </header>
     <section>
       <ngx-prism
         [language]="'javascript'"
         [cd]="{code:true}"
-        [code]="currItem.desc||'// no thing to show'"
+        [code]="currItem?.desc||'// no thing to show'"
       ></ngx-prism>
     </section>
   </mat-drawer-content>
