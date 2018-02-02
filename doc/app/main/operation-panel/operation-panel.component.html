@@ -1,11 +1,23 @@
-<button
-  mat-mini-fab
-  color="accent"
-  [matMenuTriggerFor]="animals"
-  matTooltip="操作菜单"
-  [matTooltipPosition]="'right'">
-  <mat-icon>menu</mat-icon>
-</button>
+<!-- 这个地方是如此的尴尬,为了动态生成menu时,button 不闪烁 -->
+<ng-container *ngIf="rootMenu">
+  <button
+    mat-mini-fab
+    color="accent"
+    [matMenuTriggerFor]="rootMenu"
+    matTooltip="操作菜单"
+    [matTooltipPosition]="'right'">
+    <mat-icon>menu</mat-icon>
+  </button>
+</ng-container>
+<ng-container *ngIf="!rootMenu">
+  <button
+    mat-mini-fab
+    color="accent"
+    matTooltip="操作菜单"
+    [matTooltipPosition]="'right'">
+    <mat-icon>menu</mat-icon>
+  </button>
+</ng-container>
 
 <mat-menu #animals="matMenu">
   <button mat-menu-item [matMenuTriggerFor]="vertebrates">Vertebrates</button>
