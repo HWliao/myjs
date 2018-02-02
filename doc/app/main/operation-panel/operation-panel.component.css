@@ -1,0 +1,14 @@
+:host {
+  position: absolute;
+  bottom: 56px;
+  left: 56px;
+  z-index: 999;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+button {
+  margin-bottom: 10px;
+}
