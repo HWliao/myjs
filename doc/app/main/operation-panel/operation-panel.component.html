@@ -21,14 +21,24 @@
 
 <ng-container *ngFor="let menu of datas">
   <mat-menu>
-    <ng-container *ngFor="let item of menu.items;trackBy:">
+    <ng-container *ngFor="let item of menu.items">
       <ng-container *ngIf="item.triggerForKey&&menuMap[item.triggerForKey]">
-        <button mat-menu-item [disabled]="item.disable" [matMenuTriggerFor]="menuMap[item.triggerForKey]">
+        <button
+          mat-menu-item
+          [disabled]="item.disable"
+          [matMenuTriggerFor]="menuMap[item.triggerForKey]"
+          (click)="$event.stopPropagation();doClickMenuItem(item);"
+        >
           {{item.context}}
         </button>
       </ng-container>
       <ng-container *ngIf="!(item.triggerForKey&&menuMap[item.triggerForKey])">
-        <button mat-menu-item [disabled]="item.disable">{{item.context}}</button>
+        <button
+          mat-menu-item
+          [disabled]="item.disable"
+          (click)="$event.stopPropagation();doClickMenuItem(item);"
+        >{{item.context}}
+        </button>
       </ng-container>
     </ng-container>
   </mat-menu>
