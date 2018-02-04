@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ApplicationRef, NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
@@ -16,7 +16,7 @@ import { AppComponent } from './app.component';
   entryComponents: [AppComponent],
 })
 export class AppModule {
-  ngDoBootstrap() {
+  ngDoBootstrap(applicationRef: ApplicationRef) {
     // NgModule bootstap属性为空
     // 如果NgModule bootstap 没有设置 ngDoBootstrap 在引导启动时会被调用
 
