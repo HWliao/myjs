@@ -21,6 +21,7 @@ export class OperationPanelComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    console.log(1);
     this.imApiService.getMenuItems().then((datas) => this.datas = datas);
   }
 
