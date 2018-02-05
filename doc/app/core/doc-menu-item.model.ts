@@ -5,7 +5,7 @@ export class DocMenuItemModel {
   /**
    * 子菜单对应key
    */
-  triggerForKey: string;
+  triggerForKey?: string;
   /**
    * item 对应内容
    */
@@ -17,5 +17,5 @@ export class DocMenuItemModel {
   /**
    * 点击触发方法
    */
-  triggerMethod: string;
+  triggerMethod?: string;
 }

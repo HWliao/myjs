@@ -1,15 +1,15 @@
 <!-- 这个地方是如此的尴尬,为了动态生成menu时,button 不闪烁 -->
-<ng-container *ngIf="menuMap.menu0">
+<ng-container *ngIf="menuMap[rootMenu]">
   <button
     mat-mini-fab
     color="accent"
-    [matMenuTriggerFor]="menuMap.menu0"
+    [matMenuTriggerFor]="menuMap[rootMenu]"
     matTooltip="操作菜单"
     [matTooltipPosition]="'right'">
     <mat-icon>menu</mat-icon>
   </button>
 </ng-container>
-<ng-container *ngIf="!menuMap.menu0">
+<ng-container *ngIf="!menuMap[rootMenu]">
   <button
     mat-mini-fab
     color="accent"
