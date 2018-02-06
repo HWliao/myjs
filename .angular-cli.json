@@ -21,7 +21,8 @@
       "prefix": "im-doc",
       "styles": [
         "styles.scss",
-        "../node_modules/prismjs/themes/prism-okaidia.css"
+        "../node_modules/prismjs/themes/prism-okaidia.css",
+        "../src/styles.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
