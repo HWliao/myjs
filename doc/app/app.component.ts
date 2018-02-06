@@ -1,4 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'im-doc-root',
@@ -13,7 +14,7 @@ export class AppComponent {
    */
   public static DARK_THEME_CLASS = 'unicorn-dark-theme';
 
-  constructor(private elementRef: ElementRef) {
+  constructor(private elementRef: ElementRef, private overlayContainer: OverlayContainer) {
   }
 
   /**
@@ -24,8 +25,10 @@ export class AppComponent {
     const darkThemeClass = AppComponent.DARK_THEME_CLASS;
     if (isDark) {
       this.elementRef.nativeElement.classList.add(darkThemeClass);
+      this.overlayContainer.getContainerElement().classList.add(darkThemeClass);
     } else {
       this.elementRef.nativeElement.classList.remove(darkThemeClass);
+      this.overlayContainer.getContainerElement().classList.remove(darkThemeClass);
     }
   }
 }

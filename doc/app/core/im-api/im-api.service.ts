@@ -72,7 +72,7 @@ export class ImApiService {
   }
 
   tip(msg) {
-    this.snackBar.open(msg, '知道了');
+    this.snackBar.open(msg, '知道了', { duration: 5000 });
   }
 
   wrapExc(method: string, ...args) {
