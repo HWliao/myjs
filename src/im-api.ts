@@ -35,7 +35,7 @@ export class Im extends EventEmitter {
    */
   init() {
     if (this.rootCompRef) {
-      return;
+      throw new Error('thers is already a root component.');
     }
     // 动态初始化根组件
     const div = document.createElement('div');
@@ -53,10 +53,11 @@ export class Im extends EventEmitter {
    * 只对组件进行销毁,服务以及数据不销毁,与nim-sdk初始化同步数据有关
    */
   destroy() {
-    if (this.rootCompRef) {
-      this.rootCompRef.destroy();
-      this.rootCompRef = null;
+    if (!this.rootCompRef) {
+      throw new Error('there is no root component.');
     }
+    this.rootCompRef.destroy();
+    this.rootCompRef = null;
   }
 
   /**

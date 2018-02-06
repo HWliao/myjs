@@ -3,7 +3,7 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { DocComponent } from './doc.component';
 import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { DocListItemModel } from '../../core/doc-list-item.model';
-import { ImDocService } from '../../core/im-doc.service';
+import { ImDocService } from '../../core/im-doc/im-doc.service';
 import { BrowserModule, By } from '@angular/platform-browser';
 import Spy = jasmine.Spy;
 

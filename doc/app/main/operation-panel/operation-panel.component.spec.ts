@@ -4,7 +4,7 @@ import { OperationPanelComponent } from './operation-panel.component';
 import { DocMenuModel } from '../../core/doc-menu.model';
 import { Component, Directive, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatMenuPanel } from '@angular/material';
-import { ImApiService } from '../../core/im-api.service';
+import { ImApiService } from '../../core/im-api/im-api.service';
 import { By } from '@angular/platform-browser';
 import Spy = jasmine.Spy;
 

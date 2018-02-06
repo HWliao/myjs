@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DocListItemModel } from '../../core/doc-list-item.model';
-import { ImDocService } from '../../core/im-doc.service';
+import { ImDocService } from '../../core/im-doc/im-doc.service';
 
 @Component({
   selector: 'im-doc-doc',

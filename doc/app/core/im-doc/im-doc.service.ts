@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DocListItemModel } from './doc-list-item.model';
+import { DocListItemModel } from '../doc-list-item.model';
 
 @Injectable()
 export class ImDocService {
@@ -49,6 +49,16 @@ export class ImDocService {
       // 在调用im.init之前必须至少调用一次im.setConfig
       // 可以在初始化和调用im.destroy后调用,否则会抛出异常
       im.init();
+
+      // 绑定事件,其他初始化
+      // 或者返回一个promise
+
+      // 销毁根组件
+      // 在调用im.destroy之前必须先调用im.init,否则会抛出异常
+      im.destroy();
+
+      // 注意这里的初始化和销毁都是针对根UI组件
+      // 内部服务,数据 在createIm时被创建
     })
     .catch((err)=>{
       // 处理创建组件时的错误,一般不会发生
@@ -77,7 +87,7 @@ export class ImDocService {
       this.items = [];
       this.items.push(this.generateQuickStartModel());
       this.items.push(this.generateSettingsModel());
-      this.items.push(this.generateMethodModel('初始化', ImDocService.IM_INIT, '方法', true));
+      this.items.push(this.generateMethodModel('组件', ImDocService.IM_INIT, '方法', true));
       this.items.push(this.generateMethodModel('登出', ImDocService.LOGOUT_DOC));
     }
     return Promise.resolve(this.items);

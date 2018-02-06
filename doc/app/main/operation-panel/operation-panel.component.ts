@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angu
 import { MatMenu } from '@angular/material';
 import { isEmpty } from 'lodash';
 import 'rxjs/add/operator/delay';
-import { ImApiService, ROOT_MENU } from '../../core/im-api.service';
+import { ImApiService, ROOT_MENU } from '../../core/im-api/im-api.service';
 import { DocMenuModel } from '../../core/doc-menu.model';
 import { DocMenuItemModel } from '../../core/doc-menu-item.model';
 
