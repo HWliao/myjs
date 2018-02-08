@@ -4,6 +4,11 @@ import { ApplicationRef, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { ImLayoutModule } from './im-layout/im-layout.module';
+import { StoreModule } from '@ngrx/store';
+import { metaReducers, reducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
 
 
 @NgModule({
@@ -13,7 +18,10 @@ import { ImLayoutModule } from './im-layout/im-layout.module';
   imports: [
     BrowserModule,
     CoreModule,
-    ImLayoutModule
+    ImLayoutModule,
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([])
   ],
   providers: [],
   entryComponents: [AppComponent],
