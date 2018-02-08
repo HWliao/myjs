@@ -86,6 +86,9 @@
     "component": {},
     "build": {
       "withPostCssWarnings": false
+    },
+    "schematics": {
+      "collection": "@ngrx/schematics"
     }
   },
   "packageManager": "yarn"
