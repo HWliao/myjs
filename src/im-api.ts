@@ -5,11 +5,26 @@ import { ConfigService } from './app/core/config/config.service';
 import { ConfigModel } from './app/core/config/config.model';
 import { AppComponent } from './app/app.component';
 
-/**
- * Im对外APi
- * @author lhw
- */
-export class Im extends EventEmitter {
+export interface Im {
+  /**
+   * 设置配置
+   * @param {ConfigModel} config
+   */
+  setConfig(config: ConfigModel): void;
+
+  /**
+   * 初始化根组件
+   */
+  init(): void;
+
+  /**
+   * 销毁根组件
+   * 只对组件进行销毁,服务以及数据不销毁,与nim-sdk初始化同步数据有关
+   */
+  destroy(): void;
+}
+
+class ImApi extends EventEmitter implements Im {
 
   /**
    * ng module 对象
@@ -30,9 +45,6 @@ export class Im extends EventEmitter {
     this.configService = moduleRef.injector.get(ConfigService);
   }
 
-  /**
-   * 初始化根组件
-   */
   init() {
     if (this.rootCompRef) {
       throw new Error('thers is already a root component.');
@@ -48,10 +60,6 @@ export class Im extends EventEmitter {
     this.rootCompRef = applicationRef.bootstrap(componentFactory, div);
   }
 
-  /**
-   * 销毁根组件
-   * 只对组件进行销毁,服务以及数据不销毁,与nim-sdk初始化同步数据有关
-   */
   destroy() {
     if (!this.rootCompRef) {
       throw new Error('there is no root component.');
@@ -60,11 +68,16 @@ export class Im extends EventEmitter {
     this.rootCompRef = null;
   }
 
-  /**
-   * 设置配置
-   * @param {ConfigModel} config
-   */
   setConfig(config: ConfigModel) {
     return this.configService.setConfig(config);
   }
+}
+
+/**
+ * 创建Im实例
+ * @param {NgModuleRef<AppModule>} moduleRef
+ * @return {Im}
+ */
+export function createImApi(moduleRef: NgModuleRef<AppModule>): Im {
+  return new ImApi(moduleRef);
 }

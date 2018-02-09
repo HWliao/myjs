@@ -9,6 +9,7 @@ import { metaReducers, reducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
+import { ImOutletModule } from './im-outlet/im-outlet.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserModule,
     CoreModule,
     ImLayoutModule,
+    ImOutletModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([])
