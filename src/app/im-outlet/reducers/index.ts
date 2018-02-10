@@ -1,22 +1,13 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import * as ImRootReducers from './im-root.reducers';
+import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
 export const feature = 'imOutlet';
 
 export interface State {
-  imRoot: ImRootReducers.State;
 }
 
-export const reducers: ActionReducerMap<State> = {
-  imRoot: ImRootReducers.reducer
-};
+export const reducers: ActionReducerMap<State> = {};
 /**
  * 获取外部应用的状态
  * @type {MemoizedSelector<object, any>}
  */
 export const getImOutletState = createFeatureSelector(feature);
-/**
- * 获取根组件初始化状态
- * @type {MemoizedSelector<object, boolean>}
- */
-export const getImRootInited = createSelector(getImOutletState, ImRootReducers.isInited);

@@ -4,6 +4,7 @@ import { AppModule } from './app/app.module';
 import { ConfigService } from './app/core/config/config.service';
 import { ConfigModel } from './app/core/config/config.model';
 import { AppComponent } from './app/app.component';
+import { OutletService } from './app/im-outlet/outlet/outlet.service';
 
 export interface Im {
   /**
@@ -35,6 +36,10 @@ class ImApi extends EventEmitter implements Im {
    */
   private readonly configService: ConfigService;
   /**
+   * im 对外服务
+   */
+  private readonly outletService: OutletService;
+  /**
    * 根组件
    */
   private rootCompRef: ComponentRef<AppComponent>;
@@ -43,6 +48,7 @@ class ImApi extends EventEmitter implements Im {
     super();
     this.moduleRef = moduleRef;
     this.configService = moduleRef.injector.get(ConfigService);
+    this.outletService = moduleRef.injector.get(OutletService);
   }
 
   init() {
