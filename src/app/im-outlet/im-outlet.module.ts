@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { feature, reducers } from './reducers';
+import { OutletService } from './outlet/outlet.service';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    StoreModule.forFeature(feature, reducers)
   ],
-  declarations: []
+  declarations: [],
+  providers: [OutletService]
 })
-export class ImOutletModule { }
+export class ImOutletModule {
+}
