@@ -6,10 +6,10 @@ import { CoreModule } from './core/core.module';
 import { ImLayoutModule } from './im-layout/im-layout.module';
 import { StoreModule } from '@ngrx/store';
 import { metaReducers, reducers } from './reducers';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { ImOutletModule } from './im-outlet/im-outlet.module';
+import { environment } from '../environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 
 @NgModule({
@@ -18,12 +18,12 @@ import { ImOutletModule } from './im-outlet/im-outlet.module';
   ],
   imports: [
     BrowserModule,
-    CoreModule,
-    ImLayoutModule,
-    ImOutletModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    CoreModule,
+    ImLayoutModule,
+    ImOutletModule
   ],
   providers: [],
   entryComponents: [AppComponent],

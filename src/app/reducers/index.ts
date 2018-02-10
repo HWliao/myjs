@@ -1,4 +1,4 @@
-import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer, Selector } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { AppActions, AppDestroyAction, AppInitAction } from '../actions/app.actions';
@@ -30,3 +30,9 @@ function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 
 
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [storeFreeze, logger] : [];
+/**
+ * 获取app 初始化状态
+ * @param {State} state
+ * @return {boolean}
+ */
+export const getInitedState: Selector<State, boolean> = (state: State) => state.inited;
