@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { OutletService } from './im-outlet/outlet/outlet.service';
+import { OutletService } from './im-outlet/service/outlet.service';
 
 @Component({
   selector: 'im-root',

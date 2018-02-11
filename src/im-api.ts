@@ -4,7 +4,7 @@ import { AppModule } from './app/app.module';
 import { ConfigService } from './app/core/config/config.service';
 import { ConfigModel } from './app/core/config/config.model';
 import { AppComponent } from './app/app.component';
-import { OutletService } from './app/im-outlet/outlet/outlet.service';
+import { OutletService } from './app/im-outlet/service/outlet.service';
 
 export interface Im {
   /**

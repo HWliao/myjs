@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { feature, reducers } from './reducers';
-import { OutletService } from './outlet/outlet.service';
+import { OutletService } from './service/outlet.service';
 
 @NgModule({
   imports: [
