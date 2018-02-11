@@ -1,8 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import { ApplicationRef, ComponentRef, NgModuleRef } from '@angular/core';
 import { AppModule } from './app/app.module';
-import { ConfigService } from './app/core/config/config.service';
-import { ConfigModel } from './app/core/config/config.model';
+import { ConfigModel } from './app/im-outlet/models/config.model';
 import { AppComponent } from './app/app.component';
 import { OutletService } from './app/im-outlet/service/outlet.service';
 
@@ -32,10 +31,6 @@ class ImApi extends EventEmitter implements Im {
    */
   private readonly moduleRef: NgModuleRef<AppModule>;
   /**
-   * 配置服务
-   */
-  private readonly configService: ConfigService;
-  /**
    * im 对外服务
    */
   private readonly outletService: OutletService;
@@ -47,7 +42,6 @@ class ImApi extends EventEmitter implements Im {
   constructor(moduleRef: NgModuleRef<AppModule>) {
     super();
     this.moduleRef = moduleRef;
-    this.configService = moduleRef.injector.get(ConfigService);
     this.outletService = moduleRef.injector.get(OutletService);
   }
 
@@ -75,7 +69,7 @@ class ImApi extends EventEmitter implements Im {
   }
 
   setConfig(config: ConfigModel) {
-    return this.configService.setConfig(config);
+    return this.outletService.setConfig(config);
   }
 }
 

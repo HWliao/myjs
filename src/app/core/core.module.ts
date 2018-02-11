@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ConfigService } from './config/config.service';
 import { LoggerService } from './logger/logger.service';
 
 @NgModule({
@@ -8,7 +7,7 @@ import { LoggerService } from './logger/logger.service';
     CommonModule
   ],
   declarations: [],
-  providers: [ConfigService, LoggerService]
+  providers: [LoggerService]
 })
 export class CoreModule {
 }

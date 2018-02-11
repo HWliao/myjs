@@ -8,7 +8,14 @@ import { Store } from '@ngrx/store';
 import { getInitedState, State as AppState } from '../../reducers';
 import { AppDestroyAction, AppInitAction } from '../../actions/app.actions';
 import { Subscription } from 'rxjs/Subscription';
+import { ConfigModel } from '../models/config.model';
+import { ConfigSetAction } from '../actions/config.actions';
 
+/**
+ * 对外服务
+ * @author lhw
+ * @date 2018年2月11日16:47:24
+ */
 @Injectable()
 export class OutletService implements OnDestroy {
 
@@ -38,6 +45,15 @@ export class OutletService implements OnDestroy {
     } else {
       this.store.dispatch(new AppDestroyAction());
     }
+  }
+
+  /**
+   * 设置配置项
+   * @param {ConfigModel} config
+   */
+  setConfig(config: ConfigModel = {}) {
+    this.store.dispatch(new ConfigSetAction(Object.assign({}, config)));
+
   }
 
   ngOnDestroy(): void {

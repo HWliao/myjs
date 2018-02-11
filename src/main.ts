@@ -3,7 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import { ConfigModel } from './app/core/config/config.model';
+import { ConfigModel } from './app/im-outlet/models/config.model';
 import { createImApi, Im } from './im-api';
 
 if (environment.production) {
