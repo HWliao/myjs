@@ -12,6 +12,7 @@ const destroy = { context: 'destroy', method: 'destroy' };
 
 const status = { context: '状态', triggerFor: 'status' };
 const isInited = { context: 'isInited', method: 'isInited' };
+const getConfig = { context: 'getConfig', method: 'getConfig' };
 
 export const ROOT_MENU = 'root';
 
@@ -46,6 +47,7 @@ export class ImApiService {
       // 状态子菜单
       const menu2 = { key: status.triggerFor, items: [] };
       menu2.items.push({ context: isInited.context, disable: false, triggerMethod: isInited.method });
+      menu2.items.push({ context: getConfig.context, disable: false, triggerMethod: getConfig.method });
 
       this.menus.push(menu0);
       this.menus.push(menu1);
@@ -78,6 +80,12 @@ export class ImApiService {
   [isInited.method]() {
     const inited = this.wrapExc(isInited.method);
     this.tip(inited);
+  }
+
+  [getConfig.method]() {
+    const config = this.wrapExc(getConfig.method);
+    console.log(config);
+    this.tip('请看控制台');
   }
 
   errorTip(err: any) {

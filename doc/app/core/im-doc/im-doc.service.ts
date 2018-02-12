@@ -66,7 +66,11 @@ export class ImDocService {
   `;
   private static IM_STATUS = `
     // 初始化状态
+    // 返回一个boolean值
     im.isInited();
+    // 当前配置
+    // 返回一config对象的拷贝
+    im.getConfig()
   `;
   /**
    * 自增id
