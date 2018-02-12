@@ -39,4 +39,9 @@ describe('OutletService', () => {
     service.setInit(false);
     expect(store.dispatch).toHaveBeenCalledWith(new AppDestroyAction());
   }));
+
+  it('should inited be true', inject([OutletService], (service: OutletService) => {
+    store.next(new AppInitAction());
+    expect(service.isInited()).toBeTruthy();
+  }));
 });

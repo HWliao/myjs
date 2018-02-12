@@ -48,6 +48,14 @@ export class OutletService implements OnDestroy {
   }
 
   /**
+   * 是否初始化
+   * @returns {boolean}
+   */
+  isInited(): boolean {
+    return this.inited;
+  }
+
+  /**
    * 设置配置项
    * @param {ConfigModel} config
    */

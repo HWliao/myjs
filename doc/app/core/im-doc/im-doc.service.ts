@@ -64,6 +64,10 @@ export class ImDocService {
       // 处理创建组件时的错误,一般不会发生
     })
   `;
+  private static IM_STATUS = `
+    // 初始化状态
+    im.isInited();
+  `;
   /**
    * 自增id
    * @type {number}
@@ -88,6 +92,7 @@ export class ImDocService {
       this.items.push(this.generateQuickStartModel());
       this.items.push(this.generateSettingsModel());
       this.items.push(this.generateMethodModel('组件', ImDocService.IM_INIT, '方法', true));
+      this.items.push(this.generateMethodModel('状态', ImDocService.IM_STATUS));
       this.items.push(this.generateMethodModel('登出', ImDocService.LOGOUT_DOC));
     }
     return Promise.resolve(this.items);

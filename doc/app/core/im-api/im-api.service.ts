@@ -10,6 +10,9 @@ const setConfig = { context: 'setConfig', method: 'setConfig' };
 const init = { context: 'init', method: 'init' };
 const destroy = { context: 'destroy', method: 'destroy' };
 
+const status = { context: '状态', triggerFor: 'status' };
+const isInited = { context: 'isInited', method: 'isInited' };
+
 export const ROOT_MENU = 'root';
 
 @Injectable()
@@ -31,6 +34,7 @@ export class ImApiService {
       // 根菜单
       const menu0 = { key: ROOT_MENU, items: [] };
       menu0.items.push({ context: component.context, disable: false, triggerForKey: component.triggerFor });
+      menu0.items.push({ context: status.context, disable: false, triggerForKey: status.triggerFor });
 
       // 组件子菜单
       const menu1 = { key: component.triggerFor, items: [] };
@@ -39,8 +43,13 @@ export class ImApiService {
       menu1.items.push({ context: init.context, disalbe: false, triggerMethod: init.method });
       menu1.items.push({ context: destroy.context, disable: false, triggerMethod: destroy.method });
 
+      // 状态子菜单
+      const menu2 = { key: status.triggerFor, items: [] };
+      menu2.items.push({ context: isInited.context, disable: false, triggerMethod: isInited.method });
+
       this.menus.push(menu0);
       this.menus.push(menu1);
+      this.menus.push(menu2);
     }
     return Promise.resolve(this.menus);
   }
@@ -64,6 +73,11 @@ export class ImApiService {
         window['im'] = im;
       })
       .catch(() => this.errorTip('创建im实例失败'));
+  }
+
+  [isInited.method]() {
+    const inited = this.wrapExc(isInited.method);
+    this.tip(inited);
   }
 
   errorTip(err: any) {

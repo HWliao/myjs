@@ -22,10 +22,15 @@ export interface Im {
    * 只对组件进行销毁,服务以及数据不销毁,与nim-sdk初始化同步数据有关
    */
   destroy(): void;
+
+  /**
+   * 是否初始化
+   * @returns {boolean}
+   */
+  isInited(): boolean;
 }
 
 class ImApi extends EventEmitter implements Im {
-
   /**
    * ng module 对象
    */
@@ -58,6 +63,10 @@ class ImApi extends EventEmitter implements Im {
     const componentFactory = this.moduleRef.componentFactoryResolver.resolveComponentFactory(AppComponent);
     // 引导整个组件树的初始化
     this.rootCompRef = applicationRef.bootstrap(componentFactory, div);
+  }
+
+  isInited(): boolean {
+    return this.outletService.isInited();
   }
 
   destroy() {
