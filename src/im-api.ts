@@ -13,6 +13,12 @@ export interface Im {
   setConfig(config: ConfigModel): void;
 
   /**
+   * 获取配置对象
+   * @returns {ConfigModel}
+   */
+  getConfig(): ConfigModel;
+
+  /**
    * 初始化根组件
    */
   init(): void;
@@ -79,6 +85,10 @@ class ImApi extends EventEmitter implements Im {
 
   setConfig(config: ConfigModel) {
     return this.outletService.setConfig(config);
+  }
+
+  getConfig(): ConfigModel {
+    return this.outletService.getConfig();
   }
 }
 

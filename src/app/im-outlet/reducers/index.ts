@@ -19,4 +19,4 @@ export const getImOutletState = createFeatureSelector(feature);
  * 获取im 配置状态
  * @type {MemoizedSelector<object, State>}
  */
-export const getImCofigState = createSelector(getImOutletState, (state: State) => state.config);
+export const getImConfigState = createSelector(getImOutletState, (state: State) => state.config);

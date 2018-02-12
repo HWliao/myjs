@@ -1,15 +1,17 @@
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/merge';
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { LoggerService } from '../../core/logger/logger.service';
 import { Store } from '@ngrx/store';
-import { getInitedState, State as AppState } from '../../reducers';
+import { getInitedState } from '../../reducers';
 import { AppDestroyAction, AppInitAction } from '../../actions/app.actions';
 import { Subscription } from 'rxjs/Subscription';
 import { ConfigModel } from '../models/config.model';
 import { ConfigSetAction } from '../actions/config.actions';
+import { getImConfigState } from '../reducers';
 
 /**
  * 对外服务
@@ -19,15 +21,18 @@ import { ConfigSetAction } from '../actions/config.actions';
 @Injectable()
 export class OutletService implements OnDestroy {
 
-  private initedSubscription: Subscription;
-  private inited$: Observable<boolean>;
+  private subscription: Subscription;
 
   private inited: boolean;
 
-  constructor(@Inject(LoggerService) private logger: LoggerService, @Inject(Store) private store: Store<AppState>) {
-    this.inited$ = this.store.select(getInitedState);
-    this.initedSubscription = this.inited$
-      .do((inited: boolean) => this.inited = inited)
+  private config: ConfigModel;
+
+  constructor(@Inject(LoggerService) private logger: LoggerService, @Inject(Store) private store: Store<any>) {
+    this.subscription = Observable
+      .merge(
+        this.store.select(getInitedState).do((inited: boolean) => this.inited = inited),
+        this.store.select(getImConfigState).do((config: ConfigModel) => this.config = Object.assign({}, config))
+      )
       .catch((err, caught) => {
         this.logger.error(err);
         return caught;
@@ -64,7 +69,17 @@ export class OutletService implements OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
-    this.initedSubscription.unsubscribe();
+  /**
+   * 获取配置对象
+   * @returns {ConfigModel}
+   */
+  getConfig(): ConfigModel {
+    return this.config;
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+
 }
