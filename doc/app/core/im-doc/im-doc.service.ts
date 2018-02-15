@@ -66,12 +66,31 @@ export class ImDocService {
   `;
   private static IM_STATUS = `
     // 初始化状态
-    // 返回一个boolean值
+    // 返回boolean值
     im.isInited();
     // 当前配置
     // 返回一config对象的拷贝
     im.getConfig()
+    // 展开状态
+    // 返回boolean值
+    im.isUp();
   `;
+  private static IM_UI = `
+    // 显示/隐藏
+    // 参数1: true 显示 false 隐藏  默认 true
+    im.show(flag:boolean);
+    // 展开收起
+    // 参数1: true up false down 不传递 toggle
+    im.toggleUpDown(flag?:boolean);
+  `;
+  private static IM_APP = `
+    yyy
+  `;
+  private static IM_BUSINESS = `
+    zzz
+  `;
+
+
   /**
    * 自增id
    * @type {number}
@@ -97,7 +116,9 @@ export class ImDocService {
       this.items.push(this.generateSettingsModel());
       this.items.push(this.generateMethodModel('组件', ImDocService.IM_INIT, '方法', true));
       this.items.push(this.generateMethodModel('状态', ImDocService.IM_STATUS));
-      this.items.push(this.generateMethodModel('登出', ImDocService.LOGOUT_DOC));
+      this.items.push(this.generateMethodModel('UI', ImDocService.IM_UI));
+      this.items.push(this.generateMethodModel('应用', ImDocService.IM_APP));
+      this.items.push(this.generateMethodModel('业务功能', ImDocService.IM_BUSINESS));
     }
     return Promise.resolve(this.items);
   }
