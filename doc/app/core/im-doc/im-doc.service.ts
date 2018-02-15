@@ -74,6 +74,9 @@ export class ImDocService {
     // 展开状态
     // 返回boolean值
     im.isUp();
+    // 显示/隐藏状态
+    // 返回boolean值
+    im.isShow();
   `;
   private static IM_UI = `
     // 显示/隐藏
