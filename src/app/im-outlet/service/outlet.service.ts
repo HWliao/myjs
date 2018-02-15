@@ -82,4 +82,23 @@ export class OutletService implements OnDestroy {
   }
 
 
+  /**
+   * 显示/隐藏
+   * @param {boolean} flag
+   */
+  show(flag: boolean = true) {
+
+  }
+
+  isShow(): boolean {
+    return true;
+  }
+
+  toggleUpDown(up?: boolean) {
+
+  }
+
+  isUp(): boolean {
+    return true;
+  }
 }

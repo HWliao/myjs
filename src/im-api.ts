@@ -34,6 +34,30 @@ export interface Im {
    * @returns {boolean}
    */
   isInited(): boolean;
+
+  /**
+   * 设置显示/隐藏
+   * @param {boolean} flag
+   */
+  show(flag: boolean): void;
+
+  /**
+   * 设置展开收起
+   * @param {boolean} up
+   */
+  toggleUpDown(up?: boolean): void;
+
+  /**
+   * 是否展开
+   * @returns {boolean}
+   */
+  isUp(): boolean;
+
+  /**
+   * 是否显示
+   * @returns {boolean}
+   */
+  isShow(): boolean;
 }
 
 class ImApi extends EventEmitter implements Im {
@@ -89,6 +113,22 @@ class ImApi extends EventEmitter implements Im {
 
   getConfig(): ConfigModel {
     return this.outletService.getConfig();
+  }
+
+  show(flag: boolean = true): void {
+    return this.outletService.show(flag);
+  }
+
+  toggleUpDown(up?: boolean): void {
+    return this.outletService.toggleUpDown(up);
+  }
+
+  isUp(): boolean {
+    return this.outletService.isUp();
+  }
+
+  isShow(): boolean {
+    return this.outletService.isShow();
   }
 }
 
