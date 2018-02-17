@@ -18,7 +18,7 @@ const isUp = { context: 'isUp', method: 'isUp' };
 
 const ui = { context: 'UI', triggerFor: 'ui' };
 const show = { context: 'show', method: 'show' };
-const up = { context: 'up', method: 'up' };
+const up = { context: 'up', method: 'toggleUpDown' };
 
 export const ROOT_MENU = 'root';
 
@@ -103,7 +103,7 @@ export class ImApiService {
   }
 
   [show.method]() {
-    this.wrapExc(show.method);
+    this.wrapExc(show.method, !this.im.isShow());
   }
 
   [up.method]() {

@@ -1,5 +1,5 @@
-<div class="jjsim im-fold">
-  <div id="im-content" class="jjsim-shandow clearfix"></div>
+<div class="jjsim im-fold" [ngClass]="{'im-fold':up$|async }" [ngStyle]="{display:show$|async }">
+  <div id="im-content" class="jjsim-shandow clearfix">xxxxxxxxxxxxxxxxxxx</div>
   <!-- 下线通知 -->
   <div class="im-promp" id="im-promp">
     <div class="prompwrap">
