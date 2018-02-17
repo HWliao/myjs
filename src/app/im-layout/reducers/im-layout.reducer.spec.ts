@@ -4,7 +4,7 @@ import {
   ImLayoutUpAction
 } from '../actions/im-layout.action';
 
-fdescribe('im layout reducers ', () => {
+describe('im layout reducers ', () => {
   describe('show reducer', () => {
     it('should return true', () => {
       expect(imLayoutShowReducer(undefined, new ImLayoutShowAction())).toBeTruthy();

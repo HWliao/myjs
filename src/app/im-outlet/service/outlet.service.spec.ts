@@ -6,6 +6,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { LoggerService } from '../../core/logger/logger.service';
 import * as AppState from '../../reducers';
 import * as OutletState from '../reducers';
+import * as ImLayoutState from '../../im-layout/reducers';
 import { AppDestroyAction, AppInitAction } from '../../actions/app.actions';
 import { ConfigModel } from '../models/config.model';
 import { ConfigSetAction } from '../actions/config.actions';
@@ -20,7 +21,8 @@ describe('OutletService', () => {
       imports: [
         StoreModule.forRoot({
           ...AppState.reducers,
-          [OutletState.feature]: combineReducers(OutletState.reducers)
+          [OutletState.feature]: combineReducers(OutletState.reducers),
+          [ImLayoutState.feature]: combineReducers(ImLayoutState.reducers)
         })
       ],
       providers: [LoggerService, OutletService]
@@ -54,7 +56,7 @@ describe('OutletService', () => {
   });
 
 
-  fdescribe('config', () => {
+  describe('config', () => {
     it('should dispatch CONFIG_SET_ACTION', () => {
       const config: ConfigModel = { appKey: 'test' };
       service.setConfig(config);
@@ -69,5 +71,9 @@ describe('OutletService', () => {
         expect(theConfig[key]).toBe(config[key]);
       });
     });
+  });
+
+  describe('', () => {
+
   });
 });

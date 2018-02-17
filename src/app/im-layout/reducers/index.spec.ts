@@ -7,7 +7,7 @@ const testState = {
   }
 };
 
-fdescribe('im layout selector', () => {
+describe('im layout selector', () => {
   describe('show selector', () => {
     it('should return show property in state', () => {
       expect(getImLayoutShowState(testState)).toBe(testState.imLayout.show);

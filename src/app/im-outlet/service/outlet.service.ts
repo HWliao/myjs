@@ -95,14 +95,24 @@ export class OutletService implements OnDestroy {
    * @param {boolean} flag
    */
   show(flag: boolean = true) {
+    this.checkRootInited();
     this.store.dispatch(flag ? new ImLayoutShowAction() : new ImLayoutHideAction());
   }
 
+  /**
+   * 是否显示
+   * @returns {boolean}
+   */
   isShow(): boolean {
     return this._show;
   }
 
+  /**
+   * 折叠
+   * @param {boolean} up
+   */
   toggleUpDown(up?: boolean) {
+    this.checkRootInited();
     let toUp;
     if (up === undefined || up === null) {
       toUp = !this._up;
@@ -112,7 +122,22 @@ export class OutletService implements OnDestroy {
     this.store.dispatch(toUp ? new ImLayoutUpAction() : new ImLayoutDownAction());
   }
 
+  /**
+   * 是否展开
+   * @returns {boolean}
+   */
   isUp(): boolean {
     return this._up;
+  }
+
+  /**
+   * 检查是否初始化
+   * @returns {boolean}
+   */
+  checkRootInited() {
+    if (!this.isInited()) {
+      throw new Error('should init the root component first');
+    }
+    return this.isInited();
   }
 }
