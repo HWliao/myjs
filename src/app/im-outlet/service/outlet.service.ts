@@ -12,6 +12,11 @@ import { Subscription } from 'rxjs/Subscription';
 import { ConfigModel } from '../models/config.model';
 import { ConfigSetAction } from '../actions/config.actions';
 import { getImConfigState } from '../reducers';
+import { getImLayoutShowState, getImLayoutUpState } from '../../im-layout/reducers';
+import {
+  ImLayoutDownAction, ImLayoutHideAction, ImLayoutShowAction,
+  ImLayoutUpAction
+} from '../../im-layout/actions/im-layout.action';
 
 /**
  * 对外服务
@@ -23,15 +28,18 @@ export class OutletService implements OnDestroy {
 
   private subscription: Subscription;
 
-  private inited: boolean;
-
-  private config: ConfigModel;
+  private _inited: boolean;
+  private _config: ConfigModel;
+  private _show: boolean;
+  private _up: boolean;
 
   constructor(@Inject(LoggerService) private logger: LoggerService, @Inject(Store) private store: Store<any>) {
     this.subscription = Observable
       .merge(
-        this.store.select(getInitedState).do((inited: boolean) => this.inited = inited),
-        this.store.select(getImConfigState).do((config: ConfigModel) => this.config = Object.assign({}, config))
+        this.store.select(getInitedState).do((inited: boolean) => this._inited = inited),
+        this.store.select(getImConfigState).do((config: ConfigModel) => this._config = Object.assign({}, config)),
+        this.store.select(getImLayoutShowState).do((show: boolean) => this._show = show),
+        this.store.select(getImLayoutUpState).do((up: boolean) => this._up = up)
       )
       .catch((err, caught) => {
         this.logger.error(err);
@@ -57,7 +65,7 @@ export class OutletService implements OnDestroy {
    * @returns {boolean}
    */
   isInited(): boolean {
-    return this.inited;
+    return this._inited;
   }
 
   /**
@@ -74,7 +82,7 @@ export class OutletService implements OnDestroy {
    * @returns {ConfigModel}
    */
   getConfig(): ConfigModel {
-    return this.config;
+    return this._config;
   }
 
   ngOnDestroy(): void {
@@ -87,18 +95,24 @@ export class OutletService implements OnDestroy {
    * @param {boolean} flag
    */
   show(flag: boolean = true) {
-
+    this.store.dispatch(flag ? new ImLayoutShowAction() : new ImLayoutHideAction());
   }
 
   isShow(): boolean {
-    return true;
+    return this._show;
   }
 
   toggleUpDown(up?: boolean) {
-
+    let toUp;
+    if (up === undefined || up === null) {
+      toUp = !this._up;
+    } else {
+      toUp = up;
+    }
+    this.store.dispatch(toUp ? new ImLayoutUpAction() : new ImLayoutDownAction());
   }
 
   isUp(): boolean {
-    return true;
+    return this._up;
   }
 }
