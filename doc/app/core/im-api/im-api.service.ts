@@ -13,6 +13,12 @@ const destroy = { context: 'destroy', method: 'destroy' };
 const status = { context: '状态', triggerFor: 'status' };
 const isInited = { context: 'isInited', method: 'isInited' };
 const getConfig = { context: 'getConfig', method: 'getConfig' };
+const isShow = { context: 'isShow', method: 'isShow' };
+const isUp = { context: 'isUp', method: 'isUp' };
+
+const ui = { context: 'UI', triggerFor: 'ui' };
+const show = { context: 'show', method: 'show' };
+const up = { context: 'up', method: 'up' };
 
 export const ROOT_MENU = 'root';
 
@@ -34,24 +40,32 @@ export class ImApiService {
       this.menus = [];
       // 根菜单
       const menu0 = { key: ROOT_MENU, items: [] };
-      menu0.items.push({ context: component.context, disable: false, triggerForKey: component.triggerFor });
-      menu0.items.push({ context: status.context, disable: false, triggerForKey: status.triggerFor });
+      menu0.items.push(this.getMenuItem(component));
+      menu0.items.push(this.getMenuItem(status));
+      menu0.items.push(this.getMenuItem(ui));
 
       // 组件子菜单
       const menu1 = { key: component.triggerFor, items: [] };
-      menu1.items.push({ context: createImM.context, disalbe: false, triggerMethod: createImM.method });
-      menu1.items.push({ context: setConfig.context, triggerMethod: setConfig.method });
-      menu1.items.push({ context: init.context, disalbe: false, triggerMethod: init.method });
-      menu1.items.push({ context: destroy.context, disable: false, triggerMethod: destroy.method });
+      menu1.items.push(this.getMenuItem(createImM));
+      menu1.items.push(this.getMenuItem(setConfig));
+      menu1.items.push(this.getMenuItem(init));
+      menu1.items.push(this.getMenuItem(destroy));
 
       // 状态子菜单
       const menu2 = { key: status.triggerFor, items: [] };
-      menu2.items.push({ context: isInited.context, disable: false, triggerMethod: isInited.method });
-      menu2.items.push({ context: getConfig.context, disable: false, triggerMethod: getConfig.method });
+      menu2.items.push(this.getMenuItem(isInited));
+      menu2.items.push(this.getMenuItem(getConfig));
+      menu2.items.push(this.getMenuItem(isShow));
+      menu2.items.push(this.getMenuItem(isUp));
+
+      const menu3 = { key: ui.triggerFor, items: [] };
+      menu3.items.push(this.getMenuItem(show));
+      menu3.items.push(this.getMenuItem(up));
 
       this.menus.push(menu0);
       this.menus.push(menu1);
       this.menus.push(menu2);
+      this.menus.push(menu3);
     }
     return Promise.resolve(this.menus);
   }
@@ -88,6 +102,22 @@ export class ImApiService {
     this.tip('请看控制台');
   }
 
+  [show.method]() {
+    this.wrapExc(show.method);
+  }
+
+  [up.method]() {
+    this.wrapExc(up.method);
+  }
+
+  [isShow.method]() {
+    this.tip(this.wrapExc(isShow.method));
+  }
+
+  [isUp.method]() {
+    this.tip(this.wrapExc(isUp.method));
+  }
+
   errorTip(err: any) {
     console.error(err);
     this.tip(typeof err === 'string' ? err : '出错了');
@@ -104,4 +134,9 @@ export class ImApiService {
       this.errorTip(e);
     }
   }
+
+  getMenuItem(model: any) {
+    return { context: model.context, triggerMethod: model.method, disable: false, triggerForKey: model.triggerFor };
+  }
+
 }
