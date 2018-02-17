@@ -10,6 +10,8 @@ import * as ImLayoutState from '../../im-layout/reducers';
 import { AppDestroyAction, AppInitAction } from '../../actions/app.actions';
 import { ConfigModel } from '../models/config.model';
 import { ConfigSetAction } from '../actions/config.actions';
+import { ImLayoutHideAction, ImLayoutShowAction } from '../../im-layout/actions/im-layout.action';
+import { setupTestingRouter } from '@angular/router/testing';
 
 describe('OutletService', () => {
 
@@ -73,7 +75,31 @@ describe('OutletService', () => {
     });
   });
 
-  describe('', () => {
-
+  fdescribe('show/isShow', () => {
+    it('should throw an error need to init', () => {
+      try {
+        service.show(true);
+      } catch (err) {
+        expect(err.message).toBe('should init the root component first');
+      }
+    });
+    it('should dispatch IM_LAYOUT_SHOW_ACTION', () => {
+      store.next(new AppInitAction());
+      service.show(true);
+      expect(store.dispatch).toHaveBeenCalledWith(new ImLayoutShowAction());
+    });
+    it('should dispatch IM_LAYOUT_HIDE_ACTION', () => {
+      store.next(new AppInitAction());
+      service.show(false);
+      expect(store.dispatch).toHaveBeenCalledWith(new ImLayoutHideAction());
+    });
+    it('should be false init', () => {
+      expect(service.isShow()).toBeFalsy();
+    });
+    it('should be true', () => {
+      store.next(new AppInitAction());
+      store.next(new ImLayoutShowAction());
+      expect(service.isShow()).toBeTruthy();
+    });
   });
 });
