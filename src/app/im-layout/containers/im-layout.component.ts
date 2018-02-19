@@ -1,12 +1,13 @@
 import 'rxjs/add/operator/map';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { getImLayoutShowState, getImLayoutUpState } from '../reducers';
 
 @Component({
   selector: 'im-layout',
-  templateUrl: './im-layout.component.html'
+  templateUrl: './im-layout.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImLayoutComponent implements OnInit, OnDestroy {
 

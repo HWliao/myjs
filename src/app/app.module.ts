@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ImOutletModule } from './im-outlet/im-outlet.module';
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ImSidebarModule } from './im-sidebar/im-sidebar.module';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([]),
     ImLayoutModule,
-    ImOutletModule
+    ImOutletModule,
+    ImSidebarModule
   ],
   providers: [],
   entryComponents: [AppComponent],
