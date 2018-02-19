@@ -7,20 +7,22 @@ export interface State {
   inited: boolean;
 }
 
-export const reducers: ActionReducerMap<State> = {
-  inited: (state = false, action: AppInitAction | AppDestroyAction): boolean => {
-    switch (action.type) {
-      case AppActions.APP_INIT:
-        return true;
-      case AppActions.APP_DESTROY:
-        return false;
-      default:
-        return state;
-    }
+export function initedReducer(state = false, action: AppInitAction | AppDestroyAction): boolean {
+  switch (action.type) {
+    case AppActions.APP_INIT:
+      return true;
+    case AppActions.APP_DESTROY:
+      return false;
+    default:
+      return state;
   }
+}
+
+export const reducers: ActionReducerMap<State> = {
+  inited: initedReducer
 };
 
-function logger(reducer: ActionReducer<State>): ActionReducer<State> {
+export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
   return function (state: State, action: any): State {
     console.log('state', state);
     console.log('action', action);

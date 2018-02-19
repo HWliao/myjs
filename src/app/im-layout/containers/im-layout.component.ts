@@ -14,8 +14,8 @@ export class ImLayoutComponent implements OnInit, OnDestroy {
   public static DISPLAY_BLOCK = 'block';
   public static DISPLAY_NONE = 'none';
 
-  private show$: Observable<string>;
-  private up$: Observable<boolean>;
+  show$: Observable<string>;
+  up$: Observable<boolean>;
 
   constructor(@Inject(Store) private store: Store<any>) {
   }
