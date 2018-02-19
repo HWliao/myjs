@@ -10,6 +10,9 @@ import { getImLayoutShowState, getImLayoutUpState } from '../reducers';
 })
 export class ImLayoutComponent implements OnInit, OnDestroy {
 
+  public static DISPLAY_BLOCK = 'block';
+  public static DISPLAY_NONE = 'none';
+
   private show$: Observable<string>;
   private up$: Observable<boolean>;
 
@@ -17,7 +20,8 @@ export class ImLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.show$ = this.store.select(getImLayoutShowState).map((isShow: boolean) => isShow ? 'block' : 'none');
+    this.show$ = this.store.select(getImLayoutShowState)
+      .map((isShow: boolean) => isShow ? ImLayoutComponent.DISPLAY_BLOCK : ImLayoutComponent.DISPLAY_NONE);
     this.up$ = this.store.select(getImLayoutUpState).map((isUp: boolean) => !isUp);
   }
 
