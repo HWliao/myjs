@@ -117,11 +117,11 @@ export class ImDocService {
       this.items = [];
       this.items.push(this.generateQuickStartModel());
       this.items.push(this.generateSettingsModel());
-      this.items.push(this.generateMethodModel('组件', ImDocService.IM_INIT, '方法', true));
+      this.items.push(this.generateMethodModel('组件', ImDocService.IM_INIT, '方法'));
       this.items.push(this.generateMethodModel('状态', ImDocService.IM_STATUS));
       this.items.push(this.generateMethodModel('UI', ImDocService.IM_UI));
       this.items.push(this.generateMethodModel('应用', ImDocService.IM_APP));
-      this.items.push(this.generateMethodModel('业务功能', ImDocService.IM_BUSINESS));
+      this.items.push(this.generateMethodModel('业务功能', ImDocService.IM_BUSINESS, null, true));
     }
     return Promise.resolve(this.items);
   }
