@@ -10,11 +10,18 @@ import { SidebarListComponent } from './components/sidebar-list/sidebar-list.com
 
 @NgModule({
   imports: [
-    CommonModule,
-    StoreModule.forRoot(ImSidebarState.feature, ImSidebarState.reducers)
+    CommonModule
   ],
   declarations: [ImSidebarComponent, ImSidebarHeaderComponent, SidebarNoagentComponent, SidebarNologinComponent, SidebarListComponent],
   exports: [ImSidebarComponent]
 })
 export class ImSidebarModule {
+  static forRoot() {
+    return {
+      ngModule: ImSidebarModule,
+      imports: [
+        StoreModule.forFeature(ImSidebarState.feature, ImSidebarState.reducers)
+      ]
+    };
+  }
 }

@@ -6,8 +6,7 @@ import { getImLayoutShowState, getImLayoutUpState } from '../reducers';
 
 @Component({
   selector: 'im-layout',
-  templateUrl: './im-layout.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './im-layout.component.html'
 })
 export class ImLayoutComponent implements OnInit, OnDestroy {
 

@@ -8,9 +8,9 @@ import { StoreModule } from '@ngrx/store';
 import { metaReducers, reducers } from './reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { ImOutletModule } from './im-outlet/im-outlet.module';
-import { environment } from '../environments/environment';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ImSidebarModule } from './im-sidebar/im-sidebar.module';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -20,12 +20,12 @@ import { ImSidebarModule } from './im-sidebar/im-sidebar.module';
   imports: [
     BrowserModule,
     CoreModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([]),
     ImLayoutModule,
     ImOutletModule,
-    ImSidebarModule
+    ImSidebarModule.forRoot(),
+    StoreModule.forRoot(reducers, { metaReducers }),
+//    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    EffectsModule.forRoot([]),
   ],
   providers: [],
   entryComponents: [AppComponent],

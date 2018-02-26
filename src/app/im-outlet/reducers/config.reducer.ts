@@ -1,5 +1,6 @@
 import { ConfigActions, ConfigSetAction } from '../actions/config.actions';
 import { environment } from '../../../environments/environment';
+import { ConfigModel } from '../models/config.model';
 
 export interface State {
   /**
@@ -128,7 +129,7 @@ export interface State {
   sessionFilter?(scene: string, to: string): boolean;
 }
 
-export const initialState: State = {
+export const initialState: ConfigModel = {
   className: '',
   debug: true,
   thirdPartyDebug: false,
