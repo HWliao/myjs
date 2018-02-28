@@ -2,6 +2,18 @@
 # yarn lockfile v1
 
 
+"@angular/cdk@^5.2.3":
+  version "5.2.3"
+  resolved "http://registry.npm.taobao.org/@angular/cdk/download/@angular/cdk-5.2.3.tgz#b52e7040e1e6577b593b5d974b80020c1f5babe3"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/material@^5.2.3":
+  version "5.2.3"
+  resolved "http://registry.npm.taobao.org/@angular/material/download/@angular/material-5.2.3.tgz#ce7e2abb79c0bd16dff7f247b21c5339d02dd949"
+  dependencies:
+    tslib "^1.7.1"
+
 "@material/animation@^0.25.0":
   version "0.25.0"
   resolved "http://registry.npm.taobao.org/@material/animation/download/@material/animation-0.25.0.tgz#b252ac3d0b628e79a79f0c406d7470fb56352a80"
@@ -6675,6 +6687,10 @@ trim-right@^1.0.1:
   resolved "http://registry.npm.taobao.org/true-case-path/download/true-case-path-1.0.2.tgz#7ec91130924766c7f573be3020c34f8fdfd00d62"
   dependencies:
     glob "^6.0.4"
+
+tslib@^1.7.1:
+  version "1.9.0"
+  resolved "http://registry.npm.taobao.org/tslib/download/tslib-1.9.0.tgz#e37a86fda8cbbaf23a057f473c9f4dc64e5fc2e8"
 
 tty-browserify@0.0.0:
   version "0.0.0"

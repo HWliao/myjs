@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import 'material-components-web/dist/material-components-web.min.css';
-import App from './App';
+import ImDocApp from './docs/ImDocApp';
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<ImDocApp/>, document.getElementById('root'));
