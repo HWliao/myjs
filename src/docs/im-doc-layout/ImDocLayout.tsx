@@ -22,10 +22,10 @@ class ImDocLayout extends React.Component<WithStylesProps> {
     const {classes, isDark} = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="fixed" className={classes.appBar}>
+        <AppBar elevation={6} position="fixed" className={classes.appBar}>
           <ToolBar>
-            <Button color="inherit" size="large">IM PLUGIN</Button>
-            <Button color="inherit" size="large">文档</Button>
+            <Button color="inherit">IM PLUGIN</Button>
+            <Button color="inherit">文档</Button>
             <div style={{flex: '1 1 auto'}}/>
             <FormControlLabel
               color="primary"
