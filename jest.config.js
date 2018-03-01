@@ -1,34 +1,43 @@
 module.exports = {
   "collectCoverageFrom": [
-    "src/**/*.{js,jsx,mjs}"
+    "src/**/*.{js,jsx,ts,tsx}"
   ],
   "setupFiles": [
     "<rootDir>/config/polyfills.js"
   ],
   "testMatch": [
-    "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
-    "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
+    "<rootDir>/src/**/__tests__/**/*.ts?(x)",
+    "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
   ],
   "testEnvironment": "jsdom",
   "testURL": "http://localhost",
   "transform": {
-    "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
+    "^.+\\.tsx?$": "<rootDir>/config/jest/typescriptTransform.js",
     "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
     "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
   },
   "transformIgnorePatterns": [
-    "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
+    "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|ts|tsx)$"
   ],
   "moduleNameMapper": {
     "^react-native$": "react-native-web"
   },
   "moduleFileExtensions": [
-    "web.js",
     "mjs",
+    "web.ts",
+    "ts",
+    "web.tsx",
+    "tsx",
+    "web.js",
     "js",
-    "json",
     "web.jsx",
     "jsx",
+    "json",
     "node"
-  ]
+  ],
+  "globals": {
+    "ts-jest": {
+      "tsConfigFile": "./tsconfig.test.json"
+    }
+  }
 };
