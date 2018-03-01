@@ -4,8 +4,9 @@ import { MuiThemeProvider } from 'material-ui/styles';
 import { darkTheme, lightTheme } from './theme';
 import ImDocLayout from './im-doc-layout/ImDocLayout';
 import { State } from './type';
+import { BrowserRouter } from 'react-router-dom';
 
-export default class ImDocApp extends React.Component<{}, State> {
+class ImDocApp extends React.Component<{}, State> {
 
   constructor(props: {}) {
     super(props);
@@ -16,12 +17,14 @@ export default class ImDocApp extends React.Component<{}, State> {
 
   render() {
     return (
-      <div>
-        <Reboot/>
-        <MuiThemeProvider theme={this.state.isDark ? darkTheme : lightTheme}>
-          <ImDocLayout onChange={this.changeTheme} isDark={this.state.isDark}/>
-        </MuiThemeProvider>
-      </div>
+      <BrowserRouter>
+        <div>
+          <Reboot/>
+          <MuiThemeProvider theme={this.state.isDark ? darkTheme : lightTheme}>
+            <ImDocLayout onChange={this.changeTheme} isDark={this.state.isDark}/>
+          </MuiThemeProvider>
+        </div>
+      </BrowserRouter>
     );
   }
 
@@ -31,3 +34,5 @@ export default class ImDocApp extends React.Component<{}, State> {
     }));
   };
 }
+
+export default ImDocApp;
