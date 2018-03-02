@@ -9,7 +9,7 @@ const styles: StyleRulesCallback<StyleType> = theme => ({
     overflow: 'hidden'
   },
   drawerPaper: {
-    position: 'static',
+    position: 'relative',
     width: 240,
     overflow: 'auto',
     height: '100%',
