@@ -20,7 +20,8 @@ const styles: StyleRulesCallback<StyleTypes> = theme => ({
     backgroundColor: theme.palette.background.default,
     minWidth: 0, // So the Typography noWrap works
     overflow: 'auto',
-    flex: '1 1 auto'
+    flex: '1 1 auto',
+    display: 'flex'
   },
   toolbar: theme.mixins.toolbar,
   labelText: {

@@ -7,14 +7,7 @@ import Button from 'material-ui/Button';
 import Switch from 'material-ui/Switch';
 import { FormControlLabel } from 'material-ui/Form';
 import Typography from 'material-ui/Typography';
-import { Link, Route, Switch as RouterSwitch } from 'react-router-dom';
-import DivWrapper from '../components/DivWrapper/DivWrapper';
-import ImDocHome from '../im-doc-home/ImDocHome';
-import ImDocMain from '../im-doc-main/ImDocMain';
-import ImDocNotFound from '../im-doc-not-found/ImDocNotFound';
-
-const HomeLink = (props: {}) => <Link to="/" {...props}/>;
-const DocLink = (props: {}) => <Link to="/doc" {...props}/>;
+import { DocLink, HomeLink, Routes } from './route';
 
 class ImDocLayout extends React.Component<WithStylesProps> {
   constructor(props: WithStylesProps) {
@@ -26,14 +19,14 @@ class ImDocLayout extends React.Component<WithStylesProps> {
   };
 
   render() {
-    const { classes, isDark } = this.props;
+    const {classes, isDark} = this.props;
     return (
       <div className={classes.root}>
         <AppBar elevation={6} position="fixed" className={classes.appBar}>
           <ToolBar>
             <Button color="inherit" component={HomeLink}>IM PLUGIN</Button>
             <Button color="inherit" component={DocLink}>文档</Button>
-            <div style={{ flex: '1 1 auto' }}/>
+            <div style={{flex: '1 1 auto'}}/>
             <FormControlLabel
               color="primary"
               control={<Switch/>}
@@ -48,12 +41,8 @@ class ImDocLayout extends React.Component<WithStylesProps> {
           </ToolBar>
         </AppBar>
         <div className={classes.toolbar}/>
-        <Typography className={classes.content} component={DivWrapper}>
-          <RouterSwitch>
-            <Route path="/" exact={true} component={ImDocHome}/>
-            <Route path="/doc" component={ImDocMain}/>
-            <Route component={ImDocNotFound}/>
-          </RouterSwitch>
+        <Typography className={classes.content} component="div">
+          <Routes/>
         </Typography>
       </div>
     );
