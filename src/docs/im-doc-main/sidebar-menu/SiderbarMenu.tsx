@@ -1,11 +1,27 @@
 import * as React from 'react';
+import { StyleRulesCallback, WithStyles, withStyles } from 'material-ui/styles';
 
-class ImDocSidebarMenu extends React.Component {
+type StyleType = 'root';
+
+type Props = WithStyles<StyleType>;
+
+const styles: StyleRulesCallback<StyleType> = theme => ({
+  root: {
+    display: 'flex'
+  }
+});
+
+class ImDocSidebarMenu extends React.Component<Props> {
+  constructor(props: Props) {
+    super(props);
+  }
+
   render() {
+    const {classes} = this.props;
     return (
-      <span>sidebar menu</span>
+      <div className={classes.root}>sidebar menu</div>
     );
   }
 }
 
-export default ImDocSidebarMenu;
+export default withStyles(styles)<{}>(ImDocSidebarMenu);
