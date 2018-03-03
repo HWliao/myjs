@@ -21,7 +21,9 @@ class ImDocContent extends React.Component<Props> {
   render() {
     const {classes} = this.props;
     return (
-      <div className={classes.root}>content</div>
+      <div className={classes.root}>
+        content
+      </div>
     );
   }
 }

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { RouteProps } from 'react-router-dom';
 import { StyleRulesCallback, withStyles, WithStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
+import { RouteComponentProps } from 'react-router';
 
 type StyleType = 'root';
-type Props = RouteProps & WithStyles<StyleType>;
+type Props = RouteComponentProps<{}> & WithStyles<StyleType>;
 
 const styles: StyleRulesCallback<StyleType> = theme => ({
   root: {
@@ -22,7 +22,7 @@ class ImDocNotFound extends React.Component<Props> {
   }
 
   render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
     return (
       <Typography variant="display3" className={classes.root}>404</Typography>
     );

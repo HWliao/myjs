@@ -3,7 +3,7 @@ import Drawer from 'material-ui/Drawer';
 import { Props } from './type';
 import styled from './style';
 import ImDocSidebarMenu from './sidebar-menu/SiderbarMenu';
-import ImDocContent from './content/content';
+import Routes from './route';
 
 class ImDocMain extends React.Component<Props, {}> {
   constructor(props: Props) {
@@ -24,7 +24,7 @@ class ImDocMain extends React.Component<Props, {}> {
           <ImDocSidebarMenu/>
         </Drawer>
         <main className={classes.content}>
-          <ImDocContent/>
+          <Routes/>
         </main>
       </div>
     );
