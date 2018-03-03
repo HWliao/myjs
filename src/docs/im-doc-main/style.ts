@@ -18,7 +18,7 @@ const styles: StyleRulesCallback<StyleType> = theme => ({
   content: {
     flex: '1',
     overflow: 'auto',
-    padding: 20
+    display: 'flex'
   }
 });
 

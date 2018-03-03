@@ -2,6 +2,8 @@ import * as React from 'react';
 import Drawer from 'material-ui/Drawer';
 import { Props } from './type';
 import styled from './style';
+import ImDocSidebarMenu from './sidebar-menu/SiderbarMenu';
+import ImDocContent from './content/content';
 
 class ImDocMain extends React.Component<Props, {}> {
   constructor(props: Props) {
@@ -19,10 +21,10 @@ class ImDocMain extends React.Component<Props, {}> {
           variant="permanent"
           classes={{paper: classes.drawerPaper}}
         >
-          <p>xxxxxxxxxxxxxx</p>
+          <ImDocSidebarMenu/>
         </Drawer>
         <main className={classes.content}>
-          <p>yyyyyyyyyy</p>
+          <ImDocContent/>
         </main>
       </div>
     );
