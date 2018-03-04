@@ -3,9 +3,7 @@ import Content from '../content';
 import { quickStarted } from './data';
 
 const content = `
-  // 你说是吗
-  var x = 1;
-  console.log(1111);
+  <script type="text/javascript" src="http(s)://path/to/main.js"></script>
 `;
 
 class QuickStarted extends React.Component<{}, {}> {

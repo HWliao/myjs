@@ -3,8 +3,10 @@ import Content from '../content';
 import { settings } from './data';
 
 const content = `
-  // settings
-  var x = '这是设置';
+  {
+    // 说明
+    "lhwtest":"test"
+  }
 `;
 
 class Settings extends React.Component {
