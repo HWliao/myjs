@@ -3,6 +3,7 @@ import Reboot from 'material-ui/Reboot';
 import { MuiThemeProvider } from 'material-ui/styles';
 import { darkTheme, lightTheme } from './theme';
 import ImDocLayout from './im-doc-layout/ImDocLayout';
+import ImDocOperaterMenu from './im-doc-operater-menu/ImDocOperaterMenu';
 import { State } from './type';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ class ImDocApp extends React.Component<{}, State> {
           <Reboot/>
           <MuiThemeProvider theme={this.state.isDark ? darkTheme : lightTheme}>
             <ImDocLayout onChange={this.changeTheme} isDark={this.state.isDark}/>
+            <ImDocOperaterMenu/>
           </MuiThemeProvider>
         </div>
       </BrowserRouter>
