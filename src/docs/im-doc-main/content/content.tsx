@@ -5,7 +5,11 @@ import { atomDark } from 'react-syntax-highlighter/styles/prism';
 
 type StyleType = 'root' | 'header' | 'section';
 
-type Props = WithStyles<StyleType>;
+export type ContentProps = {
+  header: string;
+};
+
+type Props = ContentProps & WithStyles<StyleType>;
 
 const styles: StyleRulesCallback<StyleType> = theme => ({
   root: {
@@ -40,7 +44,7 @@ class ImDocContent extends React.Component<Props> {
     return (
       <div className={classes.root}>
         <header className={classes.header}>
-          <h1>{'header'}</h1>
+          <h1>{this.props.header}</h1>
         </header>
         <section className={classes.section}>
           <SyntaxHighlighter language={'javascript'} style={atomDark}>
@@ -52,4 +56,4 @@ class ImDocContent extends React.Component<Props> {
   }
 }
 
-export default withStyles(styles)<{}>(ImDocContent);
+export default withStyles(styles)<ContentProps>(ImDocContent);

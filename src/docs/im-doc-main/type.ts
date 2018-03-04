@@ -1,5 +1,6 @@
 import { RouteComponentProps } from 'react-router';
 import { WithStyles } from 'material-ui';
+import * as React from 'react';
 
 export type StyleType = 'root' | 'drawerPaper' | 'content';
 
@@ -9,6 +10,7 @@ export interface ItemModel {
   icon: string;
   text: string;
   to: string;
+  component?: React.ComponentType<any>;
 }
 
 export interface MenuModel {
