@@ -1,4 +1,4 @@
 export interface ImModel {
-  init: () => void;
-  destroy: () => void;
+  init: () => Promise<any>;
+  destroy: () => Promise<any>;
 }

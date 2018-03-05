@@ -1,16 +1,9 @@
 import { ConfigModel, defaultConfig } from './im-api/model/config.model';
 import { ImModel } from './im-api/model/im.model';
-
-let _im: ImModel;
+import { getImInstance } from './im-api/im';
 
 function createIm(config: ConfigModel = defaultConfig): Promise<ImModel> {
-  if (_im) {
-    _im = {
-      init: () => '',
-      destroy: () => ''
-    };
-  }
-  return Promise.resolve(_im);
+  return getImInstance(config).init();
 }
 
 export default {
