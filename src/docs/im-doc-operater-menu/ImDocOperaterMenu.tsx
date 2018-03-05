@@ -7,7 +7,7 @@ import withStyles from 'material-ui/styles/withStyles';
 import Menu from 'material-ui/Menu';
 import Snackbar from 'material-ui/Snackbar';
 
-type StyleType = 'root' | 'menu' | string;
+type StyleType = 'root' | 'menu' | 'snackbar' | string;
 
 type Props = WithStyles<StyleType>;
 
@@ -25,6 +25,9 @@ const styles: StyleRulesCallback<StyleType> = theme => ({
   },
   menu: {
     zIndex: theme.zIndex.tooltip + 2
+  },
+  snackbar: {
+    zIndex: theme.zIndex.tooltip + 3
   }
 });
 
@@ -96,6 +99,7 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
           }}
           autoHideDuration={5000}
           message={<span id="message-id">{this.state.message}</span>}
+          className={(this.props.classes.snackbar)}
         />
       </div>
     );

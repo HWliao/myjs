@@ -1,11 +1,11 @@
 import { ItemModel, MenuModel } from '../../type';
-import asyncComponent from '../../../components/asyncComponent';
+import Settings from './Settings';
 
 export const settings: ItemModel = {
     to: '/doc/settings',
     icon: 'settings',
     text: '详细配置',
-    component: asyncComponent(() => import('./Settings'))
+    component: Settings
   }
 ;
 
