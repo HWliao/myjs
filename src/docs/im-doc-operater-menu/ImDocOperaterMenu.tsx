@@ -6,6 +6,8 @@ import MenuItem from 'material-ui/Menu/MenuItem';
 import withStyles from 'material-ui/styles/withStyles';
 import Menu from 'material-ui/Menu';
 import Snackbar from 'material-ui/Snackbar';
+import JJSIM from '../../main/main';
+import { ImModel } from '../../main/im-api/model/im.model';
 
 type StyleType = 'root' | 'menu' | 'snackbar' | string;
 
@@ -35,6 +37,8 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
 
   anchorEl: HTMLElement | undefined | null;
 
+  im: ImModel;
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -55,9 +59,13 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
     this.setState((prev) => Object.assign({}, prev, {message: false}));
   };
 
-  doClickItem = (key: string) => {
-    this.setState((prev) => Object.assign({}, prev, {message: key}));
-    // todo
+  tip = (err: any) => {
+    console.error(err);
+    if (typeof err === 'string') {
+      this.setState((prev) => Object.assign({}, prev, {message: err}));
+    } else {
+      this.setState((prev) => Object.assign({}, prev, {message: '出错了'}));
+    }
   };
 
   render() {
@@ -86,9 +94,9 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
           onClose={this.closeMenu}
           className={this.props.classes.menu}
         >
-          <MenuItem onClick={this.doClickItem.bind(this, 'createIm')}>createIm</MenuItem>
-          <MenuItem onClick={this.doClickItem.bind(this, 'init')}>init</MenuItem>
-          <MenuItem onClick={this.doClickItem.bind(this, 'destroy')}>destroy</MenuItem>
+          <MenuItem onClick={this.createIm}>createIm</MenuItem>
+          <MenuItem onClick={this.init}>init</MenuItem>
+          <MenuItem onClick={this.destroy}>destroy</MenuItem>
         </Menu>
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
@@ -104,6 +112,28 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
       </div>
     );
   }
+
+  createIm = () => {
+    JJSIM.createIm()
+      .then((im: ImModel) => this.im = im)
+      .catch((err: any) => this.tip(err));
+  };
+
+  init = () => {
+    try {
+      this.im.init();
+    } catch (e) {
+      this.tip(e);
+    }
+  };
+
+  destroy = () => {
+    try {
+      this.im.destroy();
+    } catch (e) {
+      this.tip(e);
+    }
+  };
 }
 
 export default withStyles(styles)<{}>(ImDocOperaterMenu);
