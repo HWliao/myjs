@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
 import * as ReactDOM from 'react-dom';
+import Test from './test';
+import { Provider } from 'react-redux';
+import { store } from '../store/stroe';
 
 export default class ImRoot extends PureComponent<{}, {}> {
   render() {
     return (
-      <div style={{position: 'absolute', zIndex: 9999}}>
-        im root
-      </div>
+      <Provider store={store}>
+        <Test/>
+      </Provider>
     );
   }
 }
