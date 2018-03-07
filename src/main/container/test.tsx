@@ -7,14 +7,18 @@ import { clickAction } from './actions';
 
 type TestProps = {};
 type StateProps = {
-  id: string;
+  id?: string;
 };
 type DispatchProps = {
-  clickSpan(): void;
+  clickSpan?(): void;
 };
 type Props = TestProps & StateProps & DispatchProps;
 
-const mapStateToProps = createSelector(makeSelectTestId, (id) => ({id}));
+function combiner(id: string): StateProps {
+  return {id};
+}
+
+const mapStateToProps = createSelector(makeSelectTestId, combiner);
 const mapDispatchToProps = function (dispatch: Dispatch<{}>): DispatchProps {
   return {
     clickSpan: () => {
