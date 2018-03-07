@@ -1,19 +1,36 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { State } from '../store/stroe';
+import { createSelector } from 'reselect';
+import { makeSelectTestId } from './selectors';
+import { Dispatch } from 'redux';
+import { clickAction } from './actions';
 
-type Props = {
+type TestProps = {};
+type StateProps = {
   id: string;
+};
+type DispatchProps = {
+  clickSpan(): void;
+};
+type Props = TestProps & StateProps & DispatchProps;
+
+const mapStateToProps = createSelector(makeSelectTestId(), (id) => ({id}));
+const mapDispatchToProps = function (dispatch: Dispatch<{}>): DispatchProps {
+  return {
+    clickSpan: () => {
+      dispatch(clickAction());
+    }
+  };
 };
 
 class Test extends React.PureComponent<Props> {
   render() {
     return (
-      <span>{this.props.id}</span>
+      <span onClick={this.props.clickSpan}>{this.props.id}</span>
     );
   }
 }
 
-export default connect((state: State) => ({
-  id: state.test ? state.test.id : '0'
-}))(Test);
+const withConnect = connect<StateProps, DispatchProps, TestProps>(mapStateToProps, mapDispatchToProps);
+
+export default withConnect(Test);
