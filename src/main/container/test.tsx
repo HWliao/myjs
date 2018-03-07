@@ -14,7 +14,7 @@ type DispatchProps = {
 };
 type Props = TestProps & StateProps & DispatchProps;
 
-const mapStateToProps = createSelector(makeSelectTestId(), (id) => ({id}));
+const mapStateToProps = createSelector(makeSelectTestId, (id) => ({id}));
 const mapDispatchToProps = function (dispatch: Dispatch<{}>): DispatchProps {
   return {
     clickSpan: () => {
