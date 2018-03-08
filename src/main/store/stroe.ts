@@ -8,8 +8,9 @@ const initState = Map<RootStateKeys, any>({});
 
 const rootReducer = createRootReducer();
 
+const epicMiddleware = createEpicMiddleware(createRootEpic());
 const middlewares: Middleware[] = [
-  createEpicMiddleware(createRootEpic())
+  epicMiddleware
 ];
 
 const enhancers = [applyMiddleware(...middlewares)];
@@ -21,5 +22,17 @@ const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
 
 export function storeConfigure() {
-  return createStore(rootReducer, initState, composeEnhancers(...enhancers));
+  const store = createStore(rootReducer, initState, composeEnhancers(...enhancers));
+  if (module.hot) {
+    module.hot.accept('./reducers', () => {
+      store.replaceReducer(createRootReducer());
+    });
+  }
+  return store;
+}
+
+if (module.hot) {
+  module.hot.accept('./epics', () => {
+    epicMiddleware.replaceEpic(createRootEpic());
+  });
 }
