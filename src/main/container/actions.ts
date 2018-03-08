@@ -1,11 +1,12 @@
-import { createAction, FluxStandardAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
+import { BaseAction } from '../store/actions';
 
 export enum TestActionType {
   TEST_ACTION = '[test] test',
   Test_CLICK_ACTOIN = '[test] click'
 }
 
-export type TestAction = FluxStandardAction<TestActionType.TEST_ACTION, number>;
+export type TestAction = BaseAction<TestActionType.TEST_ACTION, number>;
 
 function testActionCF(num: number): TestAction {
   return {
@@ -16,7 +17,7 @@ function testActionCF(num: number): TestAction {
 
 export const testAction = createAction(TestActionType.TEST_ACTION, testActionCF);
 
-export type ClickAction = FluxStandardAction<TestActionType.Test_CLICK_ACTOIN, string>;
+export type ClickAction = BaseAction<TestActionType.Test_CLICK_ACTOIN, string>;
 
 function clickActionCF(): ClickAction {
   return {

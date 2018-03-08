@@ -1,12 +1,16 @@
 import { applyMiddleware, compose, createStore, Middleware } from 'redux';
 import { createRootReducer, RootStateKeys } from './reducers';
 import { Map } from 'immutable';
+import { createEpicMiddleware } from 'redux-observable';
+import { createRootEpic } from './epics';
 
 const initState = Map<RootStateKeys, any>({});
 
 const rootReducer = createRootReducer();
 
-const middlewares: Middleware[] = [];
+const middlewares: Middleware[] = [
+  createEpicMiddleware(createRootEpic())
+];
 
 const enhancers = [applyMiddleware(...middlewares)];
 

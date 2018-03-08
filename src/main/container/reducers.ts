@@ -1,12 +1,13 @@
 import { Map } from 'immutable';
 import { TestActions, TestActionType } from './actions';
+import { BaseState } from '../store/reducers';
 
 export enum TestStateKeys {
   id = 'id',
   test = 'test'
 }
 
-export type TestState = Map<TestStateKeys, any>;
+export type TestState = BaseState<TestStateKeys, any>;
 
 const initState = Map<TestStateKeys, any>({id: 'lhw'});
 

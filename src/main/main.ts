@@ -1,3 +1,4 @@
+import './rxjs';
 import { ConfigModel, defaultConfig } from './im-api/model/config.model';
 import { ImModel } from './im-api/model/im.model';
 import { getImInstance } from './im-api/im';

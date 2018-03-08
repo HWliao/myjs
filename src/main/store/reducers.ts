@@ -3,11 +3,15 @@ import { combineReducers } from 'redux-immutable';
 import testReducer from '../container/reducers';
 import { Map } from 'immutable';
 
+export interface BaseState<K = any, V = any> extends Map<K, V> {
+
+}
+
 export enum RootStateKeys {
   test = 'test'
 }
 
-export type RootState = Map<RootStateKeys, any>;
+export type RootState = BaseState<RootStateKeys, any>;
 
 export const reducers: ReducersMapObject = {
   test: testReducer
