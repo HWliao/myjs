@@ -7,7 +7,7 @@ import withStyles from 'material-ui/styles/withStyles';
 import Menu from 'material-ui/Menu';
 import Snackbar from 'material-ui/Snackbar';
 import JJSIM from '../../main/main';
-import { ImModel } from '../../main/im-api/model/im.model';
+import { ImModel } from '../../main/container/im-api/model/im.model';
 
 type StyleType = 'root' | 'menu' | 'snackbar' | string;
 

@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 import { TestActions, TestActionType } from './actions';
-import { BaseState } from '../store/reducers';
+import { BaseState } from '../../store/reducers';
 
 export enum TestStateKeys {
   id = 'id',

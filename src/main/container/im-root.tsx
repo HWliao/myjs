@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PureComponent } from 'react';
 import * as ReactDOM from 'react-dom';
-import Test from './test';
+import Test from './im-test/sample';
 import { Provider } from 'react-redux';
 import { storeConfigure } from '../store/stroe';
 import { Store } from 'redux';

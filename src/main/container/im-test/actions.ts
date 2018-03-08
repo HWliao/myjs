@@ -1,5 +1,5 @@
 import { createAction } from 'typesafe-actions';
-import { BaseAction } from '../store/actions';
+import { BaseAction } from '../../store/actions';
 
 export enum TestActionType {
   TEST_ACTION = '[test] test',

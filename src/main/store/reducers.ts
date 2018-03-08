@@ -1,6 +1,6 @@
 import { ReducersMapObject } from 'redux';
 import { combineReducers } from 'redux-immutable';
-import testReducer from '../container/reducers';
+import testReducer from '../container/im-test/reducers';
 import { Map } from 'immutable';
 
 export interface BaseState<K = any, V = any> extends Map<K, V> {

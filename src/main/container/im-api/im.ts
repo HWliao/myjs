@@ -1,5 +1,5 @@
 import { ImModel } from './model/im.model';
-import { mount, unmount } from '../container/im-root';
+import { mount, unmount } from '../im-root';
 import { ConfigModel } from './model/config.model';
 
 class Im implements ImModel {

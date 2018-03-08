@@ -1,6 +1,6 @@
 import { testAction, TestAction, TestActionType } from './actions';
 import { Observable } from 'rxjs/Observable';
-import { BaseEpic } from '../store/epics';
+import { BaseEpic } from '../../store/epics';
 
 export const testEpic: BaseEpic<TestAction> = (action$, store) => {
   return action$

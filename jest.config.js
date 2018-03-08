@@ -1,13 +1,13 @@
 module.exports = {
   "collectCoverageFrom": [
-    "src/**/*.{js,jsx,ts,tsx}"
+    "src/main/**/*.{js,jsx,ts,tsx}"
   ],
   "setupFiles": [
     "<rootDir>/config/polyfills.js"
   ],
   "testMatch": [
-    "<rootDir>/src/**/__tests__/**/*.ts?(x)",
-    "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
+    "<rootDir>/src/main/**/__tests__/**/*.ts?(x)",
+    "<rootDir>/src/main/**/?(*.)(spec|test).ts?(x)"
   ],
   "testEnvironment": "jsdom",
   "testURL": "http://localhost",
