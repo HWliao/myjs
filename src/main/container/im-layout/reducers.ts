@@ -10,9 +10,9 @@ export enum ImLayoutStateKeys {
 
 export type ImLayoutState = BaseState<ImLayoutStateKeys, boolean>;
 
-const initState = Map<ImLayoutStateKeys, boolean>({show: false, up: false});
+export const initState = Map<ImLayoutStateKeys, boolean>({show: false, up: false});
 
-export function ImLayoutShowReducer(state: ImLayoutState = initState, action: BaseAction) {
+export function imLayoutReducer(state: ImLayoutState = initState, action: BaseAction) {
   switch (action.type) {
     case ImLayoutActionType.show:
       return state.set(ImLayoutStateKeys.show, action.payload);

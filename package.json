@@ -28,7 +28,8 @@
     "build:doc": "cross-env REACT_APP_TYPE=doc node scripts/build.js",
     "start:im": "cross-env REACT_APP_TYPE=im node scripts/start.js",
     "build:im": "cross-env REACT_APP_TYPE=im node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "test:coverage": "node scripts/test.js --coverage --env=jsdom"
   },
   "devDependencies": {
     "@types/immutable": "^3.8.7",
