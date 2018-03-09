@@ -12,18 +12,18 @@ type StateProps = {
 };
 type DispatchProps = {};
 
-type Props = ImLayoutProps & StateProps & DispatchProps;
+export type Props = ImLayoutProps & StateProps & DispatchProps;
 
 function combiner(show: boolean, up: boolean): StateProps {
   return {show, up};
 }
 
-const mapStateToProps = createSelector(selectLayoutShow, selectLayoutUp, combiner);
-const mapDispatchToProps = function (dispatch: Dispatch<BaseState>): DispatchProps {
+export const mapStateToProps = createSelector(selectLayoutShow, selectLayoutUp, combiner);
+export const mapDispatchToProps = function (dispatch: Dispatch<BaseState>): DispatchProps {
   return {};
 };
 
-class ImLayoutContainer extends React.PureComponent<Props> {
+export class ImLayoutContainer extends React.PureComponent<Props> {
   render() {
     const {show, up} = this.props;
     const className = `jjsim ${up ? '' : 'im-fold'} ${show ? '' : 'hide'}`;

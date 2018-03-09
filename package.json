@@ -32,6 +32,7 @@
     "test:coverage": "node scripts/test.js --coverage --env=jsdom"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.1.9",
     "@types/immutable": "^3.8.7",
     "@types/jest": "^22.1.4",
     "@types/node": "^9.4.6",

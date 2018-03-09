@@ -3,7 +3,8 @@ module.exports = {
     "src/main/**/*.{js,jsx,ts,tsx}"
   ],
   "setupFiles": [
-    "<rootDir>/config/polyfills.js"
+    "<rootDir>/config/polyfills.js",
+    "<rootDir>/config/enzymeConfig.js"
   ],
   "testMatch": [
     "<rootDir>/src/main/**/__tests__/**/*.ts?(x)",
