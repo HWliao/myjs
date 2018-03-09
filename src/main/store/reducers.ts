@@ -1,20 +1,20 @@
 import { ReducersMapObject } from 'redux';
 import { combineReducers } from 'redux-immutable';
-import testReducer from '../container/im-test/reducers';
 import { Map } from 'immutable';
+import { imLayoutReducer } from '../container/im-layout/reducers';
 
 export interface BaseState<K = any, V = any> extends Map<K, V> {
 
 }
 
 export enum RootStateKeys {
-  test = 'test'
+  layout = 'layout'
 }
 
 export type RootState = BaseState<RootStateKeys, any>;
 
 export const reducers: ReducersMapObject = {
-  test: testReducer
+  layout: imLayoutReducer
 };
 
 export function createRootReducer() {

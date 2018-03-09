@@ -1,0 +1,846 @@
+@charset "utf-8";
+/* CSS reset */
+.jjsim textarea {
+  font-family: "Microsoft YaHei", "Hiragino Sans GB", "STHeiti", "SimSun", "Arial", serif;
+}
+
+.jjsim * {
+  margin: 0;
+  padding: 0;
+  border: none;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.jjsim.hide, .jjsim .hide {
+  display: none !important;
+}
+
+.jjsim img {
+  border: 0;
+}
+
+.jjsim em, .jjsim i {
+  font-style: normal;
+  font-weight: normal;
+}
+
+.jjsim ol, .jjsim ul, .jjsim li {
+  list-style: none;
+}
+
+.jjsim h1, .jjsim h2, .jjsim h3, .jjsim h4, .jjsim h5, .jjsim h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+.jjsim a {
+  color: #303030;
+  text-decoration: none;
+}
+
+.jjsim a:hover {
+  color: #E03236;
+}
+
+.jjsim .clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+
+.jjsim .clearfix {
+  zoom: 1;
+}
+
+.jjsim .scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #fff;
+}
+
+.jjsim .scroll::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.jjsim .scroll::-webkit-scrollbar-thumb {
+  height: 20px;
+  border-radius: 10px;
+  background-color: #ccc;
+}
+
+/* sprite */
+.jjsim .sprite, .im-msg-right .msg-text:after, .im-msg-left .msg-text:after {
+  display: inline-block;
+  background-image: url(../images/sprite.png);
+  background-image: -webkit-image-set(url(../images/sprite.png) 1x, url(../images/sprite@2x.png) 2x);
+  background-repeat: no-repeat;
+}
+
+.im-msg-right .msg-text:after {
+  height: 12px;
+  width: 5px;
+  background-position: 0 0;
+}
+
+.im-msg-left .msg-text:after {
+  height: 12px;
+  width: 5px;
+  background-position: 0 -12px;
+}
+
+.jjsim .sprite-down {
+  height: 14px;
+  width: 14px;
+  background-position: 0 -24px;
+}
+
+.jjsim .sprite-warning {
+  height: 14px;
+  width: 14px;
+  background-position: 0 -38px;
+}
+
+.jjsim .sprite-close {
+  height: 14px;
+  width: 14px;
+  background-position: 0 -52px;
+}
+
+.jjsim .sprite-pic {
+  height: 14px;
+  width: 15px;
+  background-position: 0 -66px;
+}
+
+.jjsim .sprite-face {
+  height: 16px;
+  width: 16px;
+  background-position: 0 -80px;
+}
+
+.jjsim .sprite-portrait {
+  height: 19px;
+  width: 18px;
+  background-position: 0 -96px;
+}
+
+.jjsim .sprite-dialog {
+  height: 17px;
+  width: 18px;
+  background-position: 0 -115px;
+}
+
+.jjsim .sprite-default {
+  height: 32px;
+  width: 32px;
+  background-position: 0 -132px;
+}
+
+.jjsim .sprite-person {
+  height: 58px;
+  width: 55px;
+  background-position: 0 -164px;
+}
+
+.jjsim .sprite-chart {
+  height: 74px;
+  width: 80px;
+  background-position: 0 -222px;
+}
+
+/* jjsim */
+.jjsim {
+  position: fixed;
+  height: 440px;
+  right: 40px;
+  bottom: 0;
+  font-family: "Microsoft YaHei", "Hiragino Sans GB", "STHeiti", "SimSun", "Arial";
+  font-size: 12px;
+  z-index: 99999;
+  transition: bottom .2s;
+  color: #303030;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  background: #fff;
+}
+
+.jjsim-shandow {
+  display: inline-block;
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* 收起内容 */
+.jjsim.im-fold {
+  bottom: -400px;
+  transition: bottom .2s
+}
+
+.jjsim-wrap {
+  position: relative;
+  float: right;
+  width: 240px;
+  height: 440px;
+  z-index: 2
+}
+
+.jjsim-hd {
+  position: relative;
+  width: 240px;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #EEEEEE;
+  cursor: pointer;
+}
+
+.jjsim-hd .sprite-dialog {
+  float: left;
+  margin-left: 12px;
+  margin-top: 12px;
+  position: relative;
+}
+
+.jjsim-hd-num {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  height: 12px;
+  line-height: 12px;
+  padding: 0 3px;
+  border-radius: 7px;
+  color: #fff;
+  font-size: 11px;
+  background: #f00;
+  word-break: normal;
+}
+
+.jjsim-hd .im-title {
+  font-size: 14px;
+  color: #333;
+  margin-left: 10px;
+}
+
+.jjsim-hd-closebtn {
+  position: absolute;
+  display: inline-block;
+  right: 10px;
+  top: 13px;
+}
+
+.jjsim.im-fold .jjsim-hd-closebtn {
+  display: none;
+}
+
+/* 展开内容 */
+.jjsim-bd {
+  width: 100%;
+  height: 400px;
+  background: #fff;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.jjsim-bd .jjsim-service {
+  padding-left: 18px;
+}
+
+.jjsim-bd-item {
+  display: block;
+  position: relative;
+  height: 40px;
+  padding: 12px 12px 12px 64px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fff;
+}
+
+.jjsim-bd-item.current {
+  background: #F6F6F6;
+}
+
+.jjsim-bd-item:hover {
+  background: #F6F6F6;
+}
+
+.jjsim-bd-item .jjsim-item-img {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  left: 11px;
+  border-radius: 50%;
+}
+
+.jjsim-bd-item .jjsim-item-img img {
+  width: 100%;
+}
+
+.jjsim-bd-item em.num {
+  display: inline-block;
+  height: 12px;
+  line-height: 12px;
+  padding: 0 3px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 11px;
+  background: #f00;
+  position: absolute;
+  left: 40px;
+  top: 12px;
+}
+
+.jjsim-bd-item span {
+  display: block;
+  width: 166px;
+  line-height: 20px;
+  white-space: nowrap;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+.jjsim-bd-item .name {
+  color: #000;
+  font-size: 14px;
+  line-height: 16px;
+  margin-top: 2px;
+}
+
+.jjsim-bd-item .text {
+  color: #666;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 6px;
+}
+
+.jjsim-bd-item .time {
+  position: absolute;
+  right: 12px;
+  top: 16px;
+  text-align: right;
+  color: #999;
+  font-family: "Arial";
+  font-size: 11px;
+  line-height: 12px;
+}
+
+/* 暂无经纪人 */
+.jjsim-noagent {
+  margin-top: 46px;
+  text-align: center;
+  background: #fff;
+}
+
+.jjsim-noagent p {
+  margin-top: 14px;
+  color: #666;
+  line-height: 16px;
+  font-size: 14px;
+}
+
+.jjsim-noagent .loginbtn {
+  display: inline-block;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 18px;
+  margin-top: 14px;
+  background: #E03236;
+  color: #fff;
+}
+
+.jjsim-noagent .loginbtn:hover {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+  color: #fff;
+}
+
+/* 聊天面板 */
+/* 头部 */
+.jjsim-window {
+  position: relative;
+  float: right;
+  width: 404px;
+  height: 440px;
+  border-right: 1px solid #EEEEEE;
+  background: #fff;
+  z-index: 1
+}
+
+.jjsim-window .jjsim-wintitle {
+  height: 40px;
+  line-height: 40px;
+}
+
+.jjsim-wintitle .im-wt-name {
+  font-size: 14px;
+  color: #000;
+  margin-left: 15px;
+}
+
+.jjsim-wintitle .im-wt-time {
+  color: #9B9B9B;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.jjsim-wintitle .im-wt-portrait {
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  padding-top: 10px;
+}
+
+.jjsim-wintitle .im-wt-loading {
+  width: 56px;
+  height: 16px;
+  margin-left: 10px;
+  padding-top: 12px;
+}
+
+.jjsim-wintitle .im-wt-loading img {
+  width: 100%;
+}
+
+.jjsim-wintitle .im-wt-closebtn {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  overflow: hidden;
+  cursor: pointer
+}
+
+/* 窗口内容 */
+.jjsim-wincont {
+  position: relative;
+}
+
+.jjsim-wincont .chat-tophint {
+  padding-top: 5px;
+  width: 100%;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  z-index: 99;
+}
+
+.jjsim-wincont .chat-tophint .txt {
+  display: inline-block;
+  padding: 0 15px;
+  background: #F3F3F3;
+  border-radius: 2px;
+  color: #9B9B9B;
+  font-size: 12px;
+}
+
+.im-wc-chat {
+  position: relative;
+  height: 267px;
+  background: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.im-msg-item {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 8px 7px 8px;
+  float: left;
+}
+
+.im-msg-item .im-emoji {
+  width: 25px;
+  height: 25px;
+}
+
+.im-msg-time {
+  padding: 5px;
+  clear: both;
+}
+
+.chat-time {
+  text-align: center;
+  font-size: 12px;
+  color: #BBB;
+}
+
+.im-msg-more {
+  padding: 10px 5px 5px;
+  clear: both;
+  text-align: center;
+  font-size: 12px;
+}
+
+.im-msg-more a,
+.im-msg-more a:hover {
+  color: #4a90e2;
+}
+
+.im-msg-more .no-more {
+  color: #999;
+}
+
+.im-msg-item .msg-img {
+  width: 32px;
+  height: 32px;
+  margin: 0 7px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.im-msg-item .msg-img img {
+  width: 100%;
+}
+
+.im-msg-item .msg-text {
+  position: relative;
+  word-break: break-all;
+  max-width: 280px;
+  font-size: 14px;
+}
+
+.im-msg-item .msg-text .text {
+  position: relative;
+  display: inline-block;
+  max-width: 260px;
+  padding: 8px 10px;
+  line-height: 20px;
+}
+
+.im-msg-item .msg-text .msg-warning {
+  position: absolute;
+  bottom: 10px;
+}
+
+/* 对话框 */
+.im-msg-left, .im-msg-left > div {
+  float: left;
+}
+
+.im-msg-left .msg-text {
+  padding-left: 5px;
+  color: #333;
+}
+
+.im-msg-left .msg-text:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.im-msg-left .msg-text .text {
+  border-radius: 0 6px 6px 6px;
+  background: #F6F6F6;
+}
+
+.im-msg-left .msg-text .msg-warning {
+  right: -20px;
+}
+
+.im-msg-right, .im-msg-right > div {
+  float: right;
+}
+
+.im-msg-right .msg-text {
+  padding-right: 5px;
+  color: #000;
+}
+
+.im-msg-right .msg-text:after {
+  content: '';
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.im-msg-right .msg-text .text {
+  border-radius: 6px 0 6px 6px;
+  background: #DBF3FE;
+}
+
+.im-msg-right .msg-text .msg-warning {
+  left: -20px;
+}
+
+.im-msg-more {
+  text-align: center;
+}
+
+.im-msg-more .imchat-more-btn {
+  color: #4285f4;
+}
+
+.im-msg-more .imchat-loading {
+  display: none;
+}
+
+/* 房源链接样式 */
+.im-msg-link .msg-text .text {
+  padding: 5px;
+}
+
+.im-msg-link .msg-text .msg-link {
+  display: block;
+  width: 190px;
+  padding: 5px 10px 5px 5px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.im-msg-link .msg-text .link-item-img {
+  float: left;
+  width: 80px;
+  height: 60px;
+  overflow: hidden;
+}
+
+.im-msg-link .msg-text .link-item-img img {
+  width: 100%;
+}
+
+.im-msg-link .msg-text .link-span {
+  display: block;
+  width: 102px;
+  margin-left: 88px;
+  white-space: nowrap;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.im-msg-link .msg-text .link-title {
+  font-size: 14px;
+  line-height: 14px;
+  color: #000;
+}
+
+.im-msg-link .msg-text .link-attr {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 12px;
+  color: #999;
+}
+
+.im-msg-link .msg-text .link-price {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #E03236;
+}
+
+/* 提示信息 */
+.im-msg-tip {
+  text-align: center;
+}
+
+.im-msg-tip .msg-tip {
+  display: inline-block;
+  line-height: 17px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: #999999;
+}
+
+.im-msg-tip .msg-tip em {
+  color: #151515;
+  padding: 0 2px;
+}
+
+/* 新消息提示 */
+.im-msg-new {
+  position: absolute;
+  top: 242px;
+  width: 100%;
+  line-height: 25px;
+  background: #e2e2f5;
+  white-space: nowrap;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.im-input-content-null-tip {
+  position: absolute;
+  top: 332px;
+  right: 10px;
+  line-height: 25px;
+  border: solid 1px;
+}
+
+/* 发消息控制面板 */
+.im-wc-input {
+  border-top: 1px solid #eeeeee;
+}
+
+.im-wc-input.disabled {
+  opacity: 0.8;
+  filter: alpha(opacity=60);
+}
+
+.im-wc-input .im-tool {
+  height: 32px;
+}
+
+.im-wc-input .im-tool a {
+  float: left;
+  width: 16px;
+  height: 16px;
+  padding: 8px 0;
+  margin-left: 15px;
+}
+
+.im-wc-input .im-tool .sprite-pic {
+  margin-top: 1px;
+}
+
+.im-input-container {
+  position: relative;
+  width: 350px;
+  height: 64px;
+}
+
+.im-input-container textarea {
+  width: 374px;
+  height: 58px;
+  padding: 0 15px 6px;
+  line-height: 20px;
+  border: none;
+  outline: none;
+  color: #000;
+  font-size: 13px;
+  background: #fff;
+  overflow-y: auto;
+  resize: none;
+}
+
+.im-input-container textarea::-webkit-input-placeholder {
+  color: #999;
+}
+
+.im-btn-container {
+  height: 40px;
+}
+
+.im-btn-container .applink {
+  float: left;
+  margin-left: 15px;
+  margin-top: 10px;
+  color: #E03236;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.im-btn-container .btn {
+  float: right;
+  display: block;
+  width: 64px;
+  height: 28px;
+  margin: 2px 10px 0 0;
+  line-height: 28px;
+  color: #fff;
+  text-align: center;
+  background: #E03236;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.im-btn-container .btn:hover {
+  opacity: 0.8;
+  color: #fff;
+}
+
+.disabled .im-btn-container .btn {
+  background: #BBBBBB;
+}
+
+/* 下线提示 */
+.im-promp {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
+.prompwrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 180px;
+  height: 104px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+  background: #FFFFFF;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.20);
+}
+
+.promp-title {
+  font-size: 14px;
+  color: #333333;
+  line-height: 16px;
+  font-weight: bold;
+}
+
+.promp-content {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #333;
+}
+
+.promp-btn {
+  margin-top: 15px;
+}
+
+.promp-btn a {
+  display: inline-block;
+  width: 62px;
+  height: 22px;
+  margin: 0 2px;
+  line-height: 22px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 1px;
+}
+
+.promp-btn a:hover {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+
+.promp-btn .btn-confirm, .promp-btn .btn-confirm:hover {
+  background: #E03236;
+  border-color: #E03236;
+  color: #fff;
+}
+
+.promp-btn .btn-cancel, .promp-btn .btn-cancel:hover {
+  background: #fff;
+  border-color: #DDDDDD;
+  color: #4A4A4A;
+}
+
+.jjsim .backgroup-gray {
+  background: #BBBBBB !important;
+}
+
+.jjsim .im-imput-num {
+  position: absolute;
+  bottom: -26px;
+  right: 30px;
+  color: #999;
+}

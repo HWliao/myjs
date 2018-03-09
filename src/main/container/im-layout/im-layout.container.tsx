@@ -1,29 +1,38 @@
 import * as React from 'react';
 import { createSelector } from 'reselect';
-import { selectTest } from '../../store/selectores';
 import { Dispatch } from 'redux';
 import { BaseState } from '../../store/reducers';
 import { connect } from 'react-redux';
+import { makeSelectLayoutShow, makeSelectLayoutUp } from './selectors';
 
 type ImLayoutProps = {};
-type StateProps = {};
+type StateProps = {
+  show: boolean;
+  up: boolean;
+};
 type DispatchProps = {};
 
 type Props = ImLayoutProps & StateProps & DispatchProps;
 
-function combiner(): StateProps {
-  return {};
+function combiner(show: boolean, up: boolean): StateProps {
+  return {show, up};
 }
 
-const mapStateToProps = createSelector(selectTest, combiner);
+const mapStateToProps = createSelector(makeSelectLayoutShow, makeSelectLayoutUp, combiner);
 const mapDispatchToProps = function (dispatch: Dispatch<BaseState>): DispatchProps {
   return {};
 };
 
 class ImLayoutContainer extends React.PureComponent<Props> {
   render() {
+    const {show, up} = this.props;
+    const className = `jjsim ${up ? '' : 'im-fold'} ${show ? '' : 'hide'}`;
     return (
-      <div>im layout</div>
+      <div className={className}>
+        <div className="jjsim-shandow clearfix">
+          im layout
+        </div>
+      </div>
     );
   }
 }

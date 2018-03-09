@@ -25,5 +25,4 @@ export function imLayoutReducer(state: ImLayoutState = initState, action: BaseAc
     default:
       return state;
   }
-
 }
