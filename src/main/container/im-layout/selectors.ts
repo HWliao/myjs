@@ -4,12 +4,12 @@ import { RootState, RootStateKeys } from '../../store/reducers';
 
 export const selectLayout = (state: RootState) => state.get(RootStateKeys.layout);
 
-export const makeSelectLayoutShow = createSelector(
+export const selectLayoutShow = createSelector(
   selectLayout,
   (state: ImLayoutState) => state.get(ImLayoutStateKeys.show)
 );
 
-export const makeSelectLayoutUp = createSelector(
+export const selectLayoutUp = createSelector(
   selectLayout,
   (state: ImLayoutState) => state.get(ImLayoutStateKeys.up)
 );

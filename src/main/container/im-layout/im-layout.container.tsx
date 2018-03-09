@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { Dispatch } from 'redux';
 import { BaseState } from '../../store/reducers';
 import { connect } from 'react-redux';
-import { makeSelectLayoutShow, makeSelectLayoutUp } from './selectors';
+import { selectLayoutShow, selectLayoutUp } from './selectors';
 
 type ImLayoutProps = {};
 type StateProps = {
@@ -18,7 +18,7 @@ function combiner(show: boolean, up: boolean): StateProps {
   return {show, up};
 }
 
-const mapStateToProps = createSelector(makeSelectLayoutShow, makeSelectLayoutUp, combiner);
+const mapStateToProps = createSelector(selectLayoutShow, selectLayoutUp, combiner);
 const mapDispatchToProps = function (dispatch: Dispatch<BaseState>): DispatchProps {
   return {};
 };
