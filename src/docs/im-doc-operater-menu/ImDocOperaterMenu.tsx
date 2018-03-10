@@ -97,6 +97,8 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
           <MenuItem onClick={this.createIm}>createIm</MenuItem>
           <MenuItem onClick={this.init}>init</MenuItem>
           <MenuItem onClick={this.destroy}>destroy</MenuItem>
+          <MenuItem onClick={this.toggleShow}>toggleShow</MenuItem>
+          <MenuItem onClick={this.toggleUp}>toggleUp</MenuItem>
         </Menu>
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
@@ -120,20 +122,28 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
   };
 
   init = () => {
-    try {
-      this.im.init();
-    } catch (e) {
-      this.tip(e);
-    }
+    this.im.init().catch(this.tip);
   };
 
   destroy = () => {
+    this.im.destroy().catch(this.tip);
+  };
+
+  toggleShow = () => {
+    this.wrapExc(() => this.im.toggleShow());
+  };
+
+  toggleUp = () => {
+    this.wrapExc(() => this.im.toggleUp());
+  };
+
+  wrapExc(cb: Function) {
     try {
-      this.im.destroy();
+      return cb();
     } catch (e) {
       this.tip(e);
     }
-  };
+  }
 }
 
 export default withStyles(styles)<{}>(ImDocOperaterMenu);
