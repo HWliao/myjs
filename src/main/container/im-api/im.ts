@@ -4,6 +4,8 @@ import { ConfigModel } from './model/config.model';
 import { selectLayoutShow, selectLayoutUp } from '../im-layout/selectors';
 import { dispatch, getState } from '../../store/stroe';
 import { imLayoutDownAction, imLayoutHideAction, imLayoutShowAction, imLayoutUpAction } from '../im-layout/actions';
+import { imApiDestroyAction, imApiInitAction } from './actions';
+import { selectImApiInited } from './selectors';
 
 class Im implements ImModel {
 
@@ -19,11 +21,17 @@ class Im implements ImModel {
   }
 
   init = () => {
-    return mount(this.$root).then(() => this);
+    return mount(this.$root).then(() => {
+      dispatch(imApiInitAction());
+      return this;
+    });
   };
 
   destroy = () => {
-    return Promise.resolve(unmount(this.$root));
+    return Promise.resolve(unmount(this.$root)).then((r) => {
+      dispatch(imApiDestroyAction());
+      return r;
+    });
   };
 
   toggleShow = (show?: boolean) => {
@@ -36,6 +44,18 @@ class Im implements ImModel {
     const currUp = selectLayoutUp(getState());
     up = up === undefined ? !currUp : up;
     up ? dispatch(imLayoutUpAction()) : dispatch(imLayoutDownAction());
+  };
+
+  isInited = () => {
+    return selectImApiInited(getState());
+  };
+
+  isShow = () => {
+    return selectLayoutShow(getState());
+  };
+
+  isUp = () => {
+    return selectLayoutUp(getState());
   };
 }
 
