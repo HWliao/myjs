@@ -1,8 +1,8 @@
 import { ReducersMapObject } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import { Map } from 'immutable';
-import { imLayoutReducer, ImLayoutState } from '../container/im-layout/reducers';
-import { imApiReducer, ImApiState } from '../container/im-api/reducers';
+import { imLayoutReducer } from '../container/im-layout/reducers';
+import { imApiReducer } from '../container/im-api/reducers';
 
 export interface BaseState<K = any, V = any> extends Map<K, V> {
 
@@ -13,8 +13,7 @@ export enum RootStateKeys {
   api = 'api'
 }
 
-type SubState = ImLayoutState | ImApiState;
-export type RootState = BaseState<RootStateKeys, SubState>;
+export type RootState = BaseState<RootStateKeys, any>;
 
 export const reducers: ReducersMapObject = {
   layout: imLayoutReducer,
