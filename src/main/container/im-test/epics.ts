@@ -1,3 +1,8 @@
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/scan';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/switchMap';
 import { testAction, TestAction, TestActionType } from './actions';
 import { Observable } from 'rxjs/Observable';
 import { BaseEpic } from '../../store/epics';

@@ -18,5 +18,5 @@ export const reducers: ReducersMapObject = {
 };
 
 export function createRootReducer() {
-  return combineReducers(reducers);
+  return combineReducers<RootState>(reducers);
 }

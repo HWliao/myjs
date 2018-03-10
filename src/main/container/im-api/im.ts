@@ -22,6 +22,16 @@ class Im implements ImModel {
   destroy = () => {
     return Promise.resolve(unmount(this.$root));
   };
+
+  toggleShow = (show?: boolean) => {
+    if (show === undefined) {
+
+    }
+  };
+
+  toggleUp = (up: boolean = true) => {
+
+  };
 }
 
 let _im: ImModel;
