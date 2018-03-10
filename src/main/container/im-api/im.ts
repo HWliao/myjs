@@ -1,6 +1,9 @@
 import { ImModel } from './model/im.model';
 import { mount, unmount } from '../im-root';
 import { ConfigModel } from './model/config.model';
+import { selectLayoutShow, selectLayoutUp } from '../im-layout/selectors';
+import { dispatch, getState } from '../../store/stroe';
+import { imLayoutDownAction, imLayoutHideAction, imLayoutShowAction, imLayoutUpAction } from '../im-layout/actions';
 
 class Im implements ImModel {
 
@@ -24,13 +27,15 @@ class Im implements ImModel {
   };
 
   toggleShow = (show?: boolean) => {
-    if (show === undefined) {
-
-    }
+    const currShow = selectLayoutShow(getState());
+    show = show === undefined ? !currShow : show;
+    show ? dispatch(imLayoutShowAction()) : dispatch(imLayoutHideAction());
   };
 
-  toggleUp = (up: boolean = true) => {
-
+  toggleUp = (up?: boolean) => {
+    const currUp = selectLayoutUp(getState());
+    up = up === undefined ? !currUp : up;
+    up ? dispatch(imLayoutUpAction()) : dispatch(imLayoutDownAction());
   };
 }
 
