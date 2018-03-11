@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { RootState, RootStateKeys } from '../../store/reducers';
+import { RootState, RootStateKeys } from '../store/reducers';
 import { ImApiState, ImApiStateKeys } from './reducers';
 
 export const selectImApiState = (state: RootState) => state.get(RootStateKeys.api);

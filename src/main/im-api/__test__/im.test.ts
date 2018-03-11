@@ -1,7 +1,12 @@
-import * as store from '../../../store/stroe';
+import * as store from '../../store/stroe';
 import { ImModel } from '../model/im.model';
 import { getImInstance } from '../im';
-import { imLayoutDownAction, imLayoutHideAction, imLayoutShowAction, imLayoutUpAction } from '../../im-layout/actions';
+import {
+  imLayoutDownAction,
+  imLayoutHideAction,
+  imLayoutShowAction,
+  imLayoutUpAction
+} from '../../container/im-layout/actions';
 import Spy = jasmine.Spy;
 
 describe('im', () => {

@@ -1,4 +1,4 @@
-import { BaseAction } from '../../store/actions';
+import { BaseAction } from '../store/actions';
 import { createAction } from 'typesafe-actions';
 
 export enum ImApiActionType {

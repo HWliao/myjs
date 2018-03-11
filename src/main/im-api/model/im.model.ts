@@ -1,3 +1,5 @@
+import { ConfigModel } from './config.model';
+
 export interface ImModel {
   /**
    * 初始化
@@ -40,4 +42,16 @@ export interface ImModel {
    * @returns {boolean}
    */
   isUp: () => boolean;
+
+  /**
+   * 设置配置对象
+   * @param {ConfigModel} config
+   */
+  setConfig: (config: ConfigModel) => void;
+
+  /**
+   * 获取配置对象
+   * @returns {ConfigModel}
+   */
+  getConfig: () => ConfigModel;
 }

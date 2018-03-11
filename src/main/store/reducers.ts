@@ -2,7 +2,7 @@ import { ReducersMapObject } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import { Map } from 'immutable';
 import { imLayoutReducer } from '../container/im-layout/reducers';
-import { imApiReducer } from '../container/im-api/reducers';
+import { imApiReducer } from '../im-api/reducers';
 
 export interface BaseState<K = any, V = any> extends Map<K, V> {
 

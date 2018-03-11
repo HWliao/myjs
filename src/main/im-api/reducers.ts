@@ -1,6 +1,6 @@
-import { BaseState } from '../../store/reducers';
+import { BaseState } from '../store/reducers';
 import { Map } from 'immutable';
-import { BaseAction } from '../../store/actions';
+import { BaseAction } from '../store/actions';
 import { ImApiActionType } from './actions';
 
 export enum ImApiStateKeys {
