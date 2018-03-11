@@ -99,6 +99,9 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
           <MenuItem onClick={this.destroy}>destroy</MenuItem>
           <MenuItem onClick={this.toggleShow}>toggleShow</MenuItem>
           <MenuItem onClick={this.toggleUp}>toggleUp</MenuItem>
+          <MenuItem onClick={this.isInited}>isInited</MenuItem>
+          <MenuItem onClick={this.isShow}>isShow</MenuItem>
+          <MenuItem onClick={this.isUp}>isUp</MenuItem>
         </Menu>
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
@@ -135,6 +138,18 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
 
   toggleUp = () => {
     this.wrapExc(() => this.im.toggleUp());
+  };
+
+  isInited = () => {
+    this.tip(this.im.isInited());
+  };
+
+  isShow = () => {
+    this.tip(this.im.isShow());
+  };
+
+  isUp = () => {
+    this.tip(this.im.isUp());
   };
 
   wrapExc(cb: Function) {
