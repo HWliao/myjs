@@ -9,7 +9,6 @@ import {
   imLayoutShowAction,
   imLayoutUpAction
 } from '../container/im-layout/actions';
-import { imApiDestroyAction } from './actions';
 import { selectImApiInited } from './selectors';
 
 class Im implements ImModel {
@@ -34,14 +33,11 @@ class Im implements ImModel {
   }
 
   init = () => {
-    return mount(this.$root);
+    return mount(this.$root, this.imStore.store);
   };
 
   destroy = () => {
-    return Promise.resolve(unmount(this.$root)).then((r) => {
-      dispatch(imApiDestroyAction());
-      return r;
-    });
+    return Promise.resolve(unmount(this.$root));
   };
 
   toggleShow = (show?: boolean) => {

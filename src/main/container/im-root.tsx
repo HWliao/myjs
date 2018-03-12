@@ -4,29 +4,22 @@ import { PureComponent } from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Store } from 'redux';
-import { storeConfigure } from '../store/stroe';
 import ImLayout from './im-layout/im-layout.container';
+import { BaseState } from '../store/reducers';
 
-export default class ImRoot extends PureComponent<{}, {}> {
-  private store: Store<any>;
-
-  constructor(props: {}) {
-    super(props);
-    this.store = storeConfigure();
-  }
-
+export default class ImRoot extends PureComponent<{ store: Store<BaseState> }, {}> {
   render() {
     return (
-      <Provider store={this.store}>
+      <Provider store={this.props.store}>
         <ImLayout/>
       </Provider>
     );
   }
 }
 
-export function mount(el: HTMLElement): Promise<any> {
+export function mount(el: HTMLElement, store: Store<BaseState>): Promise<any> {
   return new Promise(resolve => {
-    ReactDOM.render(<ImRoot/>, el, () => resolve());
+    ReactDOM.render(<ImRoot store={store}/>, el, () => resolve());
   });
 }
 
