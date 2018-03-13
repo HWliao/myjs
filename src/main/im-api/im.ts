@@ -1,75 +1,102 @@
 import { ImModel } from './model/im.model';
 import { mount, unmount } from '../container/im-root';
-import { ConfigModel, defaultConfig } from './model/config.model';
+import { ConfigModel } from './model/config.model';
 import { selectLayoutShow, selectLayoutUp } from '../container/im-layout/selectors';
-import { dispatch, getState, ImStore, storeConfigure } from '../store/stroe';
+import { ImStore, storeConfigure } from '../store/stroe';
 import {
   imLayoutDownAction,
   imLayoutHideAction,
   imLayoutShowAction,
   imLayoutUpAction
 } from '../container/im-layout/actions';
-import { selectImApiInited } from './selectors';
+import { selectImApiConfig, selectImApiInited } from './selectors';
+import { Store } from 'redux';
+import { BaseState } from '../store/reducers';
+import { logger } from '../utils/logger';
+import { imApiSetConfigAction } from './actions';
 
+/**
+ * Im 实现类
+ */
 class Im implements ImModel {
+  /**
+   * 根元素
+   */
+  private _$root: HTMLElement;
 
-  private $root: HTMLElement;
+  /**
+   * 对于redux store基本封装
+   * 提供一个可以监听state变化的Subject
+   */
+  private _imStore: ImStore;
+  /**
+   * redux store
+   */
+  private _store: Store<BaseState>;
 
-  private imStore: ImStore;
-
+  /**
+   * 仅仅对store和挂载点进行初始化
+   * 为根组件初始化做准备
+   */
   constructor(el?: HTMLElement) {
     if (el) {
-      this.$root = el;
+      this._$root = el;
     } else {
-      this.$root = document.createElement('div');
-      this.$root.style.position = 'absolute';
-      this.$root.style.left = '-1px';
-      this.$root.style.width = '0px';
-      this.$root.style.height = '0px';
-      document.body.appendChild(this.$root);
+      this._$root = document.createElement('div');
+      this._$root.style.position = 'absolute';
+      this._$root.style.left = '-1px';
+      this._$root.style.width = '0px';
+      this._$root.style.height = '0px';
+      document.body.appendChild(this._$root);
     }
 
-    this.imStore = storeConfigure();
+    this._imStore = storeConfigure();
+    this._store = this._imStore.store;
   }
 
   init = () => {
-    return mount(this.$root, this.imStore.store);
+    return mount(this._$root, this._imStore.store);
   };
 
   destroy = () => {
-    return Promise.resolve(unmount(this.$root));
+    return Promise.resolve(unmount(this._$root));
   };
 
   toggleShow = (show?: boolean) => {
-    const currShow = selectLayoutShow(getState());
+    const currShow = selectLayoutShow(this._store.getState());
     show = show === undefined ? !currShow : show;
-    show ? dispatch(imLayoutShowAction()) : dispatch(imLayoutHideAction());
+    this._store.dispatch(show ? imLayoutShowAction() : imLayoutHideAction());
   };
 
   toggleUp = (up?: boolean) => {
-    const currUp = selectLayoutUp(getState());
+    const currUp = selectLayoutUp(this._store.getState());
     up = up === undefined ? !currUp : up;
-    up ? dispatch(imLayoutUpAction()) : dispatch(imLayoutDownAction());
+    this._store.dispatch(up ? imLayoutUpAction() : imLayoutDownAction());
   };
 
   isInited = () => {
-    return selectImApiInited(getState());
+    return selectImApiInited(this._store.getState());
   };
 
   isShow = () => {
-    return selectLayoutShow(getState());
+    return selectLayoutShow(this._store.getState());
   };
 
   isUp = () => {
-    return selectLayoutUp(getState());
+    return selectLayoutUp(this._store.getState());
   };
 
   setConfig = (config: ConfigModel) => {
-    // TODO
+    const isInited = selectImApiInited(this._store.getState());
+    if (isInited) {
+      logger.warn('根组件初始化后再次进行配置将无效');
+      return;
+    }
+    this._store.dispatch(imApiSetConfigAction(config));
   };
 
   getConfig = () => {
-    return defaultConfig;
+    return selectImApiConfig(this._store.getState()).toJS();
   };
 }
 

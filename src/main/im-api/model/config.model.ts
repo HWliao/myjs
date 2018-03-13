@@ -1,6 +1,8 @@
 /**
  * 配置接口
  */
+import { Map } from 'immutable';
+
 export interface ConfigModel {
   /**
    * 自定义,加在最外层div上的class
@@ -127,6 +129,7 @@ export interface ConfigModel {
   sessionFilter?(scene: string, to: string): boolean;
 }
 
+export type ConfigModelMap = Map<keyof ConfigModel, any>;
 /**
  * 默认配置
  * @type {ConfigModel}

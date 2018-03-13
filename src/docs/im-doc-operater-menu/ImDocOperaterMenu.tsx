@@ -94,7 +94,7 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
           onClose={this.closeMenu}
           className={this.props.classes.menu}
         >
-          <MenuItem onClick={this.createIm}>createIm</MenuItem>
+          <MenuItem onClick={this.createIm}>createImAndInit</MenuItem>
           <MenuItem onClick={this.init}>init</MenuItem>
           <MenuItem onClick={this.destroy}>destroy</MenuItem>
           <MenuItem onClick={this.toggleShow}>toggleShow</MenuItem>
@@ -119,7 +119,7 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
   }
 
   createIm = () => {
-    JJSIM.createIm()
+    JJSIM.createImAndInit({})
       .then((im: ImModel) => this.im = im)
       .catch((err: any) => this.tip(err));
   };
