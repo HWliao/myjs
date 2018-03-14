@@ -9,11 +9,12 @@ import {
   imLayoutShowAction,
   imLayoutUpAction
 } from '../container/im-layout/actions';
-import { selectImApiConfig, selectImApiInited } from './selectors';
+import { selectImApiConfig } from './selectors';
 import { Store } from 'redux';
 import { BaseState } from '../store/reducers';
 import { logger } from '../utils/logger';
 import { imApiSetConfigAction } from './actions';
+import { selectImRootInited } from '../container/selectors';
 
 /**
  * Im 实现类
@@ -75,7 +76,7 @@ class Im implements ImModel {
   };
 
   isInited = () => {
-    return selectImApiInited(this._store.getState());
+    return selectImRootInited(this._store.getState());
   };
 
   isShow = () => {
@@ -87,7 +88,7 @@ class Im implements ImModel {
   };
 
   setConfig = (config: ConfigModel) => {
-    const isInited = selectImApiInited(this._store.getState());
+    const isInited = selectImRootInited(this._store.getState());
     if (isInited) {
       logger.warn('根组件初始化后再次进行配置将无效');
       return;

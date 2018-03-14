@@ -4,26 +4,8 @@ import { ConfigModel, ConfigModelMap } from './model/config.model';
 import { Map } from 'immutable';
 
 export enum ImApiActionType {
-  init = '[im-api] init',
-  destroy = '[im-api] destroy',
-  setConfig = '[im-api] set config'
+  setConfig = '[im] set config'
 }
-
-export type ImApiInitAction = BaseAction<ImApiActionType.init>;
-
-function imApiInitActionCF(): ImApiInitAction {
-  return {type: ImApiActionType.init};
-}
-
-export const imApiInitAction = createAction(ImApiActionType.init, imApiInitActionCF);
-
-export type ImApiDestroyAction = BaseAction<ImApiActionType.destroy>;
-
-function imApiDestroyActionCF(): ImApiDestroyAction {
-  return {type: ImApiActionType.destroy};
-}
-
-export const imApiDestroyAction = createAction(ImApiActionType.destroy, imApiDestroyActionCF);
 
 export type ImApiSetConfigAction = BaseAction<ImApiActionType.setConfig, ConfigModelMap>;
 
@@ -35,5 +17,3 @@ function imApiSetConfigActionCF(config: ConfigModel): ImApiSetConfigAction {
 }
 
 export const imApiSetConfigAction = createAction(ImApiActionType.setConfig, imApiSetConfigActionCF);
-
-export type ImApiActions = ImApiInitAction | ImApiDestroyAction | ImApiSetConfigAction;

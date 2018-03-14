@@ -1,15 +1,13 @@
 import { createSelector } from 'reselect';
 import { ImLayoutState, ImLayoutStateKeys } from './reducers';
-import { RootState, RootStateKeys } from '../../store/reducers';
-
-export const selectLayout = (state: RootState) => state.get(RootStateKeys.layout);
+import { selectImLayoutState } from '../selectors';
 
 export const selectLayoutShow = createSelector(
-  selectLayout,
-  (state: ImLayoutState) => state.get(ImLayoutStateKeys.show)
+  selectImLayoutState,
+  (state: ImLayoutState) => <boolean> state.get(ImLayoutStateKeys.show)
 );
 
 export const selectLayoutUp = createSelector(
-  selectLayout,
-  (state: ImLayoutState) => state.get(ImLayoutStateKeys.up)
+  selectImLayoutState,
+  (state: ImLayoutState) => <boolean> state.get(ImLayoutStateKeys.up)
 );

@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { Store } from 'redux';
 import ImLayout from './im-layout/im-layout.container';
 import { BaseState } from '../store/reducers';
+import { imRootInitAction, imRootDestroyAction } from './actions';
 
 export default class ImRoot extends PureComponent<{ store: Store<BaseState> }, {}> {
   render() {
@@ -14,6 +15,14 @@ export default class ImRoot extends PureComponent<{ store: Store<BaseState> }, {
         <ImLayout/>
       </Provider>
     );
+  }
+
+  componentDidMount() {
+    this.props.store.dispatch(imRootInitAction());
+  }
+
+  componentWillUnmount() {
+    this.props.store.dispatch(imRootDestroyAction());
   }
 }
 

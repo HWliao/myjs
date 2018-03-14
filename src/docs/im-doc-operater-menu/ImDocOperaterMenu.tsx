@@ -59,13 +59,17 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
     this.setState((prev) => Object.assign({}, prev, {message: false}));
   };
 
-  tip = (err: any) => {
+  error = (err: any) => {
     console.error(err);
     if (typeof err === 'string') {
-      this.setState((prev) => Object.assign({}, prev, {message: err}));
+      this.tip(err);
     } else {
-      this.setState((prev) => Object.assign({}, prev, {message: '出错了'}));
+      this.tip('出错了');
     }
+  };
+
+  tip = (message: string) => {
+    this.setState((prev) => Object.assign({}, prev, {message}));
   };
 
   render() {
@@ -141,15 +145,15 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
   };
 
   isInited = () => {
-    this.tip(this.im.isInited());
+    this.tip(String(this.im.isInited()));
   };
 
   isShow = () => {
-    this.tip(this.im.isShow());
+    this.tip(String(this.im.isShow()));
   };
 
   isUp = () => {
-    this.tip(this.im.isUp());
+    this.tip(String(this.im.isUp()));
   };
 
   wrapExc(cb: Function) {

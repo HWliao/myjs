@@ -1,20 +1,20 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { applyMiddleware, compose, createStore, Middleware, Store } from 'redux';
-import { BaseState, createRootReducer, RootStateKeys } from './reducers';
-import { Map } from 'immutable';
+import { BaseState, createRootReducer, RootState } from './reducers';
 import { createEpicMiddleware } from 'redux-observable';
 import { createRootEpic } from './epics';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { fromJS } from 'immutable';
 
 /**
  * 配置一个store
  * @returns {ImStore}
  */
 export function storeConfigure(): ImStore {
-  // 生成初始值
-  const initState = Map<RootStateKeys, any>({});
+  // 创建一个初始化值
+  const initState = fromJS({});
   // 创建一个根reducer
   const rootReducer = createRootReducer();
   // 创一个epic中间件
@@ -33,7 +33,7 @@ export function storeConfigure(): ImStore {
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
 
   // 创建一个用于监听state变化的多播
-  const store$ = new BehaviorSubject<BaseState>(rootReducer(initState, {type: '@@store$_init'}));
+  const store$ = new BehaviorSubject<RootState>(rootReducer(initState, {type: '@@store$_init'}));
   // 创建一个新的store
   const store = createStore(rootReducer, initState, composeEnhancers(...enhancers));
   // 监听store变化

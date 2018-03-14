@@ -1,6 +1,6 @@
 import { RootState } from '../../../store/reducers';
 import { fromJS } from 'immutable';
-import { selectLayout, selectLayoutShow, selectLayoutUp } from '../selectors';
+import { selectLayoutShow, selectLayoutUp } from '../selectors';
 
 describe('im layout selector', () => {
 
@@ -14,11 +14,6 @@ describe('im layout selector', () => {
 
   beforeEach(() => {
     rootState = fromJS(mockState);
-  });
-
-  it('the selectLayout should return layout state', () => {
-    const theState = selectLayout(rootState).toJS();
-    expect(theState).toEqual(mockState.layout);
   });
 
   it('the selectLayoutShow should return layout state props show', () => {

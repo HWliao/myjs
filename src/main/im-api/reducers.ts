@@ -1,23 +1,22 @@
 import { BaseState } from '../store/reducers';
-import { Map } from 'immutable';
-import { ImApiActions, ImApiActionType } from './actions';
-import { ConfigModelMap } from './model/config.model';
+import { fromJS, Map } from 'immutable';
+import { ImApiActionType, ImApiSetConfigAction } from './actions';
+import { ConfigModelMap, defaultConfig } from './model/config.model';
 
 export enum ImApiStateKeys {
-  inited = 'inited',
   config = 'config'
 }
 
-export type ImApiState = BaseState<ImApiStateKeys, boolean | ConfigModelMap>;
+export type ImApiStateValues = ConfigModelMap;
 
-export const initState: ImApiState = Map<ImApiStateKeys, boolean>({inited: false});
+export type ImApiState = BaseState<ImApiStateKeys, ImApiStateValues>;
 
-export function imApiReducer(state: ImApiState = initState, action: ImApiActions): ImApiState {
+export const initState: ImApiState = Map<ImApiStateKeys, ImApiStateValues>({
+  [ImApiStateKeys.config]: fromJS(defaultConfig)
+});
+
+export function imApiReducer(state: ImApiState = initState, action: ImApiSetConfigAction): ImApiState {
   switch (action.type) {
-    case ImApiActionType.init:
-      return state.set(ImApiStateKeys.inited, true);
-    case ImApiActionType.destroy:
-      return state.set(ImApiStateKeys.inited, false);
     case ImApiActionType.setConfig:
       const config: ConfigModelMap = <ConfigModelMap> state.get(ImApiStateKeys.config);
       return state.set(ImApiStateKeys.config, config.merge(<ConfigModelMap> action.payload));

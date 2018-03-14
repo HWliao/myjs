@@ -8,9 +8,14 @@ export enum ImLayoutStateKeys {
   up = 'up'
 }
 
-export type ImLayoutState = BaseState<ImLayoutStateKeys, boolean>;
+export type ImLayoutStateValues = boolean;
 
-export const initState = Map<ImLayoutStateKeys, boolean>({show: false, up: false});
+export type ImLayoutState = BaseState<ImLayoutStateKeys, ImLayoutStateValues>;
+
+export const initState = Map<ImLayoutStateKeys, boolean>({
+  [ImLayoutStateKeys.show]: false,
+  [ImLayoutStateKeys.up]: false
+});
 
 export function imLayoutReducer(state: ImLayoutState = initState, action: BaseAction) {
   switch (action.type) {

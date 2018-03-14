@@ -1,25 +1,25 @@
 import { ReducersMapObject } from 'redux';
 import { combineReducers } from 'redux-immutable';
 import { Map } from 'immutable';
-import { imLayoutReducer } from '../container/im-layout/reducers';
-import { imApiReducer } from '../im-api/reducers';
+import { imApiReducer, ImApiState } from '../im-api/reducers';
+import { createImRootReducers, ImRootState } from '../container/reducers';
 
 export interface BaseState<K = any, V = any> extends Map<K, V> {
 
 }
 
 export enum RootStateKeys {
-  layout = 'layout',
-  api = 'api'
+  component = 'component',
+  main = 'main'
 }
 
-export type RootState = BaseState<RootStateKeys, any>;
+export type RootStateValues = ImRootState | ImApiState;
+
+export type RootState = BaseState<RootStateKeys, RootStateValues>;
 
 export const reducers: ReducersMapObject = {
-  layout: imLayoutReducer,
-  api: imApiReducer
+  [RootStateKeys.component]: createImRootReducers(),
+  [RootStateKeys.main]: imApiReducer
 };
 
-export function createRootReducer() {
-  return combineReducers<RootState>(reducers);
-}
+export const createRootReducer = () => combineReducers<RootState>(reducers);

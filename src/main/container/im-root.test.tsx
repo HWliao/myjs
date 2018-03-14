@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import ImRoot, { mount, unmount } from './im-root';
 import { storeConfigure } from '../store/stroe';
+import { imRootInitAction, imRootDestroyAction } from './actions';
 
 const store = storeConfigure();
 
@@ -22,8 +23,11 @@ describe('im root component', () => {
     });
 
     it('should not crash mount/unmount', () => {
+      const dispatchSpy = spyOn(store.store, 'dispatch');
       return mount(div, store.store).then(() => {
-        return unmount(div);
+        expect(dispatchSpy).lastCalledWith(imRootInitAction());
+        unmount(div);
+        expect(dispatchSpy).lastCalledWith(imRootDestroyAction());
       });
     });
   });
