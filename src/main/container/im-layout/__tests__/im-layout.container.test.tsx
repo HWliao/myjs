@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { ImLayoutContainer, mapDispatchToProps, mapStateToProps, Props } from '../im-layout.container';
 import { shallow, ShallowWrapper } from 'enzyme';
-import { BaseState, RootState } from '../../../store/reducers';
+import { BaseState, RootState, RootStateKeys } from '../../../store/reducers';
 import { fromJS } from 'immutable';
 import { Dispatch } from 'redux';
+import { ImRootStateKeys } from '../../reducers';
+import { ImLayoutStateKeys } from '../reducers';
 
 describe('im-layout container', () => {
 
@@ -34,15 +36,17 @@ describe('im-layout container', () => {
   describe('mapStateToProps', () => {
     it('should get the right props from state', () => {
       const state: RootState = fromJS({
-        layout: {
-          show: false,
-          up: false
+        [RootStateKeys.component]: {
+          [ImRootStateKeys.layout]: {
+            [ImLayoutStateKeys.show]: false,
+            [ImLayoutStateKeys.up]: false
+          }
         }
       });
 
       const targetProps: Props = {
-        show: false,
-        up: false
+        [ImLayoutStateKeys.show]: false,
+        [ImLayoutStateKeys.up]: false
       };
 
       const getProps = mapStateToProps(state);

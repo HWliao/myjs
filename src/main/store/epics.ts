@@ -8,6 +8,4 @@ export interface BaseEpic<O extends BaseAction = BaseAction> extends Epic<BaseAc
 
 const epics: BaseEpic[] = [];
 
-export function createRootEpic() {
-  return combineEpics<BaseEpic>(...epics);
-}
+export const createRootEpic = () => combineEpics<BaseEpic>(...epics);

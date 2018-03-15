@@ -1,13 +1,17 @@
-import { RootState } from '../../../store/reducers';
+import { RootState, RootStateKeys } from '../../../store/reducers';
 import { fromJS } from 'immutable';
 import { selectLayoutShow, selectLayoutUp } from '../selectors';
+import { ImLayoutStateKeys } from '../reducers';
+import { ImRootStateKeys } from '../../reducers';
 
 describe('im layout selector', () => {
 
   const mockState = {
-    layout: {
-      show: false,
-      up: false
+    [RootStateKeys.component]: {
+      [ImRootStateKeys.layout]: {
+        [ImLayoutStateKeys.show]: false,
+        [ImLayoutStateKeys.up]: false
+      }
     }
   };
   let rootState: RootState;
@@ -18,11 +22,11 @@ describe('im layout selector', () => {
 
   it('the selectLayoutShow should return layout state props show', () => {
     const show = selectLayoutShow(rootState);
-    expect(show).toBe(mockState.layout.show);
+    expect(show).toBe(mockState[RootStateKeys.component][ImRootStateKeys.layout][ImLayoutStateKeys.show]);
   });
 
   it('the selectLayoutUp should return layout state props up', () => {
     const up = selectLayoutUp(rootState);
-    expect(up).toBe(mockState.layout.up);
+    expect(up).toBe(mockState[RootStateKeys.component][ImRootStateKeys.layout][ImLayoutStateKeys.up]);
   });
 });

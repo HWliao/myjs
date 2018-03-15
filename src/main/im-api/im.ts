@@ -39,7 +39,7 @@ class Im implements ImModel {
    * 仅仅对store和挂载点进行初始化
    * 为根组件初始化做准备
    */
-  constructor(el?: HTMLElement) {
+  constructor(el?: HTMLElement, imStore?: ImStore) {
     if (el) {
       this._$root = el;
     } else {
@@ -51,7 +51,7 @@ class Im implements ImModel {
       document.body.appendChild(this._$root);
     }
 
-    this._imStore = storeConfigure();
+    this._imStore = imStore ? imStore : storeConfigure();
     this._store = this._imStore.store;
   }
 
@@ -101,8 +101,15 @@ class Im implements ImModel {
   };
 }
 
-export function getImInstance(config?: ConfigModel, el?: HTMLElement) {
-  const im = new Im(el);
+/**
+ * 船建一个im实例
+ * @param {ConfigModel} config
+ * @param {HTMLElement} el
+ * @param {ImStore} imStore 主要用于测试
+ * @returns {Im}
+ */
+export function getImInstance(config?: ConfigModel, el?: HTMLElement, imStore?: ImStore) {
+  const im = new Im(el, imStore);
   if (config) {
     im.setConfig(config);
   }
