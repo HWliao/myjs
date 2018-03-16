@@ -1,10 +1,9 @@
 import { BaseState } from '../store/reducers';
-import { Map } from 'immutable';
 import { ReducersMapObject } from 'redux';
 import { BaseAction } from '../store/actions';
 import { ImRootActionType } from './actions';
 import { combineReducers } from 'redux-immutable';
-import { imLayoutReducer, ImLayoutState, initState as layoutInitState } from './im-layout/reducers';
+import { imLayoutReducer, ImLayoutState } from './im-layout/reducers';
 
 export enum ImRootStateKeys {
   inited = 'inited',
@@ -27,11 +26,6 @@ export function imRootInitedReducer(state: boolean = imRootInitState, action: Ba
       return state;
   }
 }
-
-export const initState: ImRootState = Map<ImRootStateKeys, ImRootStateValues>({
-  [ImRootStateKeys.inited]: imRootInitState,
-  [ImRootStateKeys.layout]: layoutInitState
-});
 
 const reducers: ReducersMapObject = {
   [ImRootStateKeys.inited]: imRootInitedReducer,

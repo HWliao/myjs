@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import ImRoot, { mount, unmount } from './im-root';
-import { storeConfigure } from '../store/stroe';
-import { imRootInitAction, imRootDestroyAction } from './actions';
+import ImRoot, { mount, unmount } from '../im-root';
+import { storeConfigure } from '../../store/stroe';
+import { imRootInitAction, imRootDestroyAction } from '../actions';
 
 const store = storeConfigure();
 
