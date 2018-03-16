@@ -1,11 +1,17 @@
 import * as React from 'react';
 
-class ImSidebarNoagentComponent extends React.PureComponent {
+interface Props {
+  show: boolean;
+  title: string;
+}
+
+class ImSidebarNoagentComponent extends React.PureComponent<Props> {
   render() {
+    const {show, title} = this.props;
     return (
-      <div className="jjsim-noagent" id="jjsim-noagent">
+      <div className={`jjsim-noagent ${show ? '' : 'hide'}`}>
         <i className="sprite sprite-person"/>
-        <p>yyyy</p>
+        <p>{title}</p>
       </div>
     );
   }
