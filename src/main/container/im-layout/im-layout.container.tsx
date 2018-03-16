@@ -4,6 +4,7 @@ import { Dispatch } from 'redux';
 import { BaseState } from '../../store/reducers';
 import { connect } from 'react-redux';
 import { selectLayoutShow, selectLayoutUp } from './selectors';
+import ImSidebarContainer from '../im-sidebar/im-sidebar.container';
 
 type ImLayoutProps = {};
 type StateProps = {
@@ -30,7 +31,7 @@ export class ImLayoutContainer extends React.PureComponent<Props> {
     return (
       <div className={className}>
         <div className="jjsim-shandow clearfix">
-          im layout
+          <ImSidebarContainer/>
         </div>
       </div>
     );

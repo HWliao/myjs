@@ -1,0 +1,45 @@
+import * as React from 'react';
+import ImShake from '../im-shake/im-shake.component';
+
+class ImSidebarHeaderComponent extends React.PureComponent<Props> {
+
+  render() {
+    const {title = '', up, unread, onClick} = this.props;
+    return (
+      <div className="jjsim-hd" onClick={onClick}>
+        <ImShake shake={false} interval={500}>
+          <i className="jjsim-icon sprite sprite-dialog shake">
+            <span className={`jjsim-hd-num ${unread > 0 ? '' : 'hide'}`}>{unread}</span>
+          </i>
+        </ImShake>
+        <span className="im-title">{title}</span>
+        <a className={`jjsim-hd-closebtn sprite ${up ? 'sprite-down' : 'sprite-up'} ${up ? '' : 'hide'}`}/>
+      </div>
+    );
+  }
+}
+
+export default ImSidebarHeaderComponent;
+
+interface Props {
+  /**
+   * 标题
+   */
+  title?: string;
+  /**
+   * 未读数据
+   */
+  unread: number;
+  /**
+   * 是否已经展开
+   */
+  up: boolean;
+  /**
+   * 是否闪动
+   */
+  shake: boolean;
+  /**
+   * 点击事件
+   */
+  onClick: () => void;
+}
