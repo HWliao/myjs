@@ -1,10 +1,5 @@
 import * as React from 'react';
 
-interface Props {
-  show: boolean;
-  title: string;
-}
-
 class ImSidebarNoagentComponent extends React.PureComponent<Props> {
   render() {
     const {show, title} = this.props;
@@ -18,3 +13,8 @@ class ImSidebarNoagentComponent extends React.PureComponent<Props> {
 }
 
 export default ImSidebarNoagentComponent;
+
+export interface Props {
+  show: boolean;
+  title: string;
+}

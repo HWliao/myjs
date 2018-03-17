@@ -4,10 +4,10 @@ import ImShake from '../im-shake/im-shake.component';
 class ImSidebarHeaderComponent extends React.PureComponent<Props> {
 
   render() {
-    const {title = '', up, unread, onClick} = this.props;
+    const {title = '', up, unread, onClick, shake = false} = this.props;
     return (
       <div className="jjsim-hd" onClick={onClick}>
-        <ImShake shake={false} interval={500}>
+        <ImShake shake={shake} interval={500}>
           <i className="jjsim-icon sprite sprite-dialog shake">
             <span className={`jjsim-hd-num ${unread > 0 ? '' : 'hide'}`}>{unread}</span>
           </i>

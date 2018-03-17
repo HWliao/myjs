@@ -1,20 +1,5 @@
 import * as React from 'react';
 
-interface Props {
-  /**
-   * 是否显示
-   */
-  show: boolean;
-  /**
-   * 标题
-   */
-  title: string;
-  /**
-   * 登入按钮点击
-   */
-  onToLogin: () => void;
-}
-
 class ImSidebarNologinComponent extends React.PureComponent<Props> {
   render() {
     const {show, title, onToLogin} = this.props;
@@ -29,3 +14,18 @@ class ImSidebarNologinComponent extends React.PureComponent<Props> {
 }
 
 export default ImSidebarNologinComponent;
+
+export interface Props {
+  /**
+   * 是否显示
+   */
+  show: boolean;
+  /**
+   * 标题
+   */
+  title: string;
+  /**
+   * 登入按钮点击
+   */
+  onToLogin: () => void;
+}
