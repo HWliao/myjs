@@ -31,12 +31,12 @@ class ImSidebarListComponent extends React.PureComponent<Props> {
 
 export default ImSidebarListComponent;
 
-interface Props {
+export interface Props {
   show: boolean;
   items: Item[];
 }
 
-interface Item {
+export interface Item {
   id: string;
   avatar: string;
   nick: string;
