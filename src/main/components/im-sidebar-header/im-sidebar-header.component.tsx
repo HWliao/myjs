@@ -21,7 +21,7 @@ class ImSidebarHeaderComponent extends React.PureComponent<Props> {
 
 export default ImSidebarHeaderComponent;
 
-interface Props {
+export interface Props {
   /**
    * 标题
    */
