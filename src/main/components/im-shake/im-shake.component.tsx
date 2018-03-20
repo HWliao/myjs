@@ -9,21 +9,6 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
-interface Props {
-  /**
-   * 是否闪动
-   */
-  shake: boolean;
-  interval?: number;
-}
-
-interface State {
-  /**
-   * 是否可见
-   */
-  visible: boolean;
-}
-
 /**
  * 包装组件进行闪动
  */
@@ -81,6 +66,25 @@ class ImShakeComponent extends React.PureComponent<Props, State> {
       this.timer$.next(nextProps.shake);
     }
   }
+
+  public getSubscription() {
+    return this.subscription;
+  }
 }
 
 export default ImShakeComponent;
+
+export interface Props {
+  /**
+   * 是否闪动
+   */
+  shake: boolean;
+  interval?: number;
+}
+
+export interface State {
+  /**
+   * 是否可见
+   */
+  visible: boolean;
+}
