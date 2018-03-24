@@ -6,7 +6,11 @@ class ImSidebarListComponent extends React.PureComponent<Props> {
     return (
       <ul className={`jjsim-list ${show ? '' : 'hide'}`}>
         {items.map((item) => (
-          <li className={`jjsim-bd-item ${item.isCurr ? 'curr' : ''}`} key={item.id}>
+          <li
+            className={`jjsim-bd-item ${item.isCurr ? 'curr' : ''}`}
+            key={item.id}
+            onClick={this.onItemClick.bind(this, item)}
+          >
             <div className="jjsim-item-img">
               <img src={item.avatar}/>
             </div>
@@ -27,6 +31,10 @@ class ImSidebarListComponent extends React.PureComponent<Props> {
       </ul>
     );
   }
+
+  onItemClick = (item: Item) => {
+    this.props.onItemClick(item);
+  };
 }
 
 export default ImSidebarListComponent;
@@ -34,6 +42,7 @@ export default ImSidebarListComponent;
 export interface Props {
   show: boolean;
   items: Item[];
+  onItemClick: (item: Item) => void;
 }
 
 export interface Item {

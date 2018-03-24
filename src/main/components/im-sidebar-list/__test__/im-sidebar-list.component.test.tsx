@@ -5,7 +5,7 @@ import { shallow, ShallowWrapper } from 'enzyme';
 describe('im sidebar list', () => {
   let wrapper: ShallowWrapper<Props>;
   beforeEach(() => {
-    wrapper = shallow(<ImSidebarList show={true} items={[]}/>);
+    wrapper = shallow(<ImSidebarList show={true} items={[]} onItemClick={() => console.log(1)}/>);
   });
   it('should init with no li', () => {
     expect(wrapper.hasClass('hide')).toBeFalsy();

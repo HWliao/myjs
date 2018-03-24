@@ -2,15 +2,21 @@ import * as React from 'react';
 import ImSidebarHeader from '../../components/im-sidebar-header/im-sidebar-header.component';
 import ImSidebarNologin from '../../components/im-sidebar-nologin/im-sidebar-nologin.component';
 import ImSidebarNoagent from '../../components/im-sidebar-noagent/im-sidebar-noagent.component';
-import ImSidebarList from '../../components/im-sidebar-list/im-sidebar-list.component';
+import ImSidebarList, { Item } from '../../components/im-sidebar-list/im-sidebar-list.component';
 import { ConfigModelMap } from '../../im-api/model/config.model';
 import { selectImApiConfig } from '../../im-api/selectors';
 import { createSelector } from 'reselect';
-import { BaseState } from '../../store/reducers';
-import { Dispatch } from 'redux';
+import { ActionCreator } from 'redux';
 import { connect } from 'react-redux';
 import { selectLayoutUp } from '../im-layout/selectors';
-import { imSidebarClickHeaderAction } from './actions';
+import {
+  ImSidebarClickHeaderAction,
+  imSidebarClickHeaderAction,
+  ImSidebarClickItemAction,
+  imSidebarClickItemAction,
+  ImSidebarClickLoginBtnAction,
+  imSidebarClickLoginBtnAction
+} from './actions';
 
 type ImSidebarProps = {};
 type StateProps = {
@@ -23,7 +29,9 @@ type StateProps = {
   up: boolean;
 };
 type DispatchProps = {
-  onHeaderClick: (isUp: boolean) => void;
+  onHeaderClick: ActionCreator<ImSidebarClickHeaderAction>;
+  onLoginBtnClick: ActionCreator<ImSidebarClickLoginBtnAction>;
+  onItemClick: ActionCreator<ImSidebarClickItemAction>;
 };
 export type Props = ImSidebarProps & StateProps & DispatchProps;
 
@@ -44,10 +52,10 @@ const mapStateToProps = createSelector(
   selectLayoutUp,
   combiner
 );
-export const mapDispatchToProps = function (dispatch: Dispatch<BaseState>): DispatchProps {
-  return {
-    onHeaderClick: (isUp: boolean) => dispatch(imSidebarClickHeaderAction(isUp))
-  };
+export const mapDispatchToProps: DispatchProps = {
+  onHeaderClick: imSidebarClickHeaderAction,
+  onLoginBtnClick: imSidebarClickLoginBtnAction,
+  onItemClick: imSidebarClickItemAction
 };
 
 class ImSidebarContainer extends React.PureComponent<Props> {
@@ -69,11 +77,12 @@ class ImSidebarContainer extends React.PureComponent<Props> {
             show={false}
             title={nologinTitle}
             btnTitle={loginBtnTitle}
-            onToLogin={() => console.log(2)}
+            onToLogin={this.onLoginBtnClick}
           />
-          <ImSidebarNoagent show={true} title={noagentTitle}/>
+          <ImSidebarNoagent show={false} title={noagentTitle}/>
           <ImSidebarList
-            show={false}
+            onItemClick={this.onItemClick}
+            show={true}
             items={[
               {
                 id: 'lhw1',
@@ -104,6 +113,14 @@ class ImSidebarContainer extends React.PureComponent<Props> {
 
   onHeaderClick = () => {
     this.props.onHeaderClick(this.props.up);
+  };
+  onLoginBtnClick = () => {
+    console.log(2);
+    this.props.onLoginBtnClick();
+  };
+  onItemClick = (item: Item) => {
+    console.log(item);
+    this.props.onItemClick(item.id);
   };
 }
 
