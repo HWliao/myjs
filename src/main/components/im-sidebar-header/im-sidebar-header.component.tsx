@@ -4,7 +4,7 @@ import ImShake from '../im-shake/im-shake.component';
 class ImSidebarHeaderComponent extends React.PureComponent<Props> {
 
   render() {
-    const {title = '', up, unread, onClick, shake = false} = this.props;
+    const {title = '', toggleTitle = '', up, unread, onClick, shake = false} = this.props;
     return (
       <div className="jjsim-hd" onClick={onClick}>
         <ImShake shake={shake} interval={500}>
@@ -13,7 +13,10 @@ class ImSidebarHeaderComponent extends React.PureComponent<Props> {
           </i>
         </ImShake>
         <span className="im-title">{title}</span>
-        <a className={`jjsim-hd-closebtn sprite ${up ? 'sprite-down' : 'sprite-up'} ${up ? '' : 'hide'}`}/>
+        <a
+          className={`jjsim-hd-closebtn sprite ${up ? 'sprite-down' : 'sprite-up'} ${up ? '' : 'hide'}`}
+          title={toggleTitle}
+        />
       </div>
     );
   }
@@ -26,6 +29,7 @@ export interface Props {
    * 标题
    */
   title?: string;
+  toggleTitle?: string;
   /**
    * 未读数据
    */

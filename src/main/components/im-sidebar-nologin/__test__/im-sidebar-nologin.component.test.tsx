@@ -5,7 +5,14 @@ import ImSidebarNologin, { Props } from '../im-sidebar-nologin.component';
 describe('im sidebar nologin component', () => {
   let wrapper: ShallowWrapper<Props>;
   beforeEach(() => {
-    wrapper = shallow(<ImSidebarNologin show={true} title={'test'} onToLogin={() => console.log(1)}/>);
+    wrapper = shallow(
+      <ImSidebarNologin
+        show={true}
+        title={'test'}
+        btnTitle={'btn1'}
+        onToLogin={() => console.log(1)}
+      />
+    );
   });
   describe('hide class in root div', () => {
     it('should exist with show property to true', () => {

@@ -3,22 +3,77 @@ import ImSidebarHeader from '../../components/im-sidebar-header/im-sidebar-heade
 import ImSidebarNologin from '../../components/im-sidebar-nologin/im-sidebar-nologin.component';
 import ImSidebarNoagent from '../../components/im-sidebar-noagent/im-sidebar-noagent.component';
 import ImSidebarList from '../../components/im-sidebar-list/im-sidebar-list.component';
+import { ConfigModelMap } from '../../im-api/model/config.model';
+import { selectImApiConfig } from '../../im-api/selectors';
+import { createSelector } from 'reselect';
+import { BaseState } from '../../store/reducers';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { selectLayoutUp } from '../im-layout/selectors';
+import { imSidebarClickHeaderAction } from './actions';
 
 type ImSidebarProps = {};
-type StateProps = {};
-type DispatchProps = {};
-export type Props = ImSidebarProps | StateProps | DispatchProps;
+type StateProps = {
+  sidebarTitle: string;
+  nologinTitle: string;
+  noagentTitle: string;
+  loginBtnTitle: string;
+  sidebarUpTip: string;
+  sidebarDownTip: string;
+  up: boolean;
+};
+type DispatchProps = {
+  onHeaderClick: (isUp: boolean) => void;
+};
+export type Props = ImSidebarProps & StateProps & DispatchProps;
+
+function combiner(config: ConfigModelMap, up: boolean): StateProps {
+  return {
+    sidebarTitle: config.get('sidebarTitle'),
+    nologinTitle: config.get('nologinTitle'),
+    noagentTitle: config.get('noagentTitle'),
+    loginBtnTitle: config.get('loginBtnTitle'),
+    sidebarUpTip: config.get('sidebarUpTip'),
+    sidebarDownTip: config.get('sidebarDownTip'),
+    up
+  };
+}
+
+const mapStateToProps = createSelector(
+  selectImApiConfig,
+  selectLayoutUp,
+  combiner
+);
+export const mapDispatchToProps = function (dispatch: Dispatch<BaseState>): DispatchProps {
+  return {
+    onHeaderClick: (isUp: boolean) => dispatch(imSidebarClickHeaderAction(isUp))
+  };
+};
 
 class ImSidebarContainer extends React.PureComponent<Props> {
   render() {
+    const {sidebarTitle, noagentTitle, nologinTitle, loginBtnTitle, sidebarUpTip, sidebarDownTip} = this.props;
+    const {up} = this.props;
     return (
       <div className="jjsim-wrap">
-        <ImSidebarHeader title="test" up={true} unread={10} shake={true} onClick={() => console.log(1)}/>
+        <ImSidebarHeader
+          title={sidebarTitle}
+          toggleTitle={up ? sidebarUpTip : sidebarDownTip}
+          up={up}
+          unread={10}
+          shake={true}
+          onClick={this.onHeaderClick}
+        />
         <div className="jjsim-bd scroll">
-          <ImSidebarNologin show={false} title={'请先登入'} onToLogin={() => console.log(2)}/>
-          <ImSidebarNoagent show={false} title={'没有消息'}/>
+          <ImSidebarNologin
+            show={false}
+            title={nologinTitle}
+            btnTitle={loginBtnTitle}
+            onToLogin={() => console.log(2)}
+          />
+          <ImSidebarNoagent show={true} title={noagentTitle}/>
           <ImSidebarList
-            show={true}
+            show={false}
             items={[
               {
                 id: 'lhw1',
@@ -46,6 +101,12 @@ class ImSidebarContainer extends React.PureComponent<Props> {
       </div>
     );
   }
+
+  onHeaderClick = () => {
+    this.props.onHeaderClick(this.props.up);
+  };
 }
 
-export default ImSidebarContainer;
+const withConnect = connect<StateProps, DispatchProps, ImSidebarProps>(mapStateToProps, mapDispatchToProps);
+
+export default withConnect(ImSidebarContainer);
