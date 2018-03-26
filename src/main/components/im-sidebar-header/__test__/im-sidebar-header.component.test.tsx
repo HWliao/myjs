@@ -47,6 +47,12 @@ describe('im sidebar header component', () => {
       expect(wrapper.find('.im-title').text()).toEqual('t1');
     });
   });
+  describe('toggle title', () => {
+    it('shoul be props toggleTitle', () => {
+      wrapper.setProps({toggleTitle: 'toggleTitle'});
+      expect(wrapper.find('.jjsim-hd-closebtn').prop('title')).toEqual('toggleTitle');
+    });
+  });
   describe('jjsim-hd-closebtn ', () => {
     it('should has sprite-down class,and not be hide with up to true', () => {
       wrapper.setProps({up: true});

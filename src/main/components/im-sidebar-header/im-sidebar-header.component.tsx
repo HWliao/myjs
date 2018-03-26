@@ -29,6 +29,9 @@ export interface Props {
    * 标题
    */
   title?: string;
+  /**
+   * 展开收起标题
+   */
   toggleTitle?: string;
   /**
    * 未读数据

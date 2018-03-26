@@ -45,4 +45,11 @@ describe('im sidebar nologin component', () => {
       expect(spy).toBeCalled();
     });
   });
+
+  describe('btn title', () => {
+    it('should set to btnTitle', () => {
+      wrapper.setProps({btnTitle: 'testbtn'});
+      expect(wrapper.find('.loginbtn').text()).toEqual('testbtn');
+    });
+  });
 });

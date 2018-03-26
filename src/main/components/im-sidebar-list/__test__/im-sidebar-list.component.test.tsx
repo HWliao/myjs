@@ -66,4 +66,23 @@ describe('im sidebar list', () => {
     expect(li.find('em.num').prop('style')).toEqual({visibility: 'hidden'});
     expect(li.hasClass('curr')).toBeFalsy();
   });
+  it('should be click the first li', (done) => {
+    const items: Item[] = [{
+      id: 'id',
+      avatar: 'avatar',
+      nick: 'nick',
+      msg: 'msg',
+      time: 'time',
+      unread: 10,
+      isCurr: true
+    }];
+    wrapper.setProps({
+      items,
+      onItemClick: (item) => {
+        expect(item).toEqual(items[0]);
+        done();
+      }
+    });
+    wrapper.find('li').simulate('click');
+  });
 });
