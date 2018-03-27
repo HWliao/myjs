@@ -11,8 +11,10 @@ describe('main', () => {
   });
 
   it('createImAndInit should call createIm', () => {
+
     const im: any = {
-      init: () => Promise.resolve()
+      init: () => Promise.resolve(),
+      setConfig: () => console.log()
     };
     spyOn(ImApi, 'getImInstance').and.returnValue(im);
     return JJSIM.createImAndInit({}).then((theIm) => {

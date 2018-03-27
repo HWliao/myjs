@@ -6,34 +6,39 @@ import {
   imLayoutShowAction,
   imLayoutUpAction
 } from '../../container/im-layout/actions';
-import { ImStore, storeConfigure } from '../../store/stroe';
 import { selectImRootInited } from '../../container/selectors';
 import { selectLayoutShow, selectLayoutUp } from '../../container/im-layout/selectors';
+import { Store } from 'redux';
+import { BaseState } from '../../store/reducers';
 import Spy = jasmine.Spy;
+import { storeConfigure } from '../../store/stroe';
+import { createDependencies } from '../../store/epics';
 
 describe('im', () => {
 
   describe('init/destroy', () => {
     let im: ImModel;
     beforeEach(() => {
-      im = getImInstance({});
+      im = getImInstance();
+      im.setStore(storeConfigure(createDependencies()));
     });
     it('should not crash call init', () => {
       return im.init();
     });
     it('should not crash call destroy', () => {
-      return im.destroy();
+      return im.init().then(im.destroy);
     });
   });
 
   describe('toggle show', () => {
     let spyDispatch: Spy;
     let im: ImModel;
-    let imStore: ImStore;
+    let store: Store<BaseState>;
     beforeEach(() => {
-      imStore = storeConfigure();
-      im = getImInstance({}, undefined, imStore);
-      spyDispatch = spyOn(imStore.store, 'dispatch');
+      im = getImInstance();
+      im.setStore(storeConfigure(createDependencies()));
+      store = im.getStore();
+      spyDispatch = spyOn(store, 'dispatch');
     });
     it('should dispatch show action with true param', () => {
       return im.init().then(() => {
@@ -52,11 +57,12 @@ describe('im', () => {
   describe('toggleUp', () => {
     let spyDispatch: Spy;
     let im: ImModel;
-    let imStore: ImStore;
+    let store: Store<BaseState>;
     beforeEach(() => {
-      imStore = storeConfigure();
-      im = getImInstance({}, undefined, imStore);
-      spyDispatch = spyOn(imStore.store, 'dispatch');
+      im = getImInstance();
+      im.setStore(storeConfigure(createDependencies()));
+      store = im.getStore();
+      spyDispatch = spyOn(store, 'dispatch');
     });
 
     it('should dispatch up action with true param', () => {
@@ -76,21 +82,22 @@ describe('im', () => {
 
   describe('state', () => {
     let im: ImModel;
-    let imStore: ImStore;
+    let store: Store<BaseState>;
     beforeEach(() => {
-      imStore = storeConfigure();
-      im = getImInstance({}, undefined, imStore);
+      im = getImInstance();
+      im.setStore(storeConfigure(createDependencies()));
+      store = im.getStore();
     });
     it('should return inited', () => {
-      const inited: boolean = selectImRootInited(imStore.store.getState());
+      const inited: boolean = selectImRootInited(store.getState());
       expect(im.isInited()).toEqual(inited);
     });
     it('should return show', () => {
-      const show: boolean = selectLayoutShow(imStore.store.getState());
+      const show: boolean = selectLayoutShow(store.getState());
       expect(im.isShow()).toEqual(show);
     });
     it('should return up', () => {
-      const up: boolean = selectLayoutUp(imStore.store.getState());
+      const up: boolean = selectLayoutUp(store.getState());
       expect(im.isUp()).toEqual(up);
     });
   });

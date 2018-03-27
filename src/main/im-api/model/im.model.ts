@@ -1,11 +1,13 @@
 import { ConfigModel } from './config.model';
+import { BaseState } from '../../store/reducers';
+import { Store } from 'redux';
 
 export interface ImModel {
   /**
    * 初始化
    * @returns {Promise<any>}
    */
-  init: () => Promise<any>;
+  init: (el?: HTMLElement) => Promise<any>;
 
   /**
    * 销毁
@@ -54,4 +56,14 @@ export interface ImModel {
    * @returns {ConfigModel}
    */
   getConfig: () => ConfigModel;
+  /**
+   * 设置store
+   * @param {Store<BaseState>} store
+   */
+  setStore: (store: Store<BaseState>) => void;
+  /**
+   * 获取store
+   * @return {Store<BaseState>}
+   */
+  getStore: () => Store<BaseState>;
 }

@@ -1,24 +1,22 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { applyMiddleware, compose, createStore, Middleware, Store } from 'redux';
-import { BaseState, createRootReducer, RootState } from './reducers';
+import { BaseState, createRootReducer } from './reducers';
 import { createEpicMiddleware } from 'redux-observable';
-import { createRootEpic } from './epics';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { createRootEpic, EpicsDependencies } from './epics';
 import { fromJS } from 'immutable';
 
 /**
  * 配置一个store
- * @returns {ImStore}
+ * @returns Store
  */
-export function storeConfigure(): ImStore {
+export function storeConfigure(dependencies: EpicsDependencies): Store<BaseState> {
   // 创建一个初始化值
   const initState = fromJS({});
   // 创建一个根reducer
   const rootReducer = createRootReducer();
   // 创一个epic中间件
-  const epicMiddleware = createEpicMiddleware(createRootEpic());
+  const epicMiddleware = createEpicMiddleware(createRootEpic(), {dependencies});
   // 中间集合
   const middlewares: Middleware[] = [
     epicMiddleware
@@ -32,14 +30,15 @@ export function storeConfigure(): ImStore {
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
 
-  // 创建一个用于监听state变化的多播
-  const store$ = new BehaviorSubject<RootState>(rootReducer(initState, {type: '@@store$_init'}));
   // 创建一个新的store
   const store = createStore(rootReducer, initState, composeEnhancers(...enhancers));
-  // 监听store变化
-  store.subscribe(() => store$.next(store.getState()));
-  // 立马刷新一次
-  store$.next(store.getState());
+
+  // 依赖组件中加入store依赖
+  for (let x in dependencies) {
+    if (dependencies[x] && typeof dependencies[x].setStore === 'function') {
+      dependencies[x].setStore(store);
+    }
+  }
 
   if (process.env.NODE_ENV !== 'production') {
     // 开发环境下的热加载先关
@@ -54,25 +53,5 @@ export function storeConfigure(): ImStore {
       });
     }
   }
-  return {
-    store,
-    store$,
-    subscribe: (selector) => store$.map(selector).distinctUntilChanged()
-  };
-}
-
-/**
- * 封装stroe接口
- */
-export interface ImStore {
-  store: Store<any>;
-  store$: BehaviorSubject<BaseState>;
-  subscribe: Subscribe<BaseState, any>;
-}
-
-/**
- * 订阅函数
- */
-export interface Subscribe<S extends BaseState, R> {
-  (selector: (state: S) => R): Observable<R>;
+  return store;
 }
