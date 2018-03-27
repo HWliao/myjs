@@ -1,13 +1,14 @@
 import { combineEpics, Epic } from 'redux-observable';
 import { BaseState } from './reducers';
 import { BaseAction } from './actions';
-import { imLayoutEpic } from '../container/im-layout/epics';
-import { getImCoreInstance, ImCore } from '../im-core/im-core';
+import { createImLayoutEpics } from '../container/im-layout/epics';
+import { getImCoreInstance, ImCoreInterface } from '../im-core/im-core';
 import { ImModel } from '../im-api/model/im.model';
 import { getImInstance } from '../im-api/im';
+import { createImCoreEpics } from '../im-core/epics';
 
 export interface EpicsDependencies {
-  core: ImCore;
+  core: ImCoreInterface;
   api: ImModel;
 }
 
@@ -16,10 +17,12 @@ export const createDependencies: () => EpicsDependencies = () => ({
   api: getImInstance()
 });
 
-export interface BaseEpic<O extends BaseAction = BaseAction> extends Epic<BaseAction, BaseState, EpicsDependencies, O> {
+export interface BaseEpic<O extends BaseAction = BaseAction>
+  extends Epic<BaseAction, BaseState, EpicsDependencies | any, O> {
 
 }
 
-const epics: BaseEpic[] = [imLayoutEpic];
-
-export const createRootEpic = () => combineEpics<BaseEpic>(...epics);
+export const createRootEpic = () => combineEpics<BaseEpic>(
+  createImLayoutEpics(),
+  createImCoreEpics()
+);
