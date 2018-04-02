@@ -10,7 +10,7 @@ import {
 } from '../container/im-layout/actions';
 import { selectImApiConfig } from './selectors';
 import { logger } from '../utils/logger';
-import { imApiSetConfigAction } from './actions';
+import { imApiLoginAction, imApiSetConfigAction, imApitLogoutAction } from './actions';
 import { selectImRootInited } from '../container/selectors';
 import { BaseStoreComponent } from '../store/base-store-component';
 
@@ -60,7 +60,12 @@ class Im extends BaseStoreComponent implements ImModel {
     up = up === undefined ? !currUp : up;
     this.store.dispatch(up ? imLayoutUpAction() : imLayoutDownAction());
   };
-
+  login = (accid: string, token: string) => {
+    this.store.dispatch(imApiLoginAction({accid, token}));
+  };
+  logout = () => {
+    this.store.dispatch(imApitLogoutAction());
+  };
   isInited = () => {
     return selectImRootInited(this.store.getState());
   };

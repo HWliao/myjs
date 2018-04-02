@@ -99,6 +99,7 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
           className={this.props.classes.menu}
         >
           <MenuItem onClick={this.createIm}>createImAndInit</MenuItem>
+          <MenuItem onClick={this.login}>login</MenuItem>
           <MenuItem onClick={this.init}>init</MenuItem>
           <MenuItem onClick={this.destroy}>destroy</MenuItem>
           <MenuItem onClick={this.toggleShow}>toggleShow</MenuItem>
@@ -106,6 +107,7 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
           <MenuItem onClick={this.isInited}>isInited</MenuItem>
           <MenuItem onClick={this.isShow}>isShow</MenuItem>
           <MenuItem onClick={this.isUp}>isUp</MenuItem>
+          <MenuItem onClick={this.getConfig}>getConfig</MenuItem>
         </Menu>
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
@@ -127,7 +129,9 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
       .then((im: ImModel) => this.im = im)
       .catch((err: any) => this.tip(err));
   };
-
+  login = () => {
+    this.im.login('123106', '123456');
+  };
   init = () => {
     this.im.init().catch(this.tip);
   };
@@ -154,6 +158,11 @@ class ImDocOperaterMenu extends React.Component<Props, State> {
 
   isUp = () => {
     this.tip(String(this.im.isUp()));
+  };
+
+  getConfig = () => {
+    console.log(this.im.getConfig());
+    this.tip('请看控制台');
   };
 
   wrapExc(cb: Function) {

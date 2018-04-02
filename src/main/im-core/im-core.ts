@@ -1,17 +1,21 @@
+import * as Nim from '../../sdk/NIM_Web_NIM_v3.8.0';
 import { BaseStoreComponent } from '../store/base-store-component';
 import { selectImApiConfig } from '../im-api/selectors';
 import { ConfigModel } from '../im-api/model/config.model';
 import { ImCoreInterface } from './model/im-core-interface';
+import { imCoreConnectAction, imCoreDisconnectAction } from './actions';
 
 export class ImCore extends BaseStoreComponent implements ImCoreInterface {
+  private option: NimOptions;
+  private nim: NIM;
+
   constructor() {
     super();
   }
 
   init = () => {
-    console.log('core init');
     const config: ConfigModel = selectImApiConfig(this.store.getState()).toJS();
-    const options: NimOptions = {
+    this.option = {
       debug: config.thirdPartyDebug || false,
       secure: true,
       appKey: config.appKey || '',
@@ -42,51 +46,61 @@ export class ImCore extends BaseStoreComponent implements ImCoreInterface {
       autoMarkRead: true,
       db: false
     };
-    console.log(options);
   };
 
   destroy = () => {
-    console.log('core destroy');
+    this.disconnect();
+  };
+
+  connect = (accid: string, token: string) => {
+    this.option = Object.assign({}, this.option, {account: accid, token});
+    this.nim = Nim.getInstance(this.option);
+  };
+
+  disconnect = () => {
+    if (this.nim) {
+      this.nim.disconnect();
+    }
   };
 
   onconnect = () => {
-    // todo
+    this.store.dispatch(imCoreConnectAction());
   };
   onwillreconnect = () => {
-    // todo
+    console.log('onwillreconnect');
   };
   ondisconnect = () => {
-    // todo
+    this.store.dispatch(imCoreDisconnectAction());
   };
   onerror = () => {
-    // todo
+    console.log('onerror');
   };
   onloginportschange = () => {
-    // todo
+    console.log('onloginportschange');
   };
   onmyinfo = () => {
-    // todo
+    console.log('onmyinfo');
   };
   onupdatemyinfo = () => {
-    // todo
+    console.log('onupdatemyinfo');
   };
   onsessions = () => {
-    // todo
+    console.log('onsessions');
   };
   onupdatesession = () => {
-    // todo
+    console.log('onupdatesession');
   };
   onroamingmsgs = () => {
-    // todo
+    console.log('onroamingmsgs');
   };
   onofflinemsgs = () => {
-    // todo
+    console.log('onofflinemsgs');
   };
   onmsg = () => {
-    // todo
+    console.log('onmsg');
   };
   onsyncdone = () => {
-    // todo
+    console.log('onsyncdone');
   };
 }
 

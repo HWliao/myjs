@@ -26,6 +26,14 @@ export interface ImModel {
    * @param {boolean} up
    */
   toggleUp: (up?: boolean) => void;
+  /**
+   * 登入
+   */
+  login: (accid: string, token: string) => void;
+  /**
+   * 登出
+   */
+  logout: () => void;
 
   /**
    * 是否已经初始化

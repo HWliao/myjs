@@ -619,3 +619,17 @@ declare interface NimOptions {
    */
   db?: boolean;
 }
+
+/**
+ * 云信实例
+ */
+declare interface NIM {
+  /**
+   * 建立连接
+   */
+  connect: () => void;
+  /**
+   * 断开连接
+   */
+  disconnect: () => void;
+}

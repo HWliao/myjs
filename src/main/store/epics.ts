@@ -2,10 +2,11 @@ import { combineEpics, Epic } from 'redux-observable';
 import { BaseState } from './reducers';
 import { BaseAction } from './actions';
 import { createImLayoutEpics } from '../container/im-layout/epics';
-import { getImCoreInstance, ImCoreInterface } from '../im-core/im-core';
+import { getImCoreInstance } from '../im-core/im-core';
 import { ImModel } from '../im-api/model/im.model';
 import { getImInstance } from '../im-api/im';
 import { createImCoreEpics } from '../im-core/epics';
+import { ImCoreInterface } from '../im-core/model/im-core-interface';
 
 export interface EpicsDependencies {
   core: ImCoreInterface;

@@ -16,5 +16,16 @@ export interface ImCoreInterface {
    * 初始化
    */
   init: () => void;
+  /**
+   * 销毁
+   */
   destroy: () => void;
+  /**
+   * 建立连接
+   */
+  connect: (accid: string, token: string) => void;
+  /**
+   * 断开连接
+   */
+  disconnect: () => void;
 }

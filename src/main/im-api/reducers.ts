@@ -24,3 +24,5 @@ export function imApiReducer(state: ImApiState = initState, action: ImApiSetConf
       return state;
   }
 }
+
+export const createApiReducers = () => imApiReducer;
